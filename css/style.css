@@ -811,47 +811,46 @@ linear-gradient(135deg,#f8fbff,#ffffff);
 
 .step-card:hover{
 
-    transform:translateY(-12px);
+    transform:translateY(-10px);
 
-    border-color:#2563eb;
+    background:#ffffff;
 
-    box-shadow:0 25px 60px rgba(37,99,235,.18);
+    border-color:#bfdbfe;
+
+    box-shadow:0 25px 55px rgba(37,99,235,.12);
 
 }
 
 .step-card:hover .step-icon{
 
-transform:rotate(-10deg) scale(1.08);
+    background:#2563eb;
+    color:#ffffff;
 
-box-shadow:0 18px 40px rgba(37,99,235,.35);
+    transform:rotate(-8deg) scale(1.05);
+
+    box-shadow:0 18px 40px rgba(37,99,235,.30);
 
 }
 
 .step-icon{
 
-width:70px;
+    width:70px;
+    height:70px;
 
-height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-display:flex;
+    border-radius:18px;
 
-align-items:center;
+    background:#eff6ff;
+    color:#2563eb;
 
-justify-content:center;
+    font-size:30px;
 
-border-radius:22px;
+    margin-bottom:25px;
 
-background:linear-gradient(135deg,#2563eb,#4f46e5);
-
-color:#ffffff;
-
-font-size:30px;
-
-box-shadow:0 12px 30px rgba(37,99,235,.25);
-
-margin-bottom:25px;
-
-transition:.35s;
+    transition:all .35s ease;
 
 }
 
