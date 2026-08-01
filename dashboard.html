@@ -663,6 +663,22 @@ window.addEventListener("pageshow", function () {
 
 });
 
+// Prevent browser Back after logout
+history.pushState(null, null, location.href);
+
+window.addEventListener("popstate", function () {
+
+    history.pushState(null, null, location.href);
+
+    if (
+        !localStorage.getItem("userId") ||
+        !localStorage.getItem("token")
+    ) {
+        window.location.replace("index.html");
+    }
+
+});
+
 
 
 // ==========================================
@@ -1487,13 +1503,13 @@ function scrollToToken() {
 
 function logout() {
 
-    localStorage.removeItem("userId");
-    localStorage.removeItem("name");
-    localStorage.removeItem("userName");
-    localStorage.removeItem("email");
-    localStorage.removeItem("token");
+    localStorage.clear();
+    sessionStorage.clear();
+
+    history.replaceState(null, "", "index.html");
 
     window.location.replace("index.html");
+
 }
 
 

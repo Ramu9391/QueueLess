@@ -481,14 +481,42 @@
             localStorage.getItem("token");
 
 
-        if (!userId || !loginToken) {
+        function checkLogin() {
 
-            alert("Please login first.");
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
 
-            window.location.href =
-                "login.html";
+    if (!userId || !token) {
 
-        }
+        window.location.replace("index.html");
+        return false;
+
+    }
+
+    return true;
+}
+
+checkLogin();
+
+window.addEventListener("pageshow", function () {
+
+    checkLogin();
+
+});
+
+// Prevent browser back after logout
+history.pushState(null, null, location.href);
+
+window.addEventListener("popstate", function () {
+    history.pushState(null, null, location.href);
+
+    if (
+        !localStorage.getItem("userId") ||
+        !localStorage.getItem("token")
+    ) {
+        window.location.replace("index.html");
+    }
+});
 
 
         // ========================================
@@ -643,8 +671,7 @@
                         setTimeout(
                             function () {
 
-                                window.location.href =
-                                    "dashboard.html";
+                                window.location.replace("dashboard.html");
 
                             },
                             2000
