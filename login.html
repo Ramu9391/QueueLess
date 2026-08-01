@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login | QueueLess</title>
+
+<!-- Google Font -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:20px;
+
+     overflow:hidden;
+
+    background:linear-gradient(
+        135deg,
+        #ffffff 0%,
+        #eef2ff 40%,
+        #dbeafe 100%
+    );
+
+    position:relative;
+
+}
+
+/*=============================
+FLOATING BACKGROUND
+==============================*/
+
+.bg-circle{
+
+position:absolute;
+border-radius:50%;
+filter:blur(4px);
+animation:float 12s ease-in-out infinite;
+
+}
+
+.bg1{
+
+width:320px;
+height:320px;
+background:#3b82f630;
+top:-120px;
+left:-100px;
+
+}
+
+.bg2{
+
+width:250px;
+height:250px;
+background:#60a5fa30;
+right:-80px;
+top:80px;
+animation-duration:15s;
+
+}
+
+.bg3{
+
+width:220px;
+height:220px;
+background:#2563eb20;
+bottom:-80px;
+left:15%;
+animation-duration:18s;
+
+}
+
+.bg4{
+
+width:180px;
+height:180px;
+background:#93c5fd30;
+bottom:70px;
+right:8%;
+animation-duration:20s;
+
+}
+
+@keyframes float{
+
+0%{
+transform:translateY(0px);
+}
+
+50%{
+transform:translateY(-35px);
+}
+
+100%{
+transform:translateY(0px);
+}
+
+}
+
+/*=============================
+LOGIN CARD
+==============================*/
+
+.login-card{
+
+position:relative;
+z-index:10;
+
+width:100%;
+max-width:450px;
+
+padding:28px 30px;
+
+background:rgba(255,255,255,.92);
+
+backdrop-filter:blur(28px);
+
+border:1px solid rgba(255,255,255,.65);
+
+border-radius:28px;
+
+box-shadow:
+
+0 35px 90px rgba(79,70,229,.18),
+
+0 15px 35px rgba(0,0,0,.08);
+
+transition:.35s;
+
+}
+
+.login-card:hover{
+
+transform:translateY(-6px);
+
+box-shadow:
+
+0 45px 90px rgba(37,99,235,.20);
+
+}
+
+/*=============================
+LOGO
+==============================*/
+
+.logo{
+
+display:flex;
+align-items:center;
+justify-content:center;
+gap:14px;
+
+margin-bottom:16px;
+
+text-decoration:none;
+
+}
+
+.logo-box{
+
+width:66px;
+height:66px;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+border-radius:18px;
+
+background:
+linear-gradient(
+135deg,
+#6d5efc,
+#4f46e5
+);
+
+color:white;
+
+font-size:30px;
+font-weight:800;
+
+box-shadow:
+
+0 18px 45px rgba(91,78,245,.35),
+
+0 0 35px rgba(91,78,245,.20);
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.logo-box::before{
+
+content:"";
+
+position:absolute;
+
+top:-40%;
+left:-80%;
+
+width:55%;
+height:180%;
+
+background:rgba(255,255,255,.40);
+
+transform:rotate(25deg);
+
+animation:shine 6s linear infinite;
+
+}
+
+.logo-text h2{
+
+font-size:32px;
+font-weight:800;
+color:#111827;
+margin:0;
+
+}
+
+.logo-text span{
+
+color:#4f46e5;
+
+}
+
+.logo-text p{
+
+margin-top:4px;
+font-size:13px;
+color:#64748b;
+
+}
+
+.login-card h1{
+
+text-align:center;
+font-size:30px;
+font-weight:700;
+color:#0f172a;
+
+margin-bottom:8px;
+
+}
+
+.subtitle{
+
+text-align:center;
+font-size:15px;
+line-height:26px;
+color:#64748b;
+
+margin-bottom:12px;
+
+}
+
+/*=============================
+FORM
+==============================*/
+
+.form-group{
+
+margin-bottom:16px;
+
+}
+
+.form-group label{
+
+display:block;
+
+font-size:14px;
+font-weight:600;
+
+margin-bottom:8px;
+
+color:#334155;
+
+}
+
+.input-box{
+
+height:58px;
+
+display:flex;
+align-items:center;
+
+padding:0 18px;
+
+border-radius:18px;
+
+background:white;
+
+border:2px solid transparent;
+
+transition:.3s;
+
+box-shadow:
+
+0 8px 20px rgba(15,23,42,.04);
+
+}
+
+.input-box:hover{
+
+transform:translateY(-2px);
+
+}
+
+.input-box:focus-within{
+
+border-color:#2563eb;
+
+box-shadow:
+
+0 0 0 5px rgba(37,99,235,.12);
+
+}
+
+.input-box i{
+
+width:26px;
+
+text-align:center;
+
+color:#2563eb;
+
+font-size:18px;
+
+}
+
+.input-box input{
+
+flex:1;
+
+border:none;
+outline:none;
+
+background:transparent;
+
+padding-left:12px;
+
+font-size:15px;
+
+color:#0f172a;
+
+}
+
+.input-box input::placeholder{
+
+color:#94a3b8;
+
+}
+
+.eye-button{
+
+border:none;
+
+background:none;
+
+cursor:pointer;
+
+font-size:18px;
+
+color:#64748b;
+
+transition:.25s;
+
+}
+
+.eye-button:hover{
+
+color:#2563eb;
+
+transform:scale(1.15);
+
+}
+
+/*=============================
+OPTIONS
+==============================*/
+
+.login-options{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+margin:12px 0 18px;
+
+font-size:14px;
+
+}
+
+.remember-me{
+
+display:flex;
+align-items:center;
+gap:8px;
+
+cursor:pointer;
+
+color:#475569;
+
+}
+
+.remember-me input{
+
+accent-color:#2563eb;
+
+}
+
+.forgot-link{
+
+text-decoration:none;
+
+color:#2563eb;
+
+font-weight:600;
+
+transition:.25s;
+
+}
+
+.forgot-link:hover{
+
+color:#1d4ed8;
+
+}
+
+/*=============================
+BUTTON
+==============================*/
+
+.login-button{
+
+width:100%;
+height:58px;
+
+border:none;
+
+border-radius:18px;
+
+background:
+linear-gradient(135deg,#2563eb,#3b82f6,#60a5fa);
+
+background-size:200%;
+
+color:white;
+
+font-size:16px;
+font-weight:700;
+
+cursor:pointer;
+
+transition:.35s;
+
+box-shadow:
+
+0 18px 35px rgba(37,99,235,.25);
+
+}
+
+.login-button:hover{
+
+background-position:right;
+
+transform:translateY(-3px);
+
+}
+
+.login-button:disabled{
+
+opacity:.75;
+
+cursor:not-allowed;
+
+transform:none;
+
+}
+
+/*=============================
+MESSAGE
+==============================*/
+
+#loginMessage{
+
+min-height:0;
+
+height:auto;
+
+margin-top:10px;
+margin-bottom:8px;
+
+font-size:14px;
+font-weight:600;
+
+text-align:center;
+
+}
+
+/*=============================
+DIVIDER
+==============================*/
+
+.divider{
+
+display:flex;
+align-items:center;
+
+margin:10px 0;
+
+color:#94a3b8;
+
+font-size:12px;
+
+}
+
+.divider::before,
+.divider::after{
+
+content:"";
+
+flex:1;
+
+height:1px;
+
+background:#dbeafe;
+
+}
+
+.divider span{
+
+padding:0 15px;
+
+}
+
+/*=============================
+BOTTOM LINKS
+==============================*/
+
+.register-text{
+
+text-align:center;
+
+font-size:15px;
+
+color:#64748b;
+
+margin-top:4px;
+
+}
+
+.register-text a{
+
+color:#2563eb;
+
+font-weight:700;
+
+text-decoration:none;
+
+}
+
+.register-text a:hover{
+
+text-decoration:underline;
+
+}
+
+.back-home{
+
+display:block;
+
+margin-top:24px;
+
+text-align:center;
+
+font-size:14px;
+
+text-decoration:none;
+
+color:#64748b;
+
+}
+
+.back-home:hover{
+
+color:#2563eb;
+
+}
+
+.login-footer{
+
+    margin-top:18px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+
+    font-size:12px;
+    font-weight:500;
+
+    color:#94a3b8;
+
+    letter-spacing:.3px;
+
+}
+.login-footer i{
+
+color:#6366f1;
+
+font-size:13px;
+
+}
+
+/*=============================
+LOADING SPINNER
+==============================*/
+
+.spinner{
+
+display:inline-block;
+
+width:18px;
+height:18px;
+
+border:3px solid rgba(255,255,255,.4);
+
+border-top:3px solid white;
+
+border-radius:50%;
+
+animation:spin 1s linear infinite;
+
+margin-right:10px;
+
+vertical-align:middle;
+
+}
+
+@keyframes spin{
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
+@keyframes shine{
+
+0%{
+left:-80%;
+}
+
+100%{
+left:160%;
+}
+
+}
+
+/*=============================
+RESPONSIVE
+==============================*/
+
+@media(max-width:520px){
+
+.login-card{
+
+padding:30px 34px;
+
+}
+
+.logo-text{
+
+font-size:26px;
+
+}
+
+.login-card h1{
+
+font-size:29px;
+
+}
+
+.welcome{
+
+width:82px;
+height:82px;
+
+font-size:34px;
+
+}
+
+.login-options{
+
+flex-direction:column;
+gap:15px;
+
+align-items:flex-start;
+
+}
+
+}
+
+</style>
+
+</head>
+<body>
+
+    <!-- Floating Background -->
+
+    <div class="bg-circle bg1"></div>
+    <div class="bg-circle bg2"></div>
+    <div class="bg-circle bg3"></div>
+    <div class="bg-circle bg4"></div>
+
+    <div class="login-card">
+
+        <a href="index.html" class="logo">
+
+            <div class="logo-box">
+
+                 Q
+
+            </div>
+
+            <div class="logo-text">
+                <h2>Queue<span>Less</span></h2>
+
+                <p>Smart Queue Management</p>
+            </div>
+
+        </a>
+
+
+        <h1>Welcome Back</h1>
+
+        <p class="subtitle">
+            Login to continue to your QueueLess account.
+        </p>
+
+        <!-- Login Form -->
+
+        <form id="loginForm" autocomplete="off">
+
+            <!-- Email -->
+
+            <div class="form-group">
+
+                <label for="loginUser">
+                    Email Address
+                </label>
+
+                <div class="input-box">
+
+                    <i class="fas fa-envelope"></i>
+
+                    <input
+                        type="email"
+                        id="loginUser"
+                        name="queueless_email"
+                        placeholder="Enter your email"
+                        autocomplete="off"
+                        required>
+
+                </div>
+
+            </div>
+
+            <!-- Password -->
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <div class="input-box">
+
+                    <i class="fas fa-lock"></i>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="queueless_password"
+                        placeholder="Enter your password"
+                        autocomplete="new-password"
+                        required>
+
+                    <button
+                        type="button"
+                        class="eye-button"
+                        onclick="togglePassword()"
+                        aria-label="Show Password">
+
+                        <i class="fas fa-eye"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- Remember / Forgot -->
+
+            <div class="login-options">
+
+                <label class="remember-me">
+
+                    <input
+                        type="checkbox"
+                        id="rememberMe">
+
+                    Remember me
+
+                </label>
+
+                <a
+                    href="forgot-password.html"
+                    class="forgot-link">
+
+                    Forgot Password?
+
+                </a>
+
+            </div>
+
+            <!-- Login Button -->
+
+            <button
+                type="submit"
+                class="login-button"
+                id="loginButton">
+
+                <span id="btnText">
+
+                    <i class="fas fa-right-to-bracket"></i>
+
+                    Login to QueueLess
+
+                </span>
+
+            </button>
+
+            <!-- Login Message -->
+
+            <div id="loginMessage"></div>
+                        <!-- Divider -->
+
+            <div class="divider">
+
+                <span>OR</span>
+
+            </div>
+
+            <!-- Register -->
+
+            <p class="register-text">
+
+                Don't have an account?
+
+                <a href="register.html">
+
+                    Create Account
+
+                </a>
+
+            </p>
+
+            <!-- Back Home -->
+
+
+<a
+    href="index.html"
+    class="back-home">
+
+    <i class="fas fa-arrow-left"></i>
+
+    Back to Home
+
+</a>
+
+<!-- Footer -->
+
+<p class="login-footer">
+
+    <i class="fas fa-shield-halved"></i>
+
+    Secure Queue Management System
+
+</p>
+
+</form>
+
+    </div>
+
+    <!-- Footer -->
+
+    <!-- End of UI -->
+
+    <script>
+
+    // Prevent going back to reset flow after password reset
+if (window.location.search.includes("reset=success")) {
+    history.pushState(null, "", location.href);
+
+    window.addEventListener("popstate", function () {
+        history.pushState(null, "", location.href);
+    });
+}
+
+/* ========================================
+   ELEMENTS
+======================================== */
+
+const loginForm =
+    document.getElementById("loginForm");
+
+const loginButton =
+    document.getElementById("loginButton");
+
+const loginMessage =
+    document.getElementById("loginMessage");
+
+const emailInput =
+    document.getElementById("loginUser");
+
+const passwordInput =
+    document.getElementById("password");
+
+const rememberMe =
+    document.getElementById("rememberMe");
+
+
+/* ========================================
+   SHOW / HIDE PASSWORD
+======================================== */
+
+function togglePassword() {
+
+    if (passwordInput.type === "password") {
+
+        passwordInput.type = "text";
+
+        const icon =
+            document.querySelector(".eye-button i");
+
+        if (icon) {
+
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+
+        }
+
+    } else {
+
+        passwordInput.type = "password";
+
+        const icon =
+            document.querySelector(".eye-button i");
+
+        if (icon) {
+
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+
+        }
+
+    }
+
+}
+
+
+/* ========================================
+   CLEAR LOGIN FORM
+======================================== */
+
+function clearLoginForm() {
+
+    loginForm.reset();
+
+    emailInput.value = "";
+
+    passwordInput.value = "";
+
+    passwordInput.type = "password";
+
+    rememberMe.checked = false;
+
+    loginMessage.textContent = "";
+
+    loginButton.disabled = false;
+
+    loginButton.innerHTML =
+        '<span id="btnText"><i class="fas fa-right-to-bracket"></i> Login to QueueLess</span>';
+
+}
+
+
+/* ========================================
+   HANDLE LOGIN PAGE
+======================================== */
+
+window.addEventListener(
+    "pageshow",
+    function(event) {
+
+        const token =
+            localStorage.getItem("token");
+
+        if (token) {
+
+            window.location.replace(
+                "dashboard.html"
+            );
+
+            return;
+
+        }
+
+        clearLoginForm();
+
+    }
+);
+/* ========================================
+   LOGIN
+======================================== */
+
+loginForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        const email =
+            emailInput
+                .value
+                .trim()
+                .toLowerCase();
+
+        const password =
+            passwordInput.value;
+
+        /* CHECK EMPTY */
+
+        if (!email || !password) {
+
+            loginMessage.style.color = "red";
+
+            loginMessage.textContent =
+                "Please enter email and password.";
+
+            return;
+
+        }
+
+        /* LOADING BUTTON */
+
+        loginButton.disabled = true;
+
+        loginButton.innerHTML =
+            '<span class="spinner"></span> Logging in...';
+
+        loginMessage.style.color =
+            "#64748b";
+
+        loginMessage.textContent =
+            "Checking your credentials...";
+
+        try {
+
+            /* ========================================
+               CALL LOGIN API
+            ======================================== */
+
+            const response =
+                await fetch(
+                    "/api/login",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            email: email,
+                            password: password
+                        })
+                    }
+                );
+
+            const data =
+                await response.json();
+
+            console.log(
+                "Login response:",
+                data
+            );
+
+            /* ========================================
+               LOGIN SUCCESS
+            ======================================== */
+
+            if (response.ok) {
+
+                if (!data.token) {
+
+                    throw new Error(
+                        "Backend did not return token"
+                    );
+
+                }
+
+                if (!data.userId) {
+
+                    throw new Error(
+                        "Backend did not return userId"
+                    );
+
+                }
+
+                localStorage.removeItem(
+                    "token"
+                );
+
+                localStorage.removeItem(
+                    "userId"
+                );
+
+                localStorage.removeItem(
+                    "userName"
+                );
+
+                localStorage.removeItem(
+                    "email"
+                );
+
+                localStorage.setItem(
+                    "token",
+                    data.token
+                );
+
+                localStorage.setItem(
+                    "userId",
+                    data.userId
+                );
+
+                localStorage.setItem(
+                    "userName",
+                    data.name || ""
+                );
+
+                localStorage.setItem(
+                    "email",
+                    data.email || email
+                );
+
+                loginMessage.style.color =
+                    "green";
+
+                loginMessage.textContent =
+                    "Login successful! Opening dashboard...";
+
+                setTimeout(function() {
+
+                    window.location.replace(
+                        "dashboard.html"
+                    );
+
+                },700);
+
+            }
+
+            else {
+
+                localStorage.removeItem("token");
+                localStorage.removeItem("userId");
+                localStorage.removeItem("userName");
+                localStorage.removeItem("email");
+
+                passwordInput.value = "";
+
+                loginMessage.style.color =
+                    "red";
+
+                loginMessage.textContent =
+                    data.message ||
+                    "Invalid email or password";
+
+            }
+        }
+
+        /* ========================================
+           CONNECTION / OTHER ERROR
+        ======================================== */
+
+        catch (error) {
+
+            console.error(
+                "LOGIN ERROR:",
+                error
+            );
+
+            localStorage.removeItem(
+                "token"
+            );
+
+            localStorage.removeItem(
+                "userId"
+            );
+
+            localStorage.removeItem(
+                "userName"
+            );
+
+            localStorage.removeItem(
+                "email"
+            );
+
+            passwordInput.value = "";
+
+            loginMessage.style.color =
+                "red";
+
+            if (
+                error.message ===
+                "Backend did not return userId"
+            ) {
+
+                loginMessage.textContent =
+                    "Login backend is not returning userId.";
+
+            }
+
+            else if (
+                error.message ===
+                "Backend did not return token"
+            ) {
+
+                loginMessage.textContent =
+                    "Login backend is not returning token.";
+
+            }
+
+            else {
+
+                loginMessage.textContent =
+                    "Cannot connect to login server.";
+
+            }
+
+        }
+
+        /* ========================================
+           RESET BUTTON
+        ======================================== */
+
+        finally {
+
+            loginButton.disabled = false;
+
+            loginButton.innerHTML =
+                '<span id="btnText"><i class="fas fa-right-to-bracket"></i> Login to QueueLess</span>';
+
+        }
+
+    }
+
+);
+
+</script>
+
+</body>
+
+</html>

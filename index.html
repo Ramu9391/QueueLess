@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>QueueLess | Skip the Wait</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- Login / Admin Login Button Styles -->
+
+</head>
+
+<body>
+
+    <!-- ============================= -->
+    <!-- NAVIGATION -->
+    <!-- ============================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+             <div class="logo-icon">
+                     <span>Q</span>
+                </div>
+
+        <div class="logo-text">
+             Queue<span>Less</span>
+        </div>
+    </div>
+
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#how">How It Works</a>
+            <a href="#services">Services</a>
+            <a href="#about">About</a>
+        </div>
+
+        <div class="nav-buttons">
+
+            <!-- USER LOGIN -->
+            <a href="login.html" class="user-login-btn">
+                <span class="nav-btn-icon">👤</span>
+                User Login
+            </a>
+
+            <!-- ADMIN LOGIN -->
+            <a href="admin-login.html" class="admin-login-btn">
+                <span class="nav-btn-icon">🛡️</span>
+                Admin Login
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ============================= -->
+    <!-- HERO SECTION -->
+    <!-- ============================= -->
+
+    <section class="hero" id="home">
+
+        <div class="hero-text">
+
+            <div class="tag">
+                ⚡ Smart Queue Management
+            </div>
+
+            <h1>
+                Your Time Matters.<br>
+                <span>Skip the Line.</span>
+            </h1>
+
+            <p>
+                QueueLess lets you join queues digitally, track your
+                position in real time and arrive exactly when your
+                turn is near.
+            </p>
+
+
+            <!-- HERO BUTTONS -->
+
+            <div class="hero-buttons">
+
+                <!--
+                    If user is already logged in:
+                    Opens join-queue.html
+
+                    If user is not logged in:
+                    Opens login.html
+                -->
+
+                <a href="#" class="primary-btn" onclick="getToken(event)">
+                    <i class="fas fa-ticket-alt"></i>
+                    Get Your Token
+                </a>
+
+                <a href="#how" class="secondary-btn">
+                    <i class="fas fa-play-circle"></i>
+                    See How It Works
+                </a>
+
+            </div>
+
+
+            <!-- STATS -->
+
+            <div class="stats">
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            <i class="fas fa-users"></i>
+        </div>
+
+        <strong>10K+</strong>
+
+        <span>Tokens Served</span>
+
+    </div>
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            <i class="fas fa-building"></i>
+        </div>
+
+        <strong>50+</strong>
+
+        <span>Services</span>
+
+    </div>
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            <i class="fas fa-clock"></i>
+        </div>
+
+        <strong>30 min</strong>
+
+        <span>Avg. Time Saved</span>
+
+    </div>
+
+</div>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- DIGITAL TOKEN DEMO -->
+        <!-- ============================= -->
+
+        <div class="hero-card">
+
+            <div class="card-header">
+
+                <span>
+                    YOUR ACTIVE TOKEN
+                </span>
+
+                <span class="live">
+                    ● LIVE
+                </span>
+
+            </div>
+
+
+            <div class="token">
+                A-027
+            </div>
+
+
+            <p class="service-name">
+                College Administration Office
+            </p>
+
+
+            <div class="queue-info">
+
+                <div>
+
+                    <span>
+                        Now Serving
+                    </span>
+
+                    <strong>
+                        A-022
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        People Ahead
+                    </span>
+
+                    <strong>
+                        4
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Est. Wait
+                    </span>
+
+                    <strong>
+                        12 min
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="progress">
+
+                <div class="progress-bar"></div>
+
+            </div>
+
+
+            <p class="notification">
+                🔔 We'll notify you when only 2 people are ahead.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- HOW IT WORKS -->
+    <!-- ============================= -->
+
+    <section class="how" id="how">
+
+        <p class="section-small">
+            SIMPLE & FAST
+        </p>
+
+        <h2>
+            How QueueLess Works
+        </h2>
+
+        <p class="section-description">
+            No more standing in long lines.
+            Get your digital token in just a few steps.
+        </p>
+
+
+        <div class="steps">
+
+
+            <!-- STEP 1 -->
+
+            <div class="step-card">
+
+                <div class="step-icon">
+    <i class="fas fa-building"></i>
+</div>
+
+<span>01</span>
+
+<h3>
+    Choose Service
+</h3>
+
+<p>
+    Select the place or service you want to visit.
+</p>
+
+            </div>
+
+
+            <!-- STEP 2 -->
+
+            <div class="step-card">
+
+              <div class="step-icon">
+    <i class="fas fa-ticket-alt"></i>
+</div>
+
+<span>02</span>
+
+<h3>
+    Get Your Token
+</h3>
+
+                <p>
+                    Join the queue digitally and receive your token.
+                </p>
+
+            </div>
+
+
+            <!-- STEP 3 -->
+
+            <div class="step-card">
+
+              <div class="step-icon">
+    <i class="fas fa-mobile-screen-button"></i>
+</div>
+
+<span>03</span>
+
+<h3>
+    Track Live
+</h3>
+
+                <p>
+                    See your position and estimated waiting time.
+                </p>
+
+            </div>
+
+
+            <!-- STEP 4 -->
+
+            <div class="step-card">
+
+                <div class="step-icon">
+    <i class="fas fa-bell"></i>
+</div>
+
+<span>04</span>
+
+<h3>
+    Get Notified
+</h3>
+
+                <p>
+                    Receive an alert when your turn is approaching.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- SERVICES -->
+    <!-- ============================= -->
+
+    <section class="services" id="services">
+
+        <p class="section-small">
+            USE IT ANYWHERE
+        </p>
+
+        <h2>
+            One Queue System. Many Places.
+        </h2>
+
+
+        <div class="service-grid">
+
+
+            <!-- HOSPITAL -->
+
+            <div class="service-card">
+
+                <span>
+                    <i class="fas fa-hospital"></i>
+                </span>
+
+                <h3>
+                    Hospitals
+                </h3>
+
+                <p>
+                    Doctor appointments and consultations.
+                </p>
+
+            </div>
+
+
+            <!-- COLLEGE -->
+
+            <div class="service-card">
+
+                <span>
+                    <i class="fas fa-university"></i>
+                </span>
+
+                <h3>
+                    College Offices
+                </h3>
+
+                <p>
+                    Fees, certificates and administration.
+                </p>
+
+            </div>
+
+
+            <!-- BANK -->
+
+            <div class="service-card">
+
+                <span>
+                    <i class="fas fa-landmark"></i>
+                </span>
+
+                <h3>
+                    Banks
+                </h3>
+
+                <p>
+                    Manage branch visits without waiting.
+                </p>
+
+            </div>
+
+
+            <!-- CANTEEN -->
+
+            <div class="service-card">
+
+                <span>
+                    <i class="fas fa-utensils"></i>
+                </span>
+
+                <h3>
+                    Canteens
+                </h3>
+
+                <p>
+                    Order and collect when your turn is ready.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- ABOUT -->
+    <!-- ============================= -->
+
+    <section class="about" id="about">
+
+        <div>
+
+            <p class="section-small">
+                WHY QUEUELESS?
+            </p>
+
+            <h2>
+                Waiting Shouldn't Waste Your Day.
+            </h2>
+
+            <p>
+                QueueLess connects customers and service providers
+                through one simple digital queue. Users spend less
+                time waiting while organizations manage crowds more
+                efficiently.
+            </p>
+
+            <ul class="about-features">
+
+            <li><i class="fas fa-check-circle"></i> Live Queue Tracking</li>
+
+            <li><i class="fas fa-check-circle"></i> Instant Notifications</li>
+
+            <li><i class="fas fa-check-circle"></i> Digital Token System</li>
+
+            <li><i class="fas fa-check-circle"></i> Smart Queue Analytics</li>
+
+            </ul>
+
+        </div>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- FOOTER -->
+    <!-- ============================= -->
+
+    <footer>
+
+    <div class="footer-logo">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                <span>Q</span>
+            </div>
+
+            <div class="logo-text">
+                Queue<span>Less</span>
+            </div>
+
+        </div>
+
+        <p>
+            Smart Queue Management System
+        </p>
+
+    </div>
+
+    <div class="footer-contact">
+
+        <h3>Contact</h3>
+
+        <p>
+            <i class="fas fa-phone"></i>
+            9391938266
+        </p>
+
+        <p>
+            <i class="fas fa-envelope"></i>
+            chippadaramu19@gmail.com
+        </p>
+
+    </div>
+
+    <div class="footer-copy">
+
+        <p>
+            © 2026 QueueLess
+        </p>
+
+        <p>
+            All Rights Reserved.
+        </p>
+
+    </div>
+
+</footer>
+
+    <!-- ============================= -->
+    <!-- EXISTING JAVASCRIPT -->
+    <!-- ============================= -->
+
+    <script src="js/script.js"></script>
+
+
+    <!-- ============================= -->
+    <!-- GET TOKEN LOGIC -->
+    <!-- ============================= -->
+
+    <script>
+
+        function getToken(event) {
+
+            event.preventDefault();
+
+            // Check if user is logged in
+            const token = localStorage.getItem("token");
+
+            if (token) {
+
+                // User already logged in
+                window.location.href = "join-queue.html";
+
+            } else {
+
+                // User not logged in
+                window.location.href = "login.html";
+
+            }
+
+        }
+
+    </script>
+
+    
+
+</body>
+
+</html>

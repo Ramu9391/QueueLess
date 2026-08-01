@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Register | QueueLess</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body{
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    margin:0;
+
+    overflow:hidden;
+
+    background:linear-gradient(
+        135deg,
+        #ffffff 0%,
+        #eef2ff 40%,
+        #dbeafe 100%
+    );
+
+    position:relative;
+}
+
+        /*=============================
+FLOATING BACKGROUND
+=============================*/
+
+.bg-circle{
+
+position:absolute;
+border-radius:50%;
+filter:blur(4px);
+animation:float 12s ease-in-out infinite;
+
+}
+
+.bg1{
+
+width:320px;
+height:320px;
+background:rgba(59,130,246,.18);
+top:-120px;
+left:-100px;
+
+}
+
+.bg2{
+
+width:250px;
+height:250px;
+background:rgba(96,165,250,.16);
+right:-80px;
+top:80px;
+animation-duration:15s;
+
+}
+
+.bg3{
+
+width:220px;
+height:220px;
+background:rgba(37,99,235,.12);
+bottom:-80px;
+left:15%;
+animation-duration:18s;
+
+}
+
+.bg4{
+
+width:180px;
+height:180px;
+background:rgba(147,197,253,.15);
+bottom:70px;
+right:8%;
+animation-duration:20s;
+
+}
+
+@keyframes float{
+
+0%{
+transform:translateY(0px);
+}
+
+25%{
+transform:translate(15px,-25px);
+}
+
+50%{
+transform:translateY(-50px);
+}
+
+75%{
+transform:translate(-15px,-25px);
+}
+
+100%{
+transform:translateY(0);
+}
+
+}
+    
+
+        .register-card {
+            width: 430px;
+
+            position: relative;
+            z-index: 10;
+            animation: fadeIn .6s ease;
+            background: rgba(255, 255, 255, 0.96);
+            padding: 20px 24px;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.7);
+
+            box-shadow:
+                 0 20px 60px rgba(15,23,42,.10),
+                 0 8px 20px rgba(59,130,246,.08);
+            backdrop-filter: blur(12px);
+            transition: all .35s ease;
+}
+
+        .register-card:hover {
+             transform: translateY(-5px);
+             box-shadow:
+                 0 30px 70px rgba(15,23,42,.15),
+                 0 10px 25px rgba(59,130,246,.12);
+}
+
+         @keyframes fadeIn {
+             from {
+                  opacity: 0;
+                 transform: translateY(25px);
+            }
+             to {
+                 opacity: 1;
+                 transform: translateY(0);
+            }
+}
+
+        .logo {
+             width:70px;
+             height:70px;
+
+             overflow:hidden;
+             position:relative;
+
+             margin:0 auto 12px;
+             border-radius:20px;
+             background:linear-gradient(135deg,#2563eb,#4f46e5);
+             color:#fff;
+
+             display:flex;
+             justify-content:center;
+             align-items:center;
+
+             font-size:34px;
+             font-weight:bold;
+
+             box-shadow:0 15px 35px rgba(37,99,235,.30);
+            }
+
+            /* ===== Q Logo Shine Effect ===== */
+
+.logo::before{
+
+content:"";
+
+position:absolute;
+
+top:0;
+left:-120%;
+
+width:50%;
+height:100%;
+
+background:linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.85),
+transparent
+);
+
+transform:skewX(-25deg);
+
+animation:logoShine 3s infinite;
+
+}
+
+@keyframes logoShine{
+
+0%{
+left:-120%;
+}
+
+40%{
+left:150%;
+}
+
+100%{
+left:150%;
+}
+
+}
+
+        .app-title{
+              text-align:center;
+             font-size:32px;
+             font-weight:700;
+             color:#0f172a;
+             margin-bottom:8px;
+        }
+
+        .app-title span{
+             color:#2563eb;
+        }
+
+        .subtitle{
+             text-align:center;
+             color:#64748b;
+             margin-bottom:14px;
+             font-size:15px;
+        }
+
+       .input-group {
+            margin-bottom: 8px;
+        }
+
+        form{
+             margin:0;
+    }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .input-group input {
+             width: 100%;
+             padding: 15px 18px;
+             border: 1px solid #dbe4f0;
+             border-radius: 14px;
+             outline: none;
+             font-size: 15px;
+             background: #f8fbff;
+             transition: all .3s ease;
+        }
+
+        .input-group input:focus {
+              background: #ffffff;
+              border-color: #2563eb;
+              box-shadow: 0 0 0 4px rgba(37,99,235,.12);
+        }
+
+        /* Password box with eye icon */
+        .password-box {
+            position: relative;
+        }
+
+        .password-box input {
+            padding-right: 48px;
+        }
+
+        .eye-button {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+        }
+
+        .eye-button:hover {
+            opacity: 0.7;
+        }
+
+        .register-button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #4f46e5;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .register-button:hover {
+            background: #4338ca;
+        }
+
+        .register-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        #message {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            min-height: 0;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 16px;
+            color: #666;
+        }
+
+        .login-link a {
+            color: #4f46e5;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 450px) {
+            .register-card {
+                width: 420px;
+                padding: 30px 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-circle bg1"></div>
+    <div class="bg-circle bg2"></div>
+    <div class="bg-circle bg3"></div>
+    <div class="bg-circle bg4"></div>
+
+    <div class="register-card">
+
+        <div class="logo">Q</div>
+
+        <h2 class="app-title">
+             Queue<span>Less</span>
+        </h2>
+            
+        <p class="subtitle">
+            Create your QueueLess account
+        </p>
+
+        <form id="registerForm">
+
+            <!-- Full Name -->
+            <div class="input-group">
+
+                <label for="name">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter your name"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Email -->
+            <div class="input-group">
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Password -->
+            <div class="input-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <div class="password-box">
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Create a password"
+                        minlength="6"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="eye-button"
+                        onclick="togglePassword('password', this)"
+                        aria-label="Show password"
+                    >
+                        👁
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Confirm Password -->
+            <div class="input-group">
+
+                <label for="confirmPassword">
+                    Confirm Password
+                </label>
+
+                <div class="password-box">
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Re-enter your password"
+                        minlength="6"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="eye-button"
+                        onclick="togglePassword('confirmPassword', this)"
+                        aria-label="Show confirm password"
+                    >
+                        👁
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Register Button -->
+            <button
+                type="submit"
+                class="register-button"
+                id="registerButton"
+            >
+                Create Account
+            </button>
+
+
+            <div id="message"></div>
+
+        </form>
+
+
+        <div class="login-link">
+
+            Already have an account?
+
+            <a href="login.html">
+                Login
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        const registerForm =
+            document.getElementById("registerForm");
+
+        const message =
+            document.getElementById("message");
+
+        const registerButton =
+            document.getElementById("registerButton");
+
+
+        /*
+         * SHOW / HIDE PASSWORD
+         */
+        function togglePassword(inputId, button) {
+
+            const input =
+                document.getElementById(inputId);
+
+            if (input.type === "password") {
+
+                input.type = "text";
+
+                button.textContent = "🙈";
+
+                button.setAttribute(
+                    "aria-label",
+                    "Hide password"
+                );
+
+            } else {
+
+                input.type = "password";
+
+                button.textContent = "👁";
+
+                button.setAttribute(
+                    "aria-label",
+                    "Show password"
+                );
+
+            }
+
+        }
+
+
+        /*
+         * REGISTER USER
+         */
+        registerForm.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+
+                const name =
+                    document
+                        .getElementById("name")
+                        .value
+                        .trim();
+
+
+                const email =
+                    document
+                        .getElementById("email")
+                        .value
+                        .trim();
+
+
+                const password =
+                    document
+                        .getElementById("password")
+                        .value;
+
+
+                const confirmPassword =
+                    document
+                        .getElementById("confirmPassword")
+                        .value;
+
+
+                /*
+                 * Check empty fields
+                 */
+                if (
+                    !name ||
+                    !email ||
+                    !password ||
+                    !confirmPassword
+                ) {
+
+                    message.style.color = "red";
+
+                    message.textContent =
+                        "Please fill all fields.";
+
+                    return;
+                }
+
+
+                /*
+                 * Minimum password length
+                 */
+                if (password.length < 6) {
+
+                    message.style.color = "red";
+
+                    message.textContent =
+                        "Password must contain at least 6 characters.";
+
+                    return;
+                }
+
+
+                /*
+                 * Check both passwords
+                 */
+                if (password !== confirmPassword) {
+
+                    message.style.color = "red";
+
+                    message.textContent =
+                        "Passwords do not match.";
+
+                    return;
+                }
+
+
+                /*
+                 * Loading
+                 */
+                message.style.color = "#333";
+
+                message.textContent =
+                    "Creating account...";
+
+
+                registerButton.disabled = true;
+
+                registerButton.textContent =
+                    "Please wait...";
+
+
+                /*
+                 * Stop request after 15 seconds
+                 */
+                const controller =
+                    new AbortController();
+
+
+                const timeout =
+                    setTimeout(function () {
+
+                        controller.abort();
+
+                    }, 15000);
+
+
+                try {
+
+                    console.log(
+                        "Sending registration request..."
+                    );
+
+
+                    /*
+                     * Send registration to backend
+                     */
+                    const response =
+                        await fetch(
+                            "/api/register",
+                            {
+
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+
+                                    name: name,
+
+                                    email: email,
+
+                                    password: password
+
+                                }),
+
+                                signal:
+                                    controller.signal
+                            }
+                        );
+
+
+                    clearTimeout(timeout);
+
+
+                    console.log(
+                        "Server status:",
+                        response.status
+                    );
+
+
+                    const data =
+                        await response.json();
+
+
+                    console.log(
+                        "Server response:",
+                        data
+                    );
+
+
+                    /*
+                     * Registration successful
+                     */
+                    if (response.ok) {
+
+                        message.style.color =
+                            "green";
+
+
+                        message.textContent =
+                            data.message ||
+                            "Account created successfully!";
+
+
+                        registerForm.reset();
+
+
+                        /*
+                         * Go to Login page
+                         */
+                        setTimeout(
+                            function () {
+
+                                window.location.href =
+                                    "login.html";
+
+                            },
+                            1500
+                        );
+
+                    }
+
+                    /*
+                     * Server error
+                     */
+                    else {
+
+                        message.style.color =
+                            "red";
+
+
+                        message.textContent =
+                            data.message ||
+                            "Registration failed.";
+
+                    }
+
+                }
+
+                catch (error) {
+
+                    clearTimeout(timeout);
+
+
+                    console.error(
+                        "Registration error:",
+                        error
+                    );
+
+
+                    message.style.color =
+                        "red";
+
+
+                    if (
+                        error.name ===
+                        "AbortError"
+                    ) {
+
+                        message.textContent =
+                            "Server took too long to respond.";
+
+                    }
+
+                    else {
+
+                        message.textContent =
+                            "Cannot connect to backend server.";
+
+                    }
+
+                }
+
+                finally {
+
+                    registerButton.disabled =
+                        false;
+
+
+                    registerButton.textContent =
+                        "Create Account";
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

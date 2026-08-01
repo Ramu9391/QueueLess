@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Login | QueueLess</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f8ff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-box {
+            width: 420px;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: #2563eb;
+            color: white;
+            font-size: 25px;
+            font-weight: bold;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        #message {
+            margin-top: 18px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .back {
+            text-align: center;
+            margin-top: 22px;
+        }
+
+        .back a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-box">
+
+    <div class="logo">
+        <div class="logo-icon">Q</div>
+
+        <h1>Admin Login</h1>
+
+        <p class="subtitle">
+            QueueLess Administration
+        </p>
+    </div>
+
+    <form id="adminLoginForm" autocomplete="off">
+
+        <label for="email">
+            Admin Email
+        </label>
+
+        <input
+            type="email"
+            id="email"
+            name="admin-email"
+            placeholder="Enter admin email"
+            autocomplete="off"
+            required
+        >
+
+        <label for="password">
+            Password
+        </label>
+
+        <input
+            type="password"
+            id="password"
+            name="admin-password"
+            placeholder="Enter password"
+            autocomplete="new-password"
+            required
+        >
+
+        <button type="submit">
+            Login as Admin
+        </button>
+
+    </form>
+
+    <div id="message"></div>
+
+    <div class="back">
+        <a href="index.html">
+            ← Back to Home
+        </a>
+    </div>
+
+</div>
+
+
+<script>
+    // =========================================
+    // ADMIN LOGIN
+    // =========================================
+
+    document
+        .getElementById("adminLoginForm")
+        .addEventListener("submit", async function (event) {
+
+            event.preventDefault();
+
+            const email =
+                document.getElementById("email").value.trim();
+
+            const password =
+                document.getElementById("password").value;
+
+            const message =
+                document.getElementById("message");
+
+            message.textContent = "Checking...";
+            message.style.color = "#555";
+
+            try {
+
+                const response = await fetch(
+                    "/api/admin/login",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            email: email,
+                            password: password
+                        })
+                    }
+                );
+
+                const data = await response.json();
+
+
+                // =========================================
+                // LOGIN FAILED
+                // =========================================
+
+                if (!response.ok || !data.success) {
+
+                    message.textContent =
+                        data.message ||
+                        "Invalid admin email or password";
+
+                    message.style.color = "red";
+
+                    return;
+                }
+
+
+                // =========================================
+                // LOGIN SUCCESS
+                // =========================================
+
+                localStorage.setItem(
+                    "adminToken",
+                    data.token
+                );
+
+                message.textContent =
+                    "Login successful!";
+
+                message.style.color =
+                    "green";
+
+
+                // Clear form before leaving
+                document.getElementById("email").value = "";
+                document.getElementById("password").value = "";
+
+
+                // =========================================
+                // IMPORTANT
+                // Replace login page in browser history
+                // =========================================
+
+                window.location.replace("admin.html");
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+                message.textContent =
+                    "Cannot connect to QueueLess server.";
+
+                message.style.color =
+                    "red";
+            }
+        });
+
+
+    // =========================================
+    // PAGE SHOW / BACK BUTTON PROTECTION
+    // =========================================
+
+    window.addEventListener(
+        "pageshow",
+        function () {
+
+            const adminToken =
+                localStorage.getItem("adminToken");
+
+
+            // Admin is already logged in
+            // Don't allow admin login page again
+            if (adminToken) {
+
+                window.location.replace(
+                    "admin.html"
+                );
+
+                return;
+            }
+
+
+            // Clear login fields
+            const emailInput =
+                document.getElementById("email");
+
+            const passwordInput =
+                document.getElementById("password");
+
+            if (emailInput) {
+                emailInput.value = "";
+            }
+
+            if (passwordInput) {
+                passwordInput.value = "";
+            }
+
+
+            // Clear old messages
+            const message =
+                document.getElementById("message");
+
+            if (message) {
+                message.textContent = "";
+            }
+        }
+    );
+</script>
+
+</body>
+</html>

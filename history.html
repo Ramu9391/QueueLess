@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Queue History | QueueLess</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #0f172a;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 8%;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #2563eb;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .heading {
+            margin-bottom: 30px;
+        }
+
+        .heading h1 {
+            font-size: 34px;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #64748b;
+        }
+
+        .history-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f1f5f9;
+            text-align: left;
+            padding: 18px;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 18px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .token {
+            color: #2563eb;
+            font-weight: 700;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+
+        .cancelled {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .completed {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .waiting {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 70px 20px;
+        }
+
+        .empty-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .empty h2 {
+            margin-bottom: 8px;
+        }
+
+        .empty p {
+            color: #64748b;
+            margin-top: 5px;
+        }
+
+        .error-details {
+            color: #dc2626 !important;
+            margin-top: 12px !important;
+            font-size: 14px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #64748b;
+        }
+
+        @media(max-width: 700px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .history-card {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 650px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Queue<span>Less</span>
+        </div>
+
+        <a href="dashboard.html" class="back-btn">
+            ← Back to Dashboard
+        </a>
+
+    </nav>
+
+    <main class="container">
+
+        <div class="heading">
+
+            <h1>📋 Queue History</h1>
+
+            <p>
+                View your previous QueueLess visits.
+            </p>
+
+        </div>
+
+        <div class="history-card" id="historyCard">
+
+            <div class="loading">
+                Loading queue history...
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+
+        const API_URL = "";
+
+        const userId = localStorage.getItem("userId");
+        const loginToken = localStorage.getItem("token");
+
+        const historyCard =
+            document.getElementById("historyCard");
+
+
+        // =========================
+        // CHECK LOGIN
+        // =========================
+
+        console.log("History page userId:", userId);
+        console.log("Login token exists:", !!loginToken);
+
+        if (!userId || !loginToken) {
+
+            alert("Please login first.");
+
+            window.location.href = "login.html";
+
+        }
+
+
+        // =========================
+        // LOAD HISTORY
+        // =========================
+
+        async function loadHistory() {
+
+            try {
+
+                const url =
+                    `${API_URL}/api/queue-history/${encodeURIComponent(userId)}`;
+
+                console.log("History request:", url);
+
+
+                const response = await fetch(url, {
+                    method: "GET",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+
+
+                console.log(
+                    "History response status:",
+                    response.status
+                );
+
+
+                // Read as text first.
+                // This prevents JSON parsing from hiding the real error.
+
+                const responseText =
+                    await response.text();
+
+
+                console.log(
+                    "Raw history response:",
+                    responseText
+                );
+
+
+                let data;
+
+
+                try {
+
+                    data = responseText
+                        ? JSON.parse(responseText)
+                        : {};
+
+                } catch (jsonError) {
+
+                    console.error(
+                        "Server did not return JSON:",
+                        responseText
+                    );
+
+
+                    historyCard.innerHTML = `
+                        <div class="empty">
+
+                            <div class="empty-icon">
+                                ⚠️
+                            </div>
+
+                            <h2>Server Route Error</h2>
+
+                            <p>
+                                The history API did not return JSON.
+                            </p>
+
+                            <p class="error-details">
+                                HTTP Status: ${response.status}
+                            </p>
+
+                        </div>
+                    `;
+
+                    return;
+                }
+
+
+                // =========================
+                // SERVER ERROR
+                // =========================
+
+                if (!response.ok) {
+
+                    historyCard.innerHTML = `
+                        <div class="empty">
+
+                            <div class="empty-icon">
+                                ⚠️
+                            </div>
+
+                            <h2>Unable to Load History</h2>
+
+                            <p>
+                                ${data.message || "History request failed."}
+                            </p>
+
+                            <p class="error-details">
+                                HTTP Status: ${response.status}
+                            </p>
+
+                        </div>
+                    `;
+
+                    return;
+                }
+
+
+                // =========================
+                // GET HISTORY ARRAY
+                // =========================
+
+                const history =
+                    Array.isArray(data)
+                        ? data
+                        : data.history;
+
+
+                // =========================
+                // EMPTY HISTORY
+                // =========================
+
+                if (!history || history.length === 0) {
+
+                    historyCard.innerHTML = `
+                        <div class="empty">
+
+                            <div class="empty-icon">
+                                🎟️
+                            </div>
+
+                            <h2>No Queue History</h2>
+
+                            <p>
+                                Your completed or cancelled
+                                tokens will appear here.
+                            </p>
+
+                        </div>
+                    `;
+
+                    return;
+                }
+
+
+                // =========================
+                // CREATE TABLE ROWS
+                // =========================
+
+                let rows = "";
+
+
+                history.forEach(function (item) {
+
+                    const date =
+                        new Date(item.createdAt);
+
+
+                    let formattedDate = "-";
+                    let formattedTime = "-";
+
+
+                    if (!isNaN(date.getTime())) {
+
+                        formattedDate =
+                            date.toLocaleDateString();
+
+                        formattedTime =
+                            date.toLocaleTimeString(
+                                [],
+                                {
+                                    hour: "2-digit",
+                                    minute: "2-digit"
+                                }
+                            );
+
+                    }
+
+
+                    const status =
+                        item.status || "unknown";
+
+
+                    rows += `
+                        <tr>
+
+                            <td class="token">
+                                ${item.tokenNumber || "-"}
+                            </td>
+
+                            <td>
+                                ${item.service || "-"}
+                            </td>
+
+                            <td>
+
+                                <span class="status ${status.toLowerCase()}">
+                                    ${status}
+                                </span>
+
+                            </td>
+
+                            <td>
+                                ${formattedDate}
+                            </td>
+
+                            <td>
+                                ${formattedTime}
+                            </td>
+
+                        </tr>
+                    `;
+
+                });
+
+
+                // =========================
+                // DISPLAY TABLE
+                // =========================
+
+                historyCard.innerHTML = `
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Token</th>
+
+                                <th>Service</th>
+
+                                <th>Status</th>
+
+                                <th>Date</th>
+
+                                <th>Time</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            ${rows}
+
+                        </tbody>
+
+                    </table>
+
+                `;
+
+
+            } catch (error) {
+
+                console.error(
+                    "History fetch error:",
+                    error
+                );
+
+
+                historyCard.innerHTML = `
+                    <div class="empty">
+
+                        <div class="empty-icon">
+                            ⚠️
+                        </div>
+
+                        <h2>Cannot Connect</h2>
+
+                        <p>
+                            Cannot connect to QueueLess server.
+                        </p>
+
+                        <p class="error-details">
+                            ${error.message}
+                        </p>
+
+                    </div>
+                `;
+
+            }
+
+        }
+
+
+        // =========================
+        // START
+        // =========================
+
+        loadHistory();
+
+    </script>
+
+</body>
+
+</html>

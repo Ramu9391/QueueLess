@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Join Queue | QueueLess</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f8fafc;
+            color: #0f172a;
+        }
+
+        .navbar {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #2563eb;
+        }
+
+        .back-button {
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .heading {
+            margin-bottom: 30px;
+        }
+
+        .heading h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #64748b;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .service-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 25px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .service-card:hover {
+            border-color: #93c5fd;
+            transform: translateY(-2px);
+        }
+
+        .service-card.selected {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .service-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .service-card h3 {
+            margin-bottom: 6px;
+        }
+
+        .service-card p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .join-area {
+            margin-top: 30px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        #selectedText {
+            color: #64748b;
+            margin-bottom: 18px;
+        }
+
+        .join-button {
+            width: 100%;
+            height: 52px;
+            border: none;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .join-button:hover {
+            background: #1d4ed8;
+        }
+
+        .join-button:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        #message {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .token-result {
+            display: none;
+            margin-top: 20px;
+            padding: 25px;
+            background: #eff6ff;
+            border: 2px solid #2563eb;
+            border-radius: 14px;
+            text-align: center;
+        }
+
+        .token-result p {
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+
+        .token-result h2 {
+            color: #2563eb;
+            font-size: 40px;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 650px) {
+            .services {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Queue<span>Less</span>
+        </div>
+
+        <a href="dashboard.html" class="back-button">
+            ← Dashboard
+        </a>
+
+    </nav>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="container">
+
+        <div class="heading">
+
+            <h1>Join a Queue</h1>
+
+            <p>Select the service you want to visit.</p>
+
+        </div>
+
+
+        <!-- SERVICES -->
+
+        <div class="services">
+
+
+            <!-- 1. COLLEGE ADMINISTRATION -->
+
+            <div class="service-card"
+                data-service="College Administration"
+                onclick="selectService(this)">
+
+                <div class="service-icon">🏫</div>
+
+                <h3>College Administration</h3>
+
+                <p>
+                    Certificates, documents and student services
+                </p>
+
+            </div>
+
+
+            <!-- 2. ACCOUNTS -->
+
+            <div class="service-card"
+                data-service="Accounts & Fee Counter"
+                onclick="selectService(this)">
+
+                <div class="service-icon">💳</div>
+
+                <h3>Accounts & Fee Counter</h3>
+
+                <p>
+                    Fee payments and account enquiries
+                </p>
+
+            </div>
+
+
+            <!-- 3. LIBRARY -->
+
+            <div class="service-card"
+                data-service="Library"
+                onclick="selectService(this)">
+
+                <div class="service-icon">📚</div>
+
+                <h3>Library</h3>
+
+                <p>
+                    Book issue, return and library services
+                </p>
+
+            </div>
+
+
+            <!-- 4. HOSTEL -->
+
+            <div class="service-card"
+                data-service="Hostel Office"
+                onclick="selectService(this)">
+
+                <div class="service-icon">🏠</div>
+
+                <h3>Hostel Office</h3>
+
+                <p>
+                    Hostel enquiries and student support
+                </p>
+
+            </div>
+
+
+            <!-- 5. IT HELP DESK -->
+
+            <div class="service-card"
+                data-service="IT Help Desk"
+                onclick="selectService(this)">
+
+                <div class="service-icon">💻</div>
+
+                <h3>IT Help Desk</h3>
+
+                <p>
+                    Wi-Fi, account and technical assistance
+                </p>
+
+            </div>
+
+
+            <!-- 6. GENERAL ENQUIRY -->
+
+            <div class="service-card"
+                data-service="General Enquiry"
+                onclick="selectService(this)">
+
+                <div class="service-icon">ℹ️</div>
+
+                <h3>General Enquiry</h3>
+
+                <p>
+                    General information and assistance
+                </p>
+
+            </div>
+
+
+            <!-- 7. COLLEGE CANTEEN -->
+
+            <div class="service-card"
+                data-service="College Canteen"
+                onclick="selectService(this)">
+
+                <div class="service-icon">🍔</div>
+
+                <h3>College Canteen</h3>
+
+                <p>
+                    Food ordering, pickup and canteen services
+                </p>
+
+            </div>
+
+
+            <!-- 8. CAFE / FOOD COURT -->
+
+            <div class="service-card"
+                data-service="Cafe / Food Court"
+                onclick="selectService(this)">
+
+                <div class="service-icon">☕</div>
+
+                <h3>Cafe / Food Court</h3>
+
+                <p>
+                    Snacks, beverages and quick meals
+                </p>
+
+            </div>
+
+
+            <!-- 9. TRANSPORT OFFICE -->
+
+            <div class="service-card"
+                data-service="Transport Office"
+                onclick="selectService(this)">
+
+                <div class="service-icon">🚌</div>
+
+                <h3>Transport Office</h3>
+
+                <p>
+                    Bus passes, routes and transport enquiries
+                </p>
+
+            </div>
+
+
+            <!-- 10. MEDICAL CENTER -->
+
+            <div class="service-card"
+                data-service="Campus Medical Center"
+                onclick="selectService(this)">
+
+                <div class="service-icon">🏥</div>
+
+                <h3>Campus Medical Center</h3>
+
+                <p>
+                    Medical consultation and student health services
+                </p>
+
+            </div>
+
+
+            <!-- 11. EXAM CELL -->
+
+            <div class="service-card"
+                data-service="Exam Cell"
+                onclick="selectService(this)">
+
+                <div class="service-icon">📝</div>
+
+                <h3>Exam Cell</h3>
+
+                <p>
+                    Hall tickets, examinations and result enquiries
+                </p>
+
+            </div>
+
+
+            <!-- 12. PLACEMENT CELL -->
+
+            <div class="service-card"
+                data-service="Placement Cell"
+                onclick="selectService(this)">
+
+                <div class="service-icon">💼</div>
+
+                <h3>Placement Cell</h3>
+
+                <p>
+                    Placement registration, interviews and career support
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- JOIN AREA -->
+
+        <div class="join-area">
+
+            <p id="selectedText">
+                Please select a service above.
+            </p>
+
+            <button
+                id="joinButton"
+                class="join-button"
+                disabled>
+
+                Join Queue
+
+            </button>
+
+            <div id="message"></div>
+
+
+            <!-- TOKEN RESULT -->
+
+            <div
+                class="token-result"
+                id="tokenResult">
+
+                <p>Your Token</p>
+
+                <h2 id="tokenNumber">
+                    ---
+                </h2>
+
+                <p id="tokenService"></p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        let selectedService = "";
+
+        const joinButton =
+            document.getElementById("joinButton");
+
+        const message =
+            document.getElementById("message");
+
+
+        // ========================================
+        // CHECK LOGIN
+        // ========================================
+
+        const userId =
+            localStorage.getItem("userId");
+
+        const loginToken =
+            localStorage.getItem("token");
+
+
+        if (!userId || !loginToken) {
+
+            alert("Please login first.");
+
+            window.location.href =
+                "login.html";
+
+        }
+
+
+        // ========================================
+        // SELECT SERVICE
+        // ========================================
+
+        function selectService(card) {
+
+            document
+                .querySelectorAll(".service-card")
+                .forEach(function (item) {
+
+                    item.classList.remove("selected");
+
+                });
+
+
+            card.classList.add("selected");
+
+
+            selectedService =
+                card.getAttribute("data-service");
+
+
+            document.getElementById(
+                "selectedText"
+            ).textContent =
+                "Selected: " + selectedService;
+
+
+            joinButton.disabled = false;
+
+            message.textContent = "";
+
+        }
+
+
+        // ========================================
+        // JOIN QUEUE
+        // ========================================
+
+        joinButton.addEventListener(
+            "click",
+            async function () {
+
+                if (!selectedService) {
+
+                    message.style.color = "red";
+
+                    message.textContent =
+                        "Please select a service.";
+
+                    return;
+
+                }
+
+
+                joinButton.disabled = true;
+
+                joinButton.textContent =
+                    "Creating Token...";
+
+
+                message.style.color =
+                    "#2563eb";
+
+                message.textContent =
+                    "Please wait...";
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/api/join-queue",
+                            {
+
+                                method: "POST",
+
+                                headers: {
+
+                                    "Content-Type":
+                                        "application/json"
+
+                                },
+
+                                body: JSON.stringify({
+
+                                    service:
+                                        selectedService,
+
+                                    userId:
+                                        userId
+
+                                })
+
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    // ========================================
+                    // SUCCESS
+                    // ========================================
+
+                    if (response.ok) {
+
+                        message.style.color =
+                            "green";
+
+                        message.textContent =
+                            "Queue joined successfully!";
+
+
+                        document.getElementById(
+                            "tokenNumber"
+                        ).textContent =
+                            data.tokenNumber;
+
+
+                        document.getElementById(
+                            "tokenService"
+                        ).textContent =
+                            data.service;
+
+
+                        document.getElementById(
+                            "tokenResult"
+                        ).style.display =
+                            "block";
+
+
+                        // Store current token locally
+
+                        localStorage.setItem(
+                            "currentToken",
+                            data.tokenNumber
+                        );
+
+
+                        localStorage.setItem(
+                            "currentService",
+                            data.service
+                        );
+
+
+                        // Go to dashboard after 2 seconds
+
+                        setTimeout(
+                            function () {
+
+                                window.location.href =
+                                    "dashboard.html";
+
+                            },
+                            2000
+                        );
+
+                    }
+
+
+                    // ========================================
+                    // ERROR FROM SERVER
+                    // ========================================
+
+                    else {
+
+                        message.style.color =
+                            "red";
+
+                        message.textContent =
+                            data.message ||
+                            "Unable to join queue";
+
+
+                        joinButton.disabled =
+                            false;
+
+                    }
+
+                }
+
+
+                // ========================================
+                // CONNECTION ERROR
+                // ========================================
+
+                catch (error) {
+
+                    console.error(
+                        "Join queue error:",
+                        error
+                    );
+
+
+                    message.style.color =
+                        "red";
+
+                    message.textContent =
+                        "Cannot connect to server.";
+
+
+                    joinButton.disabled =
+                        false;
+
+                }
+
+
+                joinButton.textContent =
+                    "Join Queue";
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

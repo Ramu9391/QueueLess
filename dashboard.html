@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | QueueLess</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+
+        /* =========================
+           LIVE QUEUE INFORMATION
+        ========================= */
+
+        .live-queue-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .live-info-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .live-info-box span {
+            display: block;
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .live-info-box strong {
+            font-size: 22px;
+            color: #0f172a;
+        }
+
+        .position-number {
+            color: #2563eb !important;
+        }
+
+
+        /* =========================
+           QUEUE MESSAGE
+        ========================= */
+
+        .queue-message {
+            margin-top: 22px;
+            padding: 18px;
+            border-radius: 10px;
+            background: #eff6ff;
+            color: #2563eb;
+            text-align: center;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        .queue-message.next {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+
+        /* =========================
+           CANCEL TOKEN
+        ========================= */
+
+        .cancel-token-area {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .cancel-token-button {
+            padding: 12px 25px;
+            border: 1px solid #ef4444;
+            border-radius: 8px;
+            background: white;
+            color: #ef4444;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .cancel-token-button:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        .cancel-token-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #cancelMessage {
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+
+        /* =========================
+           PROGRESS BAR
+        ========================= */
+
+        .progress-fill {
+            transition: width 0.5s ease;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media(max-width: 700px) {
+
+            .live-queue-info {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="dashboard-page">
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="dashboard-navbar">
+
+    <a href="index.html" class="dashboard-logo">
+
+        <span>Q</span>
+
+        Queue<strong>Less</strong>
+
+    </a>
+
+
+    <div class="dashboard-nav-right">
+
+        <span class="user-name" id="navUserName">
+            👤 User
+        </span>
+
+        <button
+            class="logout-button"
+            onclick="logout()"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="dashboard-container">
+
+
+    <!-- WELCOME -->
+
+    <section class="dashboard-welcome">
+
+        <div>
+
+            <p class="dashboard-small-title">
+                DASHBOARD
+            </p>
+
+            <h1>
+
+                Welcome back,
+
+                <span id="welcomeName">
+                    User
+                </span>
+
+                👋
+
+            </h1>
+
+            <p>
+                Track your queue and manage your tokens from here.
+            </p>
+
+        </div>
+
+
+        <button
+            class="join-queue-button"
+            onclick="window.location.href='join-queue.html'"
+        >
+            + Join New Queue
+        </button>
+
+    </section>
+
+
+
+    <!-- =========================
+         LOADING
+    ========================= -->
+
+    <div
+        id="loadingMessage"
+        style="
+            text-align:center;
+            padding:40px;
+            font-size:18px;
+        "
+    >
+        Loading your queue...
+    </div>
+
+
+
+    <!-- =========================
+         ACTIVE TOKEN
+    ========================= -->
+
+    <section
+        class="active-token-card"
+        id="activeTokenCard"
+        style="display:none;"
+    >
+
+
+        <!-- TOKEN TOP -->
+
+        <div class="token-top">
+
+            <div>
+
+                <p class="token-label">
+                    YOUR ACTIVE TOKEN
+                </p>
+
+                <span class="live-status">
+                    ● LIVE
+                </span>
+
+            </div>
+
+
+            <h2 id="tokenNumber">
+                ---
+            </h2>
+
+
+            <p
+                class="token-service"
+                id="tokenService"
+            >
+                ---
+            </p>
+
+        </div>
+
+
+
+        <!-- =========================
+             BASIC TOKEN DETAILS
+        ========================= -->
+
+        <div class="queue-stats">
+
+
+            <div class="queue-stat">
+
+                <span>
+                    Status
+                </span>
+
+                <strong id="tokenStatus">
+                    Waiting
+                </strong>
+
+            </div>
+
+
+            <div class="queue-stat">
+
+                <span>
+                    Token
+                </span>
+
+                <strong id="smallTokenNumber">
+                    ---
+                </strong>
+
+            </div>
+
+
+            <div class="queue-stat">
+
+                <span>
+                    Joined
+                </span>
+
+                <strong id="joinedTime">
+                    ---
+                </strong>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             LIVE QUEUE DETAILS
+        ========================= -->
+
+        <div class="live-queue-info">
+
+
+            <div class="live-info-box">
+
+                <span>
+                    Your Position
+                </span>
+
+                <strong
+                    id="queuePosition"
+                    class="position-number"
+                >
+                    #--
+                </strong>
+
+            </div>
+
+
+            <div class="live-info-box">
+
+                <span>
+                    People Ahead
+                </span>
+
+                <strong id="peopleAhead">
+                    --
+                </strong>
+
+            </div>
+
+
+            <div class="live-info-box">
+
+                <span>
+                    Estimated Wait
+                </span>
+
+                <strong id="estimatedWait">
+                    --
+                </strong>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             PROGRESS
+        ========================= -->
+
+        <div class="queue-progress">
+
+
+            <div class="progress-heading">
+
+                <span>
+                    Queue Status
+                </span>
+
+                <span>
+                    Live
+                </span>
+
+            </div>
+
+
+            <div class="progress-bar">
+
+                <div
+                    id="progressFill"
+                    class="progress-fill"
+                    style="width:20%;"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             LIVE MESSAGE
+        ========================= -->
+
+        <div
+            class="queue-message"
+            id="queueMessage"
+        >
+
+            🔔 Checking your live queue position...
+
+        </div>
+
+
+
+        <!-- =========================
+             CANCEL
+        ========================= -->
+
+        <div class="cancel-token-area">
+
+            <button
+                id="cancelTokenButton"
+                class="cancel-token-button"
+                onclick="cancelToken()"
+            >
+                Cancel Token
+            </button>
+
+            <div id="cancelMessage"></div>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =========================
+         NO ACTIVE TOKEN
+    ========================= -->
+
+    <section
+        id="noTokenCard"
+        class="active-token-card"
+        style="
+            display:none;
+            text-align:center;
+        "
+    >
+
+        <div style="padding:30px;">
+
+            <div
+                style="
+                    font-size:50px;
+                    margin-bottom:15px;
+                "
+            >
+                🎟️
+            </div>
+
+
+            <h2
+                style="
+                    font-size:28px;
+                    margin-bottom:10px;
+                "
+            >
+                No Active Token
+            </h2>
+
+
+            <p
+                style="
+                    color:#64748b;
+                    margin-bottom:25px;
+                "
+            >
+                You haven't joined a queue yet.
+            </p>
+
+
+            <button
+                class="join-queue-button"
+                onclick="window.location.href='join-queue.html'"
+            >
+                + Join a Queue
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         QUICK CARDS
+    ========================= -->
+
+    <section class="dashboard-cards">
+
+
+        <!-- MY TOKEN -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                🎟️
+            </div>
+
+            <h3>
+                My Token
+            </h3>
+
+            <p>
+                View your current token and live queue position.
+            </p>
+
+            <button onclick="scrollToToken()">
+                View Queue →
+            </button>
+
+        </div>
+
+
+
+        <!-- JOIN QUEUE -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                ➕
+            </div>
+
+            <h3>
+                Join a Queue
+            </h3>
+
+            <p>
+                Find a service and get your digital token.
+            </p>
+
+            <button
+                onclick="window.location.href='join-queue.html'"
+            >
+                Find Services →
+            </button>
+
+        </div>
+
+
+
+        <!-- HISTORY -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📋
+            </div>
+
+            <h3>
+                Queue History
+            </h3>
+
+            <p>
+                View your previously completed or cancelled visits.
+            </p>
+
+            <button
+                onclick="window.location.href='history.html'"
+            >
+                View History →
+            </button>
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<script>
+
+
+// ==========================================
+// BACKEND
+// ==========================================
+
+const API_URL =
+    "";
+
+
+
+// ==========================================
+// LOGIN INFORMATION
+// ==========================================
+
+const userId =
+    localStorage.getItem("userId");
+
+
+const userName =
+    localStorage.getItem("name") ||
+    localStorage.getItem("userName");
+
+
+
+// ==========================================
+// CHECK LOGIN
+// ==========================================
+
+// ==========================================
+// CHECK LOGIN / PROTECT DASHBOARD
+// ==========================================
+
+function checkLogin() {
+
+    const currentUserId =
+        localStorage.getItem("userId");
+
+    const currentLoginToken =
+        localStorage.getItem("token");
+
+    // User must have BOTH userId and login token
+    if (!currentUserId || !currentLoginToken) {
+
+        window.location.replace("index.html");
+
+        return false;
+    }
+
+    return true;
+}
+
+
+// Check when dashboard normally opens
+checkLogin();
+
+
+// IMPORTANT:
+// Check again when Chrome Back / Forward button is used
+window.addEventListener("pageshow", function () {
+
+    checkLogin();
+
+});
+
+
+
+// ==========================================
+// SHOW USER NAME
+// ==========================================
+
+if (userName) {
+
+    document.getElementById(
+        "welcomeName"
+    ).textContent =
+        userName;
+
+
+    document.getElementById(
+        "navUserName"
+    ).textContent =
+        "👤 " + userName;
+
+}
+
+
+
+// ==========================================
+// LOAD ACTIVE TOKEN
+// ==========================================
+
+async function loadActiveToken() {
+
+
+    const loading =
+        document.getElementById(
+            "loadingMessage"
+        );
+
+
+    const activeCard =
+        document.getElementById(
+            "activeTokenCard"
+        );
+
+
+    const noTokenCard =
+        document.getElementById(
+            "noTokenCard"
+        );
+
+
+    try {
+
+
+        const response =
+            await fetch(
+
+                API_URL +
+                "/api/my-token/" +
+                userId
+
+            );
+
+
+        let data;
+
+
+        try {
+
+            data =
+                await response.json();
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Invalid server response:",
+                error
+            );
+
+            return;
+
+        }
+
+
+        loading.style.display =
+            "none";
+
+
+
+        // ==================================
+        // NO ACTIVE TOKEN
+        // ==================================
+
+        if (response.status === 404) {
+
+
+            activeCard.style.display =
+                "none";
+
+
+            noTokenCard.style.display =
+                "block";
+
+
+            return;
+
+        }
+
+
+
+        // ==================================
+        // SERVER ERROR
+        // ==================================
+
+        if (!response.ok) {
+
+
+            console.error(
+                "Token error:",
+                data
+            );
+
+
+            return;
+
+        }
+
+
+
+        // ==================================
+        // SHOW ACTIVE TOKEN
+        // ==================================
+
+        activeCard.style.display =
+            "block";
+
+
+        noTokenCard.style.display =
+            "none";
+
+
+
+        document.getElementById(
+            "tokenNumber"
+        ).textContent =
+            data.tokenNumber;
+
+
+        document.getElementById(
+            "smallTokenNumber"
+        ).textContent =
+            data.tokenNumber;
+
+
+        document.getElementById(
+            "tokenService"
+        ).textContent =
+            data.service;
+
+
+        document.getElementById(
+            "tokenStatus"
+        ).textContent =
+            formatStatus(
+                data.status
+            );
+
+
+
+        // ==================================
+        // JOINED TIME
+        // ==================================
+
+        if (data.createdAt) {
+
+
+            const date =
+                new Date(
+                    data.createdAt
+                );
+
+
+            document.getElementById(
+                "joinedTime"
+            ).textContent =
+
+                date.toLocaleTimeString(
+                    [],
+                    {
+
+                        hour:
+                            "2-digit",
+
+                        minute:
+                            "2-digit"
+
+                    }
+                );
+
+        }
+
+
+
+        // ==================================
+        // GET LIVE QUEUE POSITION
+        // ==================================
+
+        await loadQueuePosition(
+            data.service
+        );
+
+
+    }
+
+    catch (error) {
+
+
+        console.error(
+            "Dashboard error:",
+            error
+        );
+
+
+        loading.style.display =
+            "block";
+
+
+        loading.innerHTML =
+
+            "<span style='color:red;'>" +
+
+            "Cannot connect to QueueLess server." +
+
+            "</span>";
+
+    }
+
+}
+
+
+
+// ==========================================
+// LOAD LIVE QUEUE POSITION
+// ==========================================
+
+async function loadQueuePosition(service) {
+
+
+    try {
+
+
+        const response =
+            await fetch(
+
+                API_URL +
+                "/api/queue-position/" +
+                userId
+
+            );
+
+
+        if (!response.ok) {
+
+
+            console.error(
+                "Queue position API error:",
+                response.status
+            );
+
+
+            showQueueUnavailable();
+
+
+            return;
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+
+        // ==================================
+        // POSITION
+        // ==================================
+
+        const position =
+            Number(
+                data.position || 1
+            );
+
+
+        const peopleAhead =
+            Number(
+                data.peopleAhead ?? (
+                    position - 1
+                )
+            );
+
+
+
+        document.getElementById(
+            "queuePosition"
+        ).textContent =
+            "#" + position;
+
+
+
+        document.getElementById(
+            "peopleAhead"
+        ).textContent =
+            peopleAhead;
+
+
+
+        // ==================================
+        // WAIT TIME
+        // ==================================
+
+        let estimatedMinutes;
+
+
+        if (
+            data.estimatedWait !== undefined &&
+            data.estimatedWait !== null
+        ) {
+
+            estimatedMinutes =
+                Number(
+                    data.estimatedWait
+                );
+
+        }
+
+        else {
+
+            estimatedMinutes =
+                peopleAhead * 5;
+
+        }
+
+
+
+        const waitElement =
+            document.getElementById(
+                "estimatedWait"
+            );
+
+
+        const message =
+            document.getElementById(
+                "queueMessage"
+            );
+
+
+
+        // ==================================
+        // FIRST PERSON
+        // ==================================
+
+        if (position === 1) {
+
+
+            waitElement.textContent =
+                "Your Turn";
+
+
+            message.classList.add(
+                "next"
+            );
+
+
+            message.innerHTML =
+
+                "🟢 <strong>You're next!</strong><br>" +
+
+                "Your token is first in the queue. " +
+
+                "Please proceed to <strong>" +
+
+                escapeHTML(service) +
+
+                "</strong>.";
+
+
+            document.getElementById(
+                "progressFill"
+            ).style.width =
+                "100%";
+
+        }
+
+
+
+        // ==================================
+        // WAITING
+        // ==================================
+
+        else {
+
+
+            message.classList.remove(
+                "next"
+            );
+
+
+            waitElement.textContent =
+                "~" +
+                estimatedMinutes +
+                " min";
+
+
+            message.innerHTML =
+
+                "🔔 There " +
+
+                (
+                    peopleAhead === 1
+                        ? "is "
+                        : "are "
+                ) +
+
+                "<strong>" +
+
+                peopleAhead +
+
+                "</strong> " +
+
+                (
+                    peopleAhead === 1
+                        ? "person"
+                        : "people"
+                ) +
+
+                " ahead of you. " +
+
+                "Please keep checking your queue.";
+
+
+
+            // Dynamic progress
+
+            const progress =
+                Math.max(
+                    15,
+                    100 -
+                    (
+                        peopleAhead *
+                        15
+                    )
+                );
+
+
+            document.getElementById(
+                "progressFill"
+            ).style.width =
+                progress + "%";
+
+        }
+
+
+    }
+
+    catch (error) {
+
+
+        console.error(
+            "Queue position error:",
+            error
+        );
+
+
+        showQueueUnavailable();
+
+    }
+
+}
+
+
+
+// ==========================================
+// QUEUE POSITION UNAVAILABLE
+// ==========================================
+
+function showQueueUnavailable() {
+
+
+    document.getElementById(
+        "queuePosition"
+    ).textContent =
+        "--";
+
+
+    document.getElementById(
+        "peopleAhead"
+    ).textContent =
+        "--";
+
+
+    document.getElementById(
+        "estimatedWait"
+    ).textContent =
+        "--";
+
+
+    const message =
+        document.getElementById(
+            "queueMessage"
+        );
+
+
+    message.classList.remove(
+        "next"
+    );
+
+
+    message.textContent =
+        "🔔 Your token is active. Live queue position is currently unavailable.";
+
+}
+
+
+
+// ==========================================
+// CANCEL TOKEN
+// ==========================================
+
+async function cancelToken() {
+
+
+    const tokenNumber =
+        document.getElementById(
+            "tokenNumber"
+        ).textContent;
+
+
+    const confirmation =
+        confirm(
+
+            "Are you sure you want to cancel token " +
+
+            tokenNumber +
+
+            "?"
+
+        );
+
+
+    if (!confirmation) {
+
+        return;
+
+    }
+
+
+
+    const cancelButton =
+        document.getElementById(
+            "cancelTokenButton"
+        );
+
+
+    const cancelMessage =
+        document.getElementById(
+            "cancelMessage"
+        );
+
+
+
+    cancelButton.disabled =
+        true;
+
+
+    cancelButton.textContent =
+        "Cancelling...";
+
+
+    cancelMessage.style.color =
+        "#64748b";
+
+
+    cancelMessage.textContent =
+        "Cancelling your token...";
+
+
+
+    try {
+
+
+        const response =
+            await fetch(
+
+                API_URL +
+                "/api/cancel-token",
+
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            userId:
+                                userId
+
+                        })
+
+                }
+
+            );
+
+
+        const data =
+            await response.json();
+
+
+
+        if (response.ok) {
+
+
+            cancelMessage.style.color =
+                "green";
+
+
+            cancelMessage.textContent =
+                "Token cancelled successfully.";
+
+
+
+            setTimeout(
+                function() {
+
+
+                    document.getElementById(
+                        "activeTokenCard"
+                    ).style.display =
+                        "none";
+
+
+                    document.getElementById(
+                        "noTokenCard"
+                    ).style.display =
+                        "block";
+
+
+                    cancelMessage.textContent =
+                        "";
+
+
+                    cancelButton.disabled =
+                        false;
+
+
+                    cancelButton.textContent =
+                        "Cancel Token";
+
+
+                },
+                700
+            );
+
+
+        }
+
+        else {
+
+
+            cancelMessage.style.color =
+                "red";
+
+
+            cancelMessage.textContent =
+                data.message ||
+                "Unable to cancel token";
+
+
+            cancelButton.disabled =
+                false;
+
+
+            cancelButton.textContent =
+                "Cancel Token";
+
+        }
+
+
+    }
+
+    catch (error) {
+
+
+        console.error(
+            "Cancel error:",
+            error
+        );
+
+
+        cancelMessage.style.color =
+            "red";
+
+
+        cancelMessage.textContent =
+            "Cannot connect to server.";
+
+
+        cancelButton.disabled =
+            false;
+
+
+        cancelButton.textContent =
+            "Cancel Token";
+
+    }
+
+}
+
+
+
+// ==========================================
+// FORMAT STATUS
+// ==========================================
+
+function formatStatus(status) {
+
+
+    if (!status) {
+
+        return "Waiting";
+
+    }
+
+
+    return status
+        .charAt(0)
+        .toUpperCase() +
+        status.slice(1);
+
+}
+
+
+
+// ==========================================
+// ESCAPE HTML
+// ==========================================
+
+function escapeHTML(value) {
+
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        value || "";
+
+
+    return div.innerHTML;
+
+}
+
+
+
+// ==========================================
+// VIEW TOKEN
+// ==========================================
+
+function scrollToToken() {
+
+
+    const activeCard =
+        document.getElementById(
+            "activeTokenCard"
+        );
+
+
+    if (
+        activeCard.style.display !==
+        "none"
+    ) {
+
+
+        activeCard.scrollIntoView({
+
+            behavior:
+                "smooth"
+
+        });
+
+
+    }
+
+    else {
+
+
+        alert(
+            "You don't have an active token."
+        );
+
+    }
+
+}
+
+
+
+// ==========================================
+// LOGOUT
+// ==========================================
+
+// ==========================================
+// LOGOUT
+// ==========================================
+
+function logout() {
+
+    localStorage.removeItem("userId");
+    localStorage.removeItem("name");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("email");
+    localStorage.removeItem("token");
+
+    window.location.replace("index.html");
+}
+
+
+
+// ==========================================
+// START DASHBOARD
+// ==========================================
+
+loadActiveToken();
+
+
+
+// ==========================================
+// AUTO REFRESH EVERY 5 SECONDS
+// ==========================================
+
+setInterval(
+    function() {
+
+        loadActiveToken();
+
+    },
+    5000
+);
+
+
+</script>
+
+
+</body>
+
+</html>

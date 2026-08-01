@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Verify OTP | QueueLess</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+
+margin:0;
+
+height:100vh;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+overflow:hidden;
+
+background:linear-gradient(135deg,#ffffff 0%,#eef3ff 45%,#dfe9ff 100%);
+
+font-family:'Poppins',sans-serif;
+
+padding:0;
+
+}
+
+
+.background{
+
+position:absolute;
+inset:0;
+overflow:hidden;
+
+pointer-events:none;
+z-index:0;
+
+}
+
+.circle{
+
+position:absolute;
+border-radius:50%;
+background:rgba(99,102,241,.07);
+animation:float 16s ease-in-out infinite;
+
+}
+
+.circle:nth-child(1){
+
+width:220px;
+height:220px;
+top:-70px;
+left:-60px;
+
+}
+
+.circle:nth-child(2){
+
+width:170px;
+height:170px;
+right:-40px;
+top:120px;
+animation-duration:18s;
+
+}
+
+.circle:nth-child(3){
+
+width:260px;
+height:260px;
+bottom:-120px;
+left:10%;
+animation-duration:20s;
+
+}
+
+.circle:nth-child(4){
+
+width:110px;
+height:110px;
+right:15%;
+bottom:60px;
+animation-duration:15s;
+
+}
+
+.circle:nth-child(5){
+
+width:80px;
+height:80px;
+left:50%;
+top:8%;
+animation-duration:12s;
+
+}
+
+@keyframes float{
+
+0%,100%{
+transform:translateY(0) rotate(0);
+}
+
+50%{
+transform:translateY(-35px) rotate(180deg);
+}
+
+}
+
+.container{
+
+width:100%;
+max-width:520px;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+margin:auto;
+
+position:relative;
+z-index:10;
+
+}
+
+.card{
+
+width:100%;
+max-width:450px;
+
+padding:28px 34px;
+
+background:#fff;
+
+border-radius:28px;
+
+box-shadow:0 25px 60px rgba(79,70,229,.12);
+
+position:relative;
+z-index:20;
+
+}
+
+@keyframes cardUp{
+
+from{
+opacity:0;
+transform:translateY(35px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+.logo{
+
+display:flex;
+justify-content:center;
+align-items:center;
+gap:14px;
+margin-bottom:18px;
+
+}
+
+.logo-icon{
+
+width:60px;
+height:60px;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+border-radius:18px;
+
+background:
+linear-gradient(
+135deg,
+#6366f1,
+#4f46e5);
+
+color:white;
+
+font-size:28px;
+font-weight:700;
+
+box-shadow:
+0 15px 35px rgba(79,70,229,.35);
+
+}
+
+.logo-text h2{
+
+font-size:32px;
+color:#111827;
+
+}
+
+.logo-text p{
+
+font-size:13px;
+color:#64748b;
+
+}
+
+.verify-icon{
+
+width:80px;
+height:80px;
+
+margin:0 auto 18px;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+border-radius:50%;
+
+background:#eef2ff;
+
+color:#4f46e5;
+
+font-size:42px;
+
+box-shadow:
+0 10px 30px rgba(79,70,229,.18);
+
+animation:pulse 2.2s infinite;
+
+}
+
+@keyframes pulse{
+
+0%,100%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.07);
+}
+
+}
+
+.title{
+
+text-align:center;
+font-size:28px;
+font-weight:700;
+color:#111827;
+margin-bottom:10px;
+
+}
+
+.subtitle{
+
+text-align:center;
+font-size:14px;
+line-height:1.7;
+color:#64748b;
+margin-bottom:18px;
+
+}
+
+.email{
+
+color:#4f46e5;
+font-weight:600;
+
+}
+
+.otp-container{
+
+display:flex;
+justify-content:center;
+align-items:center;
+gap:8px;
+margin-bottom:22px;
+flex-wrap:nowrap;
+
+}
+
+.otp-box{
+
+width:48px;
+height:58px;
+
+flex:0 0 48px;
+
+border:1px solid #dbe3f0;
+border-radius:14px;
+
+text-align:center;
+
+font-size:22px;
+font-weight:700;
+
+outline:none;
+
+transition:.3s;
+
+}
+
+.otp-box:focus{
+
+border-color:#4f46e5;
+
+box-shadow:
+0 0 0 4px rgba(79,70,229,.12);
+
+}button{
+
+width:100%;
+height:60px;
+
+border:none;
+outline:none;
+
+border-radius:16px;
+
+cursor:pointer;
+
+font-size:16px;
+font-weight:600;
+
+color:#fff;
+
+background:
+linear-gradient(
+135deg,
+#6366f1,
+#4f46e5);
+
+box-shadow:
+0 15px 30px rgba(79,70,229,.30);
+
+transition:.35s;
+
+}
+
+button:hover{
+
+transform:translateY(-4px);
+
+box-shadow:
+0 20px 40px rgba(79,70,229,.35);
+
+}
+
+button:disabled{
+
+opacity:.8;
+cursor:not-allowed;
+
+}
+
+button i{
+
+margin-right:8px;
+
+}
+
+.message{
+
+margin-top:18px;
+
+text-align:center;
+
+font-size:14px;
+
+font-weight:500;
+
+min-height:22px;
+
+}
+
+.resend{
+
+margin-top:18px;
+
+text-align:center;
+
+font-size:14px;
+
+color:#64748b;
+
+}
+
+.resend a{
+
+color:#4f46e5;
+
+text-decoration:none;
+
+font-weight:600;
+
+pointer-events:none;
+
+opacity:.5;
+
+}
+
+.back{
+
+margin-top:16px;
+
+text-align:center;
+
+}
+
+.back a{
+
+text-decoration:none;
+
+font-weight:600;
+
+color:#4f46e5;
+
+}
+
+.back a:hover{
+
+color:#312e81;
+
+}
+
+.login-footer{
+
+    margin-top:18px;
+
+    text-align:center;
+
+    font-size:14px;
+
+    color:#7c8aa5;
+
+}
+
+.login-footer i{
+
+    color:#5b5bf6;
+
+    margin-right:6px;
+
+}
+
+@media(max-width:600px){
+
+.container{
+
+padding:18px;
+
+}
+
+.card{
+
+padding:34px 24px;
+
+}
+
+.logo{
+
+flex-direction:column;
+
+gap:10px;
+
+}
+
+.logo-text{
+
+text-align:center;
+
+}
+
+.logo-text h2{
+
+font-size:26px;
+
+}
+
+.otp-box{
+
+width:48px;
+height:54px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="background">
+
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<div class="logo">
+
+<div class="logo-icon">
+Q
+</div>
+
+<div class="logo-text">
+
+<h2>QueueLess</h2>
+
+<p>Smart Queue Management</p>
+
+</div>
+
+</div>
+
+<div class="verify-icon">
+
+<i class="fa-solid fa-envelope-open-text"></i>
+
+</div>
+
+<h1 class="title">
+
+Verify OTP
+
+</h1>
+
+<p class="subtitle">
+
+Enter the 6-digit verification code sent to
+
+<br>
+
+<span class="email" id="userEmail"></span>
+
+</p>
+
+<div class="otp-container">
+
+<input class="otp-box" maxlength="1">
+<input class="otp-box" maxlength="1">
+<input class="otp-box" maxlength="1">
+<input class="otp-box" maxlength="1">
+<input class="otp-box" maxlength="1">
+<input class="otp-box" maxlength="1">
+
+</div>
+
+<button id="verifyBtn">
+
+<i class="fa-solid fa-circle-check"></i>
+
+Verify OTP
+
+</button>
+
+<div
+id="message"
+class="message">
+</div>
+
+<div class="resend">
+
+Didn't receive the code?
+
+<br><br>
+
+<a
+href="#"
+id="resendLink">
+
+Resend OTP (<span id="timer">60</span>s)
+
+</a>
+
+</div>
+
+<div class="back">
+
+<a href="login.html">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+Back to Login
+
+</a>
+
+</div>
+
+<p class="login-footer">
+
+    <i class="fas fa-shield-halved"></i>
+
+    Secure Queue Management System
+
+</p>
+
+</div>
+
+</div>
+<script>
+
+const email = sessionStorage.getItem("resetEmail") || "";
+
+document.getElementById("userEmail").textContent = email;
+
+const otpBoxes = document.querySelectorAll(".otp-box");
+const verifyBtn = document.getElementById("verifyBtn");
+const message = document.getElementById("message");
+const resendLink = document.getElementById("resendLink");
+const timer = document.getElementById("timer");
+
+/* -------------------------
+   OTP Auto Focus
+------------------------- */
+
+otpBoxes.forEach((box,index)=>{
+
+box.addEventListener("input",e=>{
+
+box.value = box.value.replace(/[^0-9]/g,"");
+
+if(box.value && index<otpBoxes.length-1){
+
+otpBoxes[index+1].focus();
+
+}
+
+});
+
+box.addEventListener("keydown",e=>{
+
+if(e.key==="Backspace" && !box.value && index>0){
+
+otpBoxes[index-1].focus();
+
+}
+
+});
+
+});
+
+/* -------------------------
+   Paste OTP
+------------------------- */
+
+document.addEventListener("paste",e=>{
+
+const paste=(e.clipboardData||window.clipboardData)
+.getData("text")
+.replace(/\D/g,"")
+.substring(0,6);
+
+if(paste.length===6){
+
+otpBoxes.forEach((box,i)=>{
+
+box.value=paste[i];
+
+});
+
+otpBoxes[5].focus();
+
+}
+
+});
+
+/* -------------------------
+   Show Message
+------------------------- */
+
+function showMessage(text,color){
+
+message.innerHTML=text;
+message.style.color=color;
+
+}
+
+/* -------------------------
+   Verify OTP
+------------------------- */
+
+verifyBtn.onclick=async()=>{
+
+const otp=[...otpBoxes]
+.map(box=>box.value)
+.join("");
+
+if(otp.length!==6){
+
+showMessage(
+"Please enter a valid 6-digit OTP.",
+"#ef4444"
+);
+
+return;
+
+}
+
+verifyBtn.disabled=true;
+
+verifyBtn.innerHTML=
+'<i class="fa-solid fa-spinner fa-spin"></i> Verifying...';
+
+try{
+
+const response=await fetch(
+
+"/api/verify-otp",
+
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+email,
+otp
+
+})
+
+}
+
+);
+
+const data=await response.json();
+
+if(response.ok){
+
+showMessage(
+
+data.message || "OTP Verified!",
+
+"#22c55e"
+
+);
+
+setTimeout(()=>{
+
+window.location.replace("reset-password.html");
+
+},1000);
+
+}else{
+
+showMessage(
+
+data.message || "Invalid OTP.",
+
+"#ef4444"
+
+);
+
+}
+
+}catch(error){
+
+showMessage(
+
+"Unable to connect to server.",
+
+"#ef4444"
+
+);
+
+}
+
+verifyBtn.disabled=false;
+
+verifyBtn.innerHTML=
+'<i class="fa-solid fa-circle-check"></i> Verify OTP';
+
+};
+
+/* -------------------------
+   Resend Timer
+------------------------- */
+
+let seconds=60;
+
+const countdown=setInterval(()=>{
+
+seconds--;
+
+timer.textContent=seconds;
+
+if(seconds<=0){
+
+clearInterval(countdown);
+
+resendLink.style.pointerEvents="auto";
+resendLink.style.opacity="1";
+resendLink.innerHTML="Resend OTP";
+
+}
+
+},1000);
+
+/* -------------------------
+   Resend OTP
+------------------------- */
+
+resendLink.onclick=async(e)=>{
+
+e.preventDefault();
+
+if(seconds>0) return;
+
+try{
+
+const response=await fetch(
+
+"/api/forgot-password",
+
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+email
+
+})
+
+}
+
+);
+
+const data=await response.json();
+
+if(response.ok){
+
+showMessage(
+
+"OTP sent again successfully.",
+
+"#22c55e"
+
+);
+
+seconds=60;
+
+timer.textContent=60;
+
+resendLink.style.pointerEvents="none";
+resendLink.style.opacity=".5";
+resendLink.innerHTML='Resend OTP (<span id="timer">60</span>s)';
+
+location.reload();
+
+}else{
+
+showMessage(
+
+data.message,
+
+"#ef4444"
+
+);
+
+}
+
+}catch(error){
+
+showMessage(
+
+"Unable to resend OTP.",
+
+"#ef4444"
+
+);
+
+}
+
+};
+
+</script>
+
+</body>
+
+</html>
