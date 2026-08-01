@@ -6,6 +6,9 @@
 
     <title>Admin Login | QueueLess</title>
 
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
     <style>
         * {
             margin: 0;
@@ -14,52 +17,155 @@
             font-family: Arial, sans-serif;
         }
 
-        body {
-            background: #f5f8ff;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        body{
 
-        .login-box {
-            width: 420px;
-            background: white;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
-        }
+background:
+radial-gradient(circle at 15% 20%,rgba(37,99,235,.16),transparent 30%),
+radial-gradient(circle at 85% 15%,rgba(79,70,229,.14),transparent 30%),
+linear-gradient(135deg,#f8fbff,#ffffff);
+
+min-height:100vh;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+padding:40px;
+
+}
+
+        .login-box{
+
+width:460px;
+
+background:rgba(255,255,255,.95);
+
+backdrop-filter:blur(18px);
+
+padding:45px;
+
+border-radius:28px;
+
+box-shadow:
+0 25px 60px rgba(37,99,235,.12);
+
+border:1px solid rgba(255,255,255,.4);
+
+animation:fadeUp .8s;
+
+}
+
+.login-box{
+
+transition:.35s;
+
+}
+
+.login-box:hover{
+
+transform:translateY(-8px);
+
+box-shadow:0 35px 70px rgba(37,99,235,.22);
+
+}
+
+
+@keyframes fadeUp{
+
+from{
+opacity:0;
+transform:translateY(40px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
 
         .logo {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 35px;
         }
 
-        .logo-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            background: #2563eb;
-            color: white;
-            font-size: 25px;
-            font-weight: bold;
-            border-radius: 12px;
-            margin-bottom: 12px;
-        }
+        .logo-icon{
 
-        h1 {
-            text-align: center;
-            color: #111827;
-            margin-bottom: 8px;
-        }
+display:inline-flex;
 
-        .subtitle {
-            text-align: center;
-            color: #6b7280;
-            margin-bottom: 30px;
-        }
+align-items:center;
+
+justify-content:center;
+
+width:70px;
+
+height:70px;
+
+border-radius:20px;
+
+background:
+linear-gradient(135deg,#2563eb,#4f46e5);
+
+color:white;
+
+font-size:32px;
+
+box-shadow:
+0 18px 40px rgba(37,99,235,.30);
+
+margin-bottom:18px;
+
+}
+
+.logo-icon{
+
+animation:floatLogo 3s ease-in-out infinite;
+
+}
+
+@keyframes floatLogo{
+
+0%,100%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(-5px);
+
+}
+
+}
+
+        h1{
+
+font-size:36px;
+
+font-weight:800;
+
+margin-bottom:10px;
+
+color:#0f172a;
+
+}
+
+       .subtitle{
+
+font-size:17px;
+
+font-weight:500;
+
+color:#64748b;
+
+line-height:1.6;
+
+margin-bottom:35px;
+
+}
 
         label {
             display: block;
@@ -68,31 +174,76 @@
             color: #374151;
         }
 
-        input {
-            width: 100%;
-            padding: 13px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 15px;
-            outline: none;
-        }
+        input{
 
-        input:focus {
-            border-color: #2563eb;
-        }
+width:100%;
 
-        button {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            background: #2563eb;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+height:58px;
+
+padding:0 18px;
+
+border:none;
+
+background:#f8fafc;
+
+border-radius:14px;
+
+font-size:15px;
+
+transition:.3s;
+
+box-shadow:
+0 5px 15px rgba(0,0,0,.04);
+
+}
+
+input:focus{
+
+background:white;
+
+box-shadow:0 0 0 4px rgba(37,99,235,.12);
+
+}
+
+
+        button{
+
+width:100%;
+
+height:58px;
+
+margin-top: 18px;
+
+border:none;
+
+border-radius:14px;
+
+background:
+linear-gradient(135deg,#2563eb,#4f46e5);
+
+color:white;
+
+font-size:16px;
+
+font-weight:700;
+
+cursor:pointer;
+
+transition:.35s;
+
+box-shadow:
+0 15px 35px rgba(37,99,235,.25);
+
+}
+
+button:hover{
+
+transform:translateY(-4px);
+
+box-shadow:
+0 22px 45px rgba(37,99,235,.35);
+
+}
 
         button:hover {
             background: #1d4ed8;
@@ -104,15 +255,31 @@
             font-weight: 600;
         }
 
-        .back {
-            text-align: center;
-            margin-top: 22px;
-        }
+        .back{
 
-        .back a {
-            color: #2563eb;
-            text-decoration: none;
-        }
+margin-top:30px;
+
+text-align:center;
+
+}
+
+.back a{
+
+font-weight:700;
+
+color:#2563eb;
+
+transition:.3s;
+
+}
+
+.back a:hover{
+
+color:#1d4ed8;
+
+}
+
+
     </style>
 </head>
 
@@ -120,17 +287,21 @@
 
 <div class="login-box">
 
-    <div class="logo">
-        <div class="logo-icon">Q</div>
+<div class="logo">
 
-        <h1>Admin Login</h1>
+<div class="logo-icon">
+<i class="fa-solid fa-user-shield"></i>
+</div>
 
-        <p class="subtitle">
-            QueueLess Administration
-        </p>
-    </div>
+<h1>QueueLess</h1>
 
-    <form id="adminLoginForm" autocomplete="off">
+<p class="subtitle">
+Secure Admin Portal
+</p>
+
+</div>
+
+<form id="adminLoginForm" autocomplete="off">
 
         <label for="email">
             Admin Email
@@ -140,7 +311,7 @@
             type="email"
             id="email"
             name="admin-email"
-            placeholder="Enter admin email"
+            placeholder="Admin Email Address"
             autocomplete="off"
             required
         >
@@ -150,19 +321,19 @@
         </label>
 
         <input
-            type="password"
-            id="password"
-            name="admin-password"
-            placeholder="Enter password"
-            autocomplete="new-password"
-            required
-        >
+type="password"
+id="password"
+name="admin-password"
+placeholder="Enter Secure Password"
+autocomplete="new-password"
+required
+>
 
-        <button type="submit">
-            Login as Admin
-        </button>
+<button type="submit">
+🔐 Login to Dashboard
+</button>
 
-    </form>
+</form>
 
     <div id="message"></div>
 
