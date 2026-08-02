@@ -1,225 +1,448 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Admin Login | QueueLess</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<title>Admin Login | QueueLess</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-        body{
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-background:
-radial-gradient(circle at 15% 20%,rgba(37,99,235,.16),transparent 30%),
-radial-gradient(circle at 85% 15%,rgba(79,70,229,.14),transparent 30%),
-linear-gradient(135deg,#f8fbff,#ffffff);
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
 
 min-height:100vh;
 
 display:flex;
-
+justify-content:center;
 align-items:center;
 
-justify-content:center;
+padding:20px;
 
-padding:40px;
+overflow:hidden;
+
+background:linear-gradient(
+135deg,
+#ffffff 0%,
+#eef2ff 40%,
+#dbeafe 100%
+);
+
+position:relative;
 
 }
 
-        .login-box{
+/*==========================
+BACKGROUND
+==========================*/
 
-width:460px;
+.bg-circle{
 
-background:rgba(255,255,255,.95);
+position:absolute;
+border-radius:50%;
+filter:blur(4px);
 
-backdrop-filter:blur(18px);
+animation:float 12s ease-in-out infinite;
 
-padding:45px;
+}
+
+.bg1{
+
+width:320px;
+height:320px;
+
+background:#3b82f630;
+
+top:-120px;
+left:-100px;
+
+}
+
+.bg2{
+
+width:250px;
+height:250px;
+
+background:#60a5fa30;
+
+right:-80px;
+top:80px;
+
+animation-duration:15s;
+
+}
+
+.bg3{
+
+width:220px;
+height:220px;
+
+background:#2563eb20;
+
+bottom:-80px;
+left:15%;
+
+animation-duration:18s;
+
+}
+
+.bg4{
+
+width:180px;
+height:180px;
+
+background:#93c5fd30;
+
+bottom:70px;
+right:8%;
+
+animation-duration:20s;
+
+}
+
+@keyframes float{
+
+0%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(-35px);
+}
+
+100%{
+transform:translateY(0);
+}
+
+}
+
+/*==========================
+CARD
+==========================*/
+
+.login-card{
+
+position:relative;
+
+z-index:10;
+
+width:100%;
+max-width:450px;
+
+padding:28px 30px;
+
+background:rgba(255,255,255,.92);
+
+backdrop-filter:blur(28px);
+
+border:1px solid rgba(255,255,255,.65);
 
 border-radius:28px;
 
 box-shadow:
-0 25px 60px rgba(37,99,235,.12);
 
-border:1px solid rgba(255,255,255,.4);
+0 35px 90px rgba(79,70,229,.18),
 
-animation:fadeUp .8s;
-
-}
-
-.login-box{
+0 15px 35px rgba(0,0,0,.08);
 
 transition:.35s;
 
 }
 
-.login-box:hover{
+.login-card:hover{
 
-transform:translateY(-8px);
+transform:translateY(-6px);
 
-box-shadow:0 35px 70px rgba(37,99,235,.22);
-
-}
-
-
-@keyframes fadeUp{
-
-from{
-opacity:0;
-transform:translateY(40px);
-}
-
-to{
-opacity:1;
-transform:translateY(0);
-}
+box-shadow:
+0 45px 90px rgba(37,99,235,.20);
 
 }
 
-        .logo {
-            text-align: center;
-            margin-bottom: 35px;
-        }
+/*==========================
+LOGO
+==========================*/
 
-        .logo-icon{
+.logo{
 
-display:inline-flex;
-
-align-items:center;
+display:flex;
 
 justify-content:center;
+align-items:center;
 
-width:70px;
+gap:14px;
 
-height:70px;
+margin-bottom:16px;
 
-border-radius:20px;
+text-decoration:none;
+
+}
+
+.logo-box{
+
+width:66px;
+height:66px;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+border-radius:18px;
 
 background:
-linear-gradient(135deg,#2563eb,#4f46e5);
+linear-gradient(
+135deg,
+#6d5efc,
+#4f46e5
+);
 
 color:white;
 
-font-size:32px;
+font-size:30px;
 
 box-shadow:
-0 18px 40px rgba(37,99,235,.30);
+
+0 18px 45px rgba(91,78,245,.35),
+
+0 0 35px rgba(91,78,245,.20);
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.logo-box::before{
+
+content:"";
+
+position:absolute;
+
+top:-40%;
+left:-80%;
+
+width:55%;
+height:180%;
+
+background:rgba(255,255,255,.40);
+
+transform:rotate(25deg);
+
+animation:shine 6s linear infinite;
+
+}
+
+.logo-text h2{
+
+font-size:32px;
+
+font-weight:800;
+
+color:#111827;
+
+}
+
+.logo-text span{
+
+color:#4f46e5;
+
+}
+
+.logo-text p{
+
+margin-top:4px;
+
+font-size:13px;
+
+color:#64748b;
+
+}
+
+.login-card h1{
+
+text-align:center;
+
+font-size:30px;
+
+font-weight:700;
+
+color:#0f172a;
+
+margin-bottom:8px;
+
+}
+
+.subtitle{
+
+text-align:center;
+
+font-size:15px;
+
+line-height:26px;
+
+color:#64748b;
 
 margin-bottom:18px;
 
 }
 
-.logo-icon{
+/*==========================
+FORM
+==========================*/
 
-animation:floatLogo 3s ease-in-out infinite;
+.form-group{
 
-}
-
-@keyframes floatLogo{
-
-0%,100%{
-
-transform:translateY(0);
+margin-bottom:16px;
 
 }
 
-50%{
+.form-group label{
 
-transform:translateY(-5px);
+display:block;
+
+font-size:14px;
+
+font-weight:600;
+
+margin-bottom:8px;
+
+color:#334155;
 
 }
 
+.input-box{
+
+height:58px;
+
+display:flex;
+
+align-items:center;
+
+padding:0 18px;
+
+border-radius:18px;
+
+background:white;
+
+border:2px solid transparent;
+
+transition:.3s;
+
+box-shadow:
+0 8px 20px rgba(15,23,42,.04);
+
 }
 
-        h1{
+.input-box:hover{
 
-font-size:36px;
+transform:translateY(-2px);
 
-font-weight:800;
+}
 
-margin-bottom:10px;
+.input-box:focus-within{
+
+border-color:#2563eb;
+
+box-shadow:0 0 0 5px rgba(37,99,235,.12);
+
+}
+
+.input-box i{
+
+width:26px;
+
+text-align:center;
+
+color:#2563eb;
+
+font-size:18px;
+
+}
+
+.input-box input{
+
+flex:1;
+
+border:none;
+
+outline:none;
+
+background:transparent;
+
+padding-left:12px;
+
+font-size:15px;
 
 color:#0f172a;
 
 }
 
-       .subtitle{
+.input-box input::placeholder{
 
-font-size:17px;
+color:#94a3b8;
 
-font-weight:500;
+}
+
+.eye-button{
+
+border:none;
+
+background:none;
+
+cursor:pointer;
+
+font-size:18px;
 
 color:#64748b;
 
-line-height:1.6;
-
-margin-bottom:35px;
+transition:.25s;
 
 }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #374151;
-        }
+.eye-button:hover{
 
-        input{
+color:#2563eb;
+
+transform:scale(1.15);
+
+}
+
+
+
+
+.login-button{
 
 width:100%;
 
 height:58px;
 
-padding:0 18px;
-
 border:none;
 
-background:#f8fafc;
-
-border-radius:14px;
-
-font-size:15px;
-
-transition:.3s;
-
-box-shadow:
-0 5px 15px rgba(0,0,0,.04);
-
-}
-
-input:focus{
-
-background:white;
-
-box-shadow:0 0 0 4px rgba(37,99,235,.12);
-
-}
-
-
-        button{
-
-width:100%;
-
-height:58px;
-
-margin-top: 18px;
-
-border:none;
-
-border-radius:14px;
+border-radius:18px;
 
 background:
-linear-gradient(135deg,#2563eb,#4f46e5);
+linear-gradient(135deg,#2563eb,#3b82f6,#60a5fa);
+
+background-size:200%;
 
 color:white;
 
@@ -232,273 +455,562 @@ cursor:pointer;
 transition:.35s;
 
 box-shadow:
-0 15px 35px rgba(37,99,235,.25);
+0 18px 35px rgba(37,99,235,.25);
 
 }
 
-button:hover{
+.login-button:hover{
 
-transform:translateY(-4px);
+background-position:right;
 
-box-shadow:
-0 22px 45px rgba(37,99,235,.35);
+transform:translateY(-3px);
 
 }
 
-        button:hover {
-            background: #1d4ed8;
-        }
+.login-button:disabled{
 
-        #message {
-            margin-top: 18px;
-            text-align: center;
-            font-weight: 600;
-        }
+opacity:.75;
 
-        .back{
+cursor:not-allowed;
 
-margin-top:30px;
+transform:none;
+
+}
+
+/*==========================
+MESSAGE
+==========================*/
+
+#message{
+
+min-height:22px;
+
+margin-top:12px;
+
+margin-bottom:10px;
+
+font-size:14px;
+
+font-weight:600;
 
 text-align:center;
 
 }
 
-.back a{
 
-font-weight:700;
+
+/*==========================
+BACK BUTTON
+==========================*/
+
+.back-home{
+
+display:block;
+
+margin-top:24px;
+
+text-align:center;
+
+font-size:14px;
+
+text-decoration:none;
+
+color:#64748b;
+
+transition:.25s;
+
+}
+
+.back-home:hover{
 
 color:#2563eb;
 
-transition:.3s;
+}
+
+/*==========================
+FOOTER
+==========================*/
+
+.login-footer{
+
+margin-top:18px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+gap:8px;
+
+font-size:12px;
+
+font-weight:500;
+
+color:#94a3b8;
 
 }
 
-.back a:hover{
+.login-footer i{
 
-color:#1d4ed8;
+color:#6366f1;
 
 }
 
+/*==========================
+SPINNER
+==========================*/
 
-    </style>
+.spinner{
+
+display:inline-block;
+
+width:18px;
+height:18px;
+
+border:3px solid rgba(255,255,255,.4);
+
+border-top:3px solid white;
+
+border-radius:50%;
+
+animation:spin 1s linear infinite;
+
+margin-right:10px;
+
+vertical-align:middle;
+
+}
+
+@keyframes spin{
+
+100%{
+
+transform:rotate(360deg);
+
+}
+
+}
+
+@keyframes shine{
+
+0%{
+
+left:-80%;
+
+}
+
+100%{
+
+left:160%;
+
+}
+
+}
+
+/*==========================
+RESPONSIVE
+==========================*/
+
+@media(max-width:520px){
+
+.login-card{
+
+padding:30px 24px;
+
+}
+
+.logo-text h2{
+
+font-size:28px;
+
+}
+
+.login-card h1{
+
+font-size:28px;
+
+}
+
+}
+
+</style>
+
 </head>
 
 <body>
 
-<div class="login-box">
+<div class="bg-circle bg1"></div>
+<div class="bg-circle bg2"></div>
+<div class="bg-circle bg3"></div>
+<div class="bg-circle bg4"></div>
 
-<div class="logo">
+<div class="login-card">
 
-<div class="logo-icon">
-<i class="fa-solid fa-user-shield"></i>
+<a href="index.html" class="logo">
+
+<div class="logo-box">
+
+Q
+
 </div>
 
-<h1>QueueLess</h1>
+<div class="logo-text">
+
+<h2>Queue<span>Less</span></h2>
+
+<p>Smart Queue Management</p>
+
+</div>
+
+</a>
+
+<h1>Admin Login</h1>
 
 <p class="subtitle">
-Secure Admin Portal
+
+Login to access QueueLess Admin Dashboard.
+
 </p>
 
-</div>
 
 <form id="adminLoginForm" autocomplete="off">
 
-        <label for="email">
-            Admin Email
-        </label>
+<div class="form-group">
 
-        <input
-            type="email"
-            id="email"
-            name="admin-email"
-            placeholder="Admin Email Address"
-            autocomplete="off"
-            required
-        >
+<label for="email">
 
-        <label for="password">
-            Password
-        </label>
+Admin Email
 
-        <input
+</label>
+
+<div class="input-box">
+
+<i class="fas fa-envelope"></i>
+
+<input
+type="email"
+id="email"
+name="admin-email"
+placeholder="Enter admin email"
+autocomplete="off"
+required>
+
+</div>
+
+</div>
+
+<div class="form-group">
+
+<label for="password">
+
+Password
+
+</label>
+
+<div class="input-box">
+
+<i class="fas fa-lock"></i>
+
+<input
 type="password"
 id="password"
 name="admin-password"
-placeholder="Enter Secure Password"
+placeholder="Enter secure password"
 autocomplete="new-password"
-required
->
+required>
 
-<button type="submit">
-🔐 Login to Dashboard
+<button
+type="button"
+class="eye-button"
+onclick="togglePassword()">
+
+<i class="fas fa-eye"></i>
+
 </button>
 
-</form>
-
-    <div id="message"></div>
-
-    <div class="back">
-        <a href="index.html">
-            ← Back to Home
-        </a>
-    </div>
+</div>
 
 </div>
 
 
+<button
+type="submit"
+class="login-button"
+id="loginButton">
+
+<span id="btnText">
+
+<i class="fas fa-user-shield"></i>
+
+Login to Dashboard
+
+</span>
+
+</button>
+
+<div id="message"></div>
+
+
+<a
+href="index.html"
+class="back-home">
+
+<i class="fas fa-arrow-left"></i>
+
+Back to Home
+
+</a>
+
+<p class="login-footer">
+
+<i class="fas fa-shield-halved"></i>
+
+Secure Queue Management System
+
+</p>
+
+</form>
+
+
+</div>
+
 <script>
-    // =========================================
-    // ADMIN LOGIN
-    // =========================================
 
-    document
-        .getElementById("adminLoginForm")
-        .addEventListener("submit", async function (event) {
+/*=========================================
+SHOW / HIDE PASSWORD
+=========================================*/
 
-            event.preventDefault();
+function togglePassword(){
 
-            const email =
-                document.getElementById("email").value.trim();
+const passwordInput=document.getElementById("password");
 
-            const password =
-                document.getElementById("password").value;
+const icon=document.querySelector(".eye-button i");
 
-            const message =
-                document.getElementById("message");
+if(passwordInput.type==="password"){
 
-            message.textContent = "Checking...";
-            message.style.color = "#555";
+passwordInput.type="text";
 
-            try {
+icon.classList.remove("fa-eye");
+icon.classList.add("fa-eye-slash");
 
-                const response = await fetch(
-                    "/api/admin/login",
-                    {
-                        method: "POST",
+}else{
 
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
+passwordInput.type="password";
 
-                        body: JSON.stringify({
-                            email: email,
-                            password: password
-                        })
-                    }
-                );
+icon.classList.remove("fa-eye-slash");
+icon.classList.add("fa-eye");
 
-                const data = await response.json();
+}
 
+}
 
-                // =========================================
-                // LOGIN FAILED
-                // =========================================
+/*=========================================
+ELEMENTS
+=========================================*/
 
-                if (!response.ok || !data.success) {
+const adminLoginForm=
+document.getElementById("adminLoginForm");
 
-                    message.textContent =
-                        data.message ||
-                        "Invalid admin email or password";
+const loginButton=
+document.getElementById("loginButton");
 
-                    message.style.color = "red";
+const message=
+document.getElementById("message");
 
-                    return;
-                }
+const emailInput=
+document.getElementById("email");
 
+const passwordInput=
+document.getElementById("password");
 
-                // =========================================
-                // LOGIN SUCCESS
-                // =========================================
+/*=========================================
+CLEAR FORM
+=========================================*/
 
-                localStorage.setItem(
-                    "adminToken",
-                    data.token
-                );
+function clearForm(){
 
-                message.textContent =
-                    "Login successful!";
+adminLoginForm.reset();
 
-                message.style.color =
-                    "green";
+emailInput.value="";
+passwordInput.value="";
 
+passwordInput.type="password";
 
-                // Clear form before leaving
-                document.getElementById("email").value = "";
-                document.getElementById("password").value = "";
+const icon=document.querySelector(".eye-button i");
 
+if(icon){
 
-                // =========================================
-                // IMPORTANT
-                // Replace login page in browser history
-                // =========================================
+icon.classList.remove("fa-eye-slash");
+icon.classList.add("fa-eye");
 
-                window.location.replace("admin.html");
+}
 
-            }
+message.textContent="";
 
-            catch (error) {
+loginButton.disabled=false;
 
-                console.error(error);
+loginButton.innerHTML=
+'<span id="btnText"><i class="fas fa-user-shield"></i> Login to Dashboard</span>';
 
-                message.textContent =
-                    "Cannot connect to QueueLess server.";
+}
 
-                message.style.color =
-                    "red";
-            }
-        });
+/*=========================================
+CHECK ADMIN SESSION
+=========================================*/
 
+window.addEventListener("pageshow",function(){
 
-    // =========================================
-    // PAGE SHOW / BACK BUTTON PROTECTION
-    // =========================================
+const adminToken=localStorage.getItem("adminToken");
 
-    window.addEventListener(
-        "pageshow",
-        function () {
+if(adminToken){
 
-            const adminToken =
-                localStorage.getItem("adminToken");
+window.location.replace("admin.html");
 
+return;
 
-            // Admin is already logged in
-            // Don't allow admin login page again
-            if (adminToken) {
+}
 
-                window.location.replace(
-                    "admin.html"
-                );
+clearForm();
 
-                return;
-            }
+});
 
+/*=========================================
+ADMIN LOGIN
+=========================================*/
 
-            // Clear login fields
-            const emailInput =
-                document.getElementById("email");
+adminLoginForm.addEventListener(
 
-            const passwordInput =
-                document.getElementById("password");
+"submit",
 
-            if (emailInput) {
-                emailInput.value = "";
-            }
+async function(event){
 
-            if (passwordInput) {
-                passwordInput.value = "";
-            }
+event.preventDefault();
 
+const email=emailInput.value.trim().toLowerCase();
 
-            // Clear old messages
-            const message =
-                document.getElementById("message");
+const password=passwordInput.value;
 
-            if (message) {
-                message.textContent = "";
-            }
-        }
-    );
+if(!email||!password){
+
+message.style.color="red";
+
+message.textContent="Please enter admin email and password.";
+
+return;
+
+}
+
+loginButton.disabled=true;
+
+loginButton.innerHTML=
+'<span class="spinner"></span> Logging in...';
+
+message.style.color="#64748b";
+
+message.textContent="Checking admin credentials...";
+
+try{
+
+const response=await fetch(
+
+"/api/admin/login",
+
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+email:email,
+
+password:password
+
+})
+
+}
+
+);
+
+const data=await response.json();
+
+if(response.ok && data.success){
+
+localStorage.removeItem("adminToken");
+
+localStorage.setItem(
+
+"adminToken",
+
+data.token
+
+);
+
+message.style.color="green";
+
+message.textContent="Login successful! Opening dashboard...";
+
+setTimeout(function(){
+
+window.location.replace("admin.html");
+
+},700);
+
+}
+
+else{
+
+localStorage.removeItem("adminToken");
+
+passwordInput.value="";
+
+message.style.color="red";
+
+message.textContent=
+
+data.message ||
+
+"Invalid admin email or password";
+
+}
+
+}
+
+catch(error){
+
+console.error(error);
+
+localStorage.removeItem("adminToken");
+
+passwordInput.value="";
+
+message.style.color="red";
+
+message.textContent=
+
+"Cannot connect to QueueLess server.";
+
+}
+
+finally{
+
+loginButton.disabled=false;
+
+loginButton.innerHTML=
+'<span id="btnText"><i class="fas fa-user-shield"></i> Login to Dashboard</span>';
+
+}
+
+}
+
+);
+
 </script>
 
 </body>
+
 </html>
