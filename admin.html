@@ -72,60 +72,104 @@ box-shadow:
 
 
 
-        .logo-box{
+        /* =========================================
+   QUEUELESS BRAND LOGO
+   SAME STYLE AS INDEX / DASHBOARD
+========================================= */
 
-width:58px;
-height:58px;
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    white-space: nowrap;
+}
 
-display:flex;
-align-items:center;
-justify-content:center;
+.logo-box {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    min-height: 52px;
 
-border-radius:18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-background:linear-gradient(135deg,#2563eb,#4f46e5);
+    border-radius: 16px;
 
-color:#fff;
+    background: linear-gradient(
+        135deg,
+        #6d5efc,
+        #4f46e5
+    );
 
-font-size:34px;
-font-weight:800;
+    color: #ffffff;
 
-box-shadow:
-0 18px 40px rgba(37,99,235,.30);
+    font-size: 27px;
+    font-weight: 800;
 
-flex-shrink:0;
+    position: relative;
+    overflow: hidden;
+
+    box-shadow:
+        0 18px 45px rgba(91, 78, 245, 0.35),
+        0 0 35px rgba(91, 78, 245, 0.20);
+
+    flex-shrink: 0;
+}
+
+/* SHINING EFFECT */
+.logo-box::before {
+    content: "";
+
+    position: absolute;
+
+    top: -50%;
+    left: -80%;
+
+    width: 45%;
+    height: 200%;
+
+    background: rgba(255, 255, 255, 0.38);
+
+    transform: rotate(25deg);
+
+    animation: logoShine 5s linear infinite;
+}
+
+@keyframes logoShine {
+
+    0% {
+        left: -80%;
+    }
+
+    100% {
+        left: 160%;
+    }
 
 }
 
-
-
-        .logo-box{
-
-width:48px;
-
-height:48px;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-border-radius:14px;
-
-background:linear-gradient(135deg,#2563eb,#4f46e5);
-
-color:#fff;
-
-font-size:24px;
-
-font-weight:700;
-
-box-shadow:
-0 15px 35px rgba(37,99,235,.25);
-
+.logo-box {
+    isolation: isolate;
 }
 
+.logo-box::after {
+    content: "Q";
+
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    font-size: 27px;
+    font-weight: 800;
+
+    z-index: 2;
+}
 
 
         .logo-text{
@@ -142,9 +186,6 @@ line-height:1;
 color:#111827;
 }
 
-.logo-text .less{
-color:#3b5cff;
-}
 
 .logo-text .less{
     color:#2563eb;
@@ -157,30 +198,67 @@ color:#3b5cff;
             gap: 20px;
         }
 
+        .system-status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 13px;
+    border-radius: 999px;
+    background: #ecfdf5;
+    color: #16a34a;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .4px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 0 0 rgba(34,197,94,.45);
+    animation: livePulse 2s infinite;
+}
+
+@keyframes livePulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(34,197,94,.45);
+    }
+
+    70% {
+        box-shadow: 0 0 0 7px rgba(34,197,94,0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(34,197,94,0);
+    }
+}
+
+
         .admin-name {
             font-weight: bold;
         }
 
         .logout-btn{
-
-padding:12px 22px;
-
-border:none;
-
-border-radius:12px;
-
-background:white;
-
-font-weight:700;
-
-cursor:pointer;
-
-transition:.3s;
-
-box-shadow:
-0 10px 25px rgba(37,99,235,.08);
-
+    padding:13px 24px;
+    border:1px solid #e2e8f0;
+    border-radius:12px;
+    background:#ffffff;
+    color:#111827;
+    font-size:14px;
+    font-weight:700;
+    cursor:pointer;
+    transition:all .3s ease;
+    box-shadow:0 6px 18px rgba(15,23,42,.08);
 }
+
+.logout-btn:hover{
+    transform:translateY(-2px);
+    background:#f8fafc;
+    border-color:#cbd5e1;
+    box-shadow:0 10px 25px rgba(15,23,42,.14);
+}
+
 
 .logout-btn:hover{
 
@@ -401,11 +479,19 @@ box-shadow:
         }
 
         .current-token {
-            font-size: 55px;
-            color: #2563eb;
-            font-weight: bold;
-            margin: 18px 0 8px;
-        }
+    font-size: 58px;
+    color: #2563eb;
+    font-weight: 800;
+
+    margin: 18px 0 8px;
+
+    letter-spacing: 2px;
+
+    text-shadow:
+        0 8px 25px rgba(37,99,235,.20);
+
+    transition: .3s;
+}
 
         .current-service {
             color: #6b7280;
@@ -624,31 +710,34 @@ background:#f8fbff;
         
         <div class="logo">
 
-<div class="logo-box">
-Q
-</div>
+    <div class="logo-box"></div>
 
-<div class="logo-text">
-Queue<span class="less">Less</span>
-</div>
+    <div class="logo-text">
+        <span class="queue">Queue</span><span class="less">Less</span>
+    </div>
 
 </div>
 
 
         <div class="admin-area">
 
-            <div class="admin-name">
-                👤 QueueLess Admin
-            </div>
+    <div class="system-status">
+        <span class="status-dot"></span>
+        LIVE SYSTEM
+    </div>
 
-            <button
-                class="logout-btn"
-                onclick="logoutAdmin()"
-            >
-                Logout
-            </button>
+    <div class="admin-name">
+        👤 QueueLess Admin
+    </div>
 
-        </div>
+    <button
+        class="logout-btn"
+        onclick="logoutAdmin()"
+    >
+        Logout
+    </button>
+
+</div>
 
     </nav>
 
@@ -898,7 +987,7 @@ Queue<span class="less">Less</span>
         // =========================================
 
         const API_URL =
-            "";
+            "http://127.0.0.1:3000";
 
 
         // =========================================

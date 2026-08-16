@@ -19,6 +19,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const otpGenerator = require("otp-generator");
+const crypto = require("crypto");
+const fs = require("fs");
+const path = require("path");
 
 const app = express();
 
@@ -27,7 +30,9 @@ const app = express();
 // ========================================
 
 const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
@@ -39,6 +44,21 @@ const transporter = nodemailer.createTransport({
 // ========================================
 
 const otpStore = {};
+
+// ADMIN LOGIN OTP STORAGE
+const adminOtpStore = {};
+
+// ========================================
+// CAPTCHA STORAGE
+// ========================================
+
+const captchaStore = {};
+
+// ========================================
+// REGISTER EMAIL OTP STORAGE
+// ========================================
+
+const registerOtpStore = {};
 
 
 // ========================================
@@ -73,7 +93,6 @@ mongoose
 // ========================================
 
 const userSchema = new mongoose.Schema({
-
     name: {
         type: String,
         required: true,
@@ -88,11 +107,18 @@ const userSchema = new mongoose.Schema({
         trim: true
     },
 
+    phone: {
+        type: String,
+        required: false,
+        unique: true,
+        sparse: true,
+        trim: true
+    },
+
     password: {
         type: String,
         required: true
     }
-
 });
 
 const User = mongoose.model("User", userSchema);
@@ -163,10 +189,532 @@ app.get("/api/test", (req, res) => {
 
 
 // ========================================
+// REAL IMAGE CAPTCHA
+// ========================================
+
+const captchaCategories = [
+    "cars",
+    "buses",
+    "bicycles",
+    "motorcycles",
+    "stop-signs",
+    "traffic-lights"
+];
+
+const captchaImageFolder = path.join(
+    __dirname,
+    "captcha-images"
+);
+
+
+// Get all real images from a category folder
+function getCategoryImages(category) {
+
+    const folder = path.join(
+        captchaImageFolder,
+        category
+    );
+
+    if (!fs.existsSync(folder)) {
+        console.error("CAPTCHA FOLDER NOT FOUND:", folder);
+        return [];
+    }
+
+    return fs.readdirSync(folder)
+        .filter(file =>
+            /\.(jpg|jpeg|png|webp)$/i.test(file)
+        );
+}
+
+
+// Shuffle array
+function shuffle(array) {
+
+    return [...array].sort(
+        () => Math.random() - 0.5
+    );
+
+}
+
+
+// ========================================
+// CREATE CAPTCHA
+// ========================================
+
+app.get("/api/captcha", (req, res) => {
+
+    try {
+
+        const captchaId =
+            crypto.randomUUID();
+
+
+        // Random target category
+        const target =
+            captchaCategories[
+                Math.floor(
+                    Math.random() *
+                    captchaCategories.length
+                )
+            ];
+
+
+        // ========================================
+        // GET TARGET IMAGES
+        // ========================================
+
+        const targetImages =
+            shuffle(
+                getCategoryImages(target)
+            );
+
+
+        // We need 4 correct images
+        const correctImages =
+            targetImages.slice(0, 4);
+
+
+        // ========================================
+        // GET OTHER CATEGORY IMAGES
+        // ========================================
+
+        let otherImages = [];
+
+
+        for (
+            const category of captchaCategories
+        ) {
+
+            if (category === target) {
+                continue;
+            }
+
+
+            const files =
+                getCategoryImages(category);
+
+
+            files.forEach(file => {
+
+                otherImages.push({
+
+                    category: category,
+
+                    file: file
+
+                });
+
+            });
+
+        }
+
+
+        // Shuffle all wrong images
+        otherImages =
+            shuffle(otherImages);
+
+
+        // Need 12 wrong images
+        const wrongImages =
+            otherImages.slice(0, 12);
+
+
+        // ========================================
+        // CREATE 16 IMAGE GRID
+        // ========================================
+
+        const allImages = [];
+
+
+        // Correct images
+        correctImages.forEach(file => {
+
+            allImages.push({
+
+                category: target,
+
+                file: file,
+
+                correct: true
+
+            });
+
+        });
+
+
+        // Wrong images
+        wrongImages.forEach(item => {
+
+            allImages.push({
+
+                category: item.category,
+
+                file: item.file,
+
+                correct: false
+
+            });
+
+        });
+
+
+        // Mix everything
+        const mixedImages =
+            shuffle(allImages);
+
+
+        // Correct indexes
+        const correctIndexes = [];
+
+
+        const images =
+            mixedImages.map(
+                (item, index) => {
+
+                    if (item.correct) {
+
+                        correctIndexes.push(index);
+
+                    }
+
+
+                    return {
+
+                        index: index,
+
+                        image:
+                            `/captcha-images/${item.category}/${encodeURIComponent(item.file)}`
+
+                    };
+
+                }
+            );
+
+
+        // ========================================
+        // SAVE CAPTCHA
+        // ========================================
+
+        captchaStore[captchaId] = {
+
+            target: target,
+
+            correctIndexes:
+                correctIndexes,
+
+            expires:
+                Date.now() +
+                2 * 60 * 1000,
+
+            verified: false
+
+        };
+
+
+        // ========================================
+        // SEND CAPTCHA
+        // ========================================
+
+        return res.status(200).json({
+
+            captchaId:
+                captchaId,
+
+            question:
+                `Select all images containing ${target}`,
+
+            images:
+                images
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "CAPTCHA GENERATION ERROR:",
+            error
+        );
+
+
+        return res.status(500).json({
+
+            success: false,
+
+            message:
+                "Could not generate CAPTCHA"
+
+        });
+
+    }
+
+});
+
+    
+
+// ========================================
+// VERIFY CAPTCHA
+// ========================================
+
+app.post("/api/verify-captcha", (req, res) => {
+
+    try {
+
+        const {
+            captchaId,
+            selectedIndexes
+        } = req.body;
+
+        if (
+            !captchaId ||
+            !Array.isArray(selectedIndexes)
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "CAPTCHA verification required"
+            });
+        }
+
+        const captcha =
+            captchaStore[captchaId];
+
+        if (!captcha) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "CAPTCHA expired. Please try again."
+            });
+        }
+
+        if (Date.now() > captcha.expires) {
+
+            delete captchaStore[captchaId];
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "CAPTCHA expired. Please try again."
+            });
+        }
+
+        const selected =
+            [...selectedIndexes]
+                .map(Number)
+                .sort((a, b) => a - b);
+
+        const correct =
+            [...captcha.correctIndexes]
+                .sort((a, b) => a - b);
+
+        const isCorrect =
+            selected.length === correct.length &&
+            selected.every(
+                (value, index) =>
+                    value === correct[index]
+            );
+
+        if (!isCorrect) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Incorrect CAPTCHA. Try again."
+            });
+        }
+
+        captcha.verified = true;
+
+        return res.status(200).json({
+
+            success: true,
+
+            message:
+                "CAPTCHA verified"
+        });
+
+    } catch (error) {
+
+        console.error(
+            "CAPTCHA VERIFY ERROR:",
+            error
+        );
+
+        return res.status(500).json({
+
+            success: false,
+
+            message:
+                "CAPTCHA verification failed"
+        });
+    }
+});
+
+
+// ========================================
+// REGISTER - SEND EMAIL OTP
+// ========================================
+
+app.post("/api/send-register-otp", async (req, res) => {
+
+    try {
+
+        let { email } = req.body;
+
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                message: "Email is required"
+            });
+        }
+
+        email = email.trim().toLowerCase();
+
+        // Check if email already has an account
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) {
+            return res.status(400).json({
+                success: false,
+                message: "An account already exists with this email"
+            });
+        }
+
+        // Generate 6 digit OTP
+        const otp = otpGenerator.generate(6, {
+            upperCaseAlphabets: false,
+            lowerCaseAlphabets: false,
+            specialChars: false,
+            digits: true
+        });
+
+        // Store OTP for 10 minutes
+        registerOtpStore[email] = {
+            otp: otp,
+            expires: Date.now() + 10 * 60 * 1000,
+            verified: false
+        };
+
+        // Send OTP email
+        await transporter.sendMail({
+            from: `"QueueLess Team" <${process.env.EMAIL_USER}>`,
+            to: email,
+            subject: "QueueLess Email Verification OTP",
+            text:
+                `Your QueueLess verification OTP is ${otp}.\n\n` +
+                `This OTP is valid for 10 minutes.\n\n` +
+                `If you did not request this, please ignore this email.`
+        });
+
+        console.log("REGISTER OTP SENT TO:", email);
+
+        return res.status(200).json({
+            success: true,
+            message: "OTP sent to your email"
+        });
+
+    } catch (error) {
+
+        console.error("REGISTER OTP ERROR:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Failed to send OTP"
+        });
+
+    }
+
+});
+
+
+// ========================================
+// REGISTER - VERIFY EMAIL OTP
+// ========================================
+
+app.post("/api/verify-register-otp", (req, res) => {
+
+    try {
+
+        let { email, otp } = req.body;
+
+        if (!email || !otp) {
+            return res.status(400).json({
+                success: false,
+                message: "Email and OTP are required"
+            });
+        }
+
+        email = email.trim().toLowerCase();
+        otp = String(otp).trim();
+
+        const savedOtp = registerOtpStore[email];
+
+        if (!savedOtp) {
+            return res.status(400).json({
+                success: false,
+                message: "OTP not found. Please request a new OTP."
+            });
+        }
+
+        // Check expiry
+        if (Date.now() > savedOtp.expires) {
+
+            delete registerOtpStore[email];
+
+            return res.status(400).json({
+                success: false,
+                message: "OTP expired. Please request a new OTP."
+            });
+
+        }
+
+        // Check OTP
+        if (savedOtp.otp !== otp) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid OTP"
+            });
+        }
+
+        // Mark email as verified
+        registerOtpStore[email].verified = true;
+
+        console.log("EMAIL VERIFIED:", email);
+
+        return res.status(200).json({
+            success: true,
+            message: "Email verified successfully"
+        });
+
+    } catch (error) {
+
+        console.error("REGISTER OTP VERIFY ERROR:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "OTP verification failed"
+        });
+
+    }
+
+});
+
+
+// ========================================
 // REGISTER
 // ========================================
 
-console.log("ADMIN LOGIN ROUTE LOADED");
+console.log("REGISTER ROUTE LOADED");
 app.post("/api/register", async (req, res) => {
 
     console.log("");
@@ -176,9 +724,9 @@ app.post("/api/register", async (req, res) => {
 
     try {
 
-        let { name, email, password } = req.body;
+        let { name, email, phone, password } = req.body;
 
-        if (!name || !email || !password) {
+        if (!name || !email || !phone || !password) {
 
             return res.status(400).json({
                 message: "Please fill all fields"
@@ -188,6 +736,25 @@ app.post("/api/register", async (req, res) => {
 
         name = name.trim();
         email = email.trim().toLowerCase();
+        phone = String(phone || "").replace(/\D/g, "");
+
+if (phone.length === 12 && phone.startsWith("91")) {
+    phone = phone.substring(2);
+}
+
+        // ========================================
+// CHECK EMAIL VERIFICATION
+// ========================================
+
+const verification = registerOtpStore[email];
+
+if (!verification || !verification.verified) {
+
+    return res.status(400).json({
+        message: "Please verify your email first"
+    });
+
+}
 
         if (password.length < 6) {
 
@@ -198,16 +765,30 @@ app.post("/api/register", async (req, res) => {
         }
 
         const existingUser = await User.findOne({
-            email: email
+    $or: [
+        { email: email },
+        { phone: phone }
+    ]
+});
+
+if (existingUser) {
+    if (existingUser.email === email) {
+        return res.status(400).json({
+            message: "An account already exists with this email"
         });
+    }
 
-        if (existingUser) {
+    if (existingUser.phone === phone) {
+        return res.status(400).json({
+            message: "An account already exists with this phone number"
+        });
+    }
 
-            return res.status(400).json({
-                message: "Account already exists"
-            });
+    return res.status(400).json({
+        message: "Account already exists"
+    });
+}
 
-        }
 
         const hashedPassword = await bcrypt.hash(
             password,
@@ -215,14 +796,16 @@ app.post("/api/register", async (req, res) => {
         );
 
         const user = new User({
+    name: name,
+    email: email,
+    phone: phone,
+    password: hashedPassword
+});
 
-            name: name,
-            email: email,
-            password: hashedPassword
-
-        });
 
         await user.save();
+
+        delete registerOtpStore[email];
 
         console.log("USER SAVED SUCCESSFULLY");
 
@@ -267,21 +850,72 @@ app.post("/api/login", async (req, res) => {
 
     try {
 
-        let { email, password } = req.body;
+        let {
+    login,
+    password,
+    captchaId
+} = req.body;
 
-        if (!email || !password) {
+if (!login || !password) {
+    return res.status(400).json({
+        message: "Please enter email/phone and password"
+    });
+}
 
-            return res.status(400).json({
-                message: "Please enter email and password"
-            });
 
+// ========================================
+// CHECK CAPTCHA
+// ========================================
+
+const captcha =
+    captchaStore[captchaId];
+
+if (!captcha || !captcha.verified) {
+
+    return res.status(403).json({
+
+        message:
+            "Please complete the CAPTCHA first."
+    });
+}
+
+delete captchaStore[captchaId];
+
+
+login = String(login).trim();
+
+        // ========================================
+        // NORMALIZE LOGIN VALUE
+        // ========================================
+
+        const normalizedEmail = login.toLowerCase();
+
+        // Remove spaces, +91 and other non-digit characters
+        let normalizedPhone = login.replace(/\D/g, "");
+
+        // Convert Indian +91XXXXXXXXXX to XXXXXXXXXX
+        if (normalizedPhone.length === 12 &&
+            normalizedPhone.startsWith("91")) {
+            normalizedPhone = normalizedPhone.substring(2);
         }
 
-        email = email.trim().toLowerCase();
+        console.log("Login entered:", login);
+        console.log("Normalized email:", normalizedEmail);
+        console.log("Normalized phone:", normalizedPhone);
+
+        // ========================================
+        // FIND USER
+        // ========================================
 
         const user = await User.findOne({
-            email: email
-        });
+    $or: [
+        { email: normalizedEmail },
+        { phone: normalizedPhone },
+        { phone: login },
+        { phone: "91" + normalizedPhone },
+        { phone: "+91" + normalizedPhone }
+    ]
+});
 
         if (!user) {
 
@@ -290,8 +924,14 @@ app.post("/api/login", async (req, res) => {
             return res.status(401).json({
                 message: "Invalid email or password"
             });
-
         }
+
+        console.log("USER FOUND:", user.email);
+        console.log("USER PHONE:", user.phone);
+
+        // ========================================
+        // CHECK PASSWORD
+        // ========================================
 
         const correctPassword = await bcrypt.compare(
             password,
@@ -305,30 +945,26 @@ app.post("/api/login", async (req, res) => {
             return res.status(401).json({
                 message: "Invalid email or password"
             });
-
         }
 
-        const token = jwt.sign(
+        // ========================================
+        // CREATE JWT
+        // ========================================
 
+        const token = jwt.sign(
             {
                 userId: user._id.toString(),
                 email: user.email
             },
-
             process.env.JWT_SECRET,
-
             {
                 expiresIn: "1d"
             }
-
         );
 
         console.log("LOGIN SUCCESSFUL");
         console.log("User:", user.email);
-        console.log(
-            "User ID:",
-            user._id.toString()
-        );
+        console.log("User ID:", user._id.toString());
 
         return res.status(200).json({
 
@@ -346,10 +982,7 @@ app.post("/api/login", async (req, res) => {
 
     } catch (error) {
 
-        console.error(
-            "LOGIN ERROR:",
-            error
-        );
+        console.error("LOGIN ERROR:", error);
 
         return res.status(500).json({
             message: "Server error"
@@ -1534,55 +2167,434 @@ app.get("/api/admin/services", async (req, res) => {
     }
 });
 
-// =====================================
-// ADMIN LOGIN
-// =====================================
+// ========================================
+// ADMIN LOGIN - PASSWORD + CAPTCHA + OTP
+// ========================================
 
-app.post("/api/admin/login", (req, res) => {
+app.post("/api/admin/login", async (req, res) => {
+
     try {
-        const { email, password } = req.body;
+
+        const {
+            email,
+            password,
+            captchaId
+        } = req.body;
+
+        // ========================================
+        // CHECK EMAIL + PASSWORD
+        // ========================================
 
         if (!email || !password) {
+
             return res.status(400).json({
                 success: false,
                 message: "Email and password are required"
             });
+
         }
 
-        if (
-            email !== process.env.ADMIN_EMAIL ||
-            password !== process.env.ADMIN_PASSWORD
-        ) {
-            return res.status(401).json({
+        // ========================================
+        // CHECK CAPTCHA
+        // ========================================
+
+        const captcha = captchaStore[captchaId];
+
+        if (!captcha || !captcha.verified) {
+
+            return res.status(403).json({
                 success: false,
-                message: "Invalid admin email or password"
+                message: "Please complete the CAPTCHA first."
             });
+
         }
 
-        const adminToken = jwt.sign(
-            {
-                role: "admin",
-                email: process.env.ADMIN_EMAIL
-            },
-            process.env.JWT_SECRET,
-            { expiresIn: "8h" }
-        );
+        // Remove used CAPTCHA
+        delete captchaStore[captchaId];
 
-        return res.json({
+       // ========================================
+// CHECK ADMIN CREDENTIALS
+// ========================================
+
+if (
+    email.trim().toLowerCase() !==
+        process.env.ADMIN_EMAIL.trim().toLowerCase() ||
+    password !== process.env.ADMIN_PASSWORD
+) {
+
+    // Invalid credentials
+    // Keep CAPTCHA untouched so the user can retry
+    return res.status(401).json({
+        success: false,
+        message: "Invalid admin email or password"
+    });
+}
+
+// ========================================
+// CAPTCHA + CREDENTIALS VALID
+// ========================================
+
+// Consume CAPTCHA only after credentials are correct
+delete captchaStore[captchaId];
+
+        // ========================================
+        // GENERATE 6-DIGIT ADMIN OTP
+        // ========================================
+
+        const otp = otpGenerator.generate(6, {
+            upperCaseAlphabets: false,
+            lowerCaseAlphabets: false,
+            specialChars: false,
+            digits: true
+        });
+
+        const adminEmail =
+            process.env.ADMIN_EMAIL.trim().toLowerCase();
+
+        // ========================================
+        // STORE ADMIN OTP
+        // VALID FOR 10 MINUTES
+        // ========================================
+
+        adminOtpStore[adminEmail] = {
+            otp: otp,
+            expires: Date.now() + 10 * 60 * 1000
+        };
+
+        // ========================================
+        // SEND OTP TO ADMIN EMAIL
+        // ========================================
+
+        await transporter.sendMail({
+
+            from:
+                `"QueueLess Security" <${process.env.EMAIL_USER}>`,
+
+            to: adminEmail,
+
+            subject:
+                "QueueLess Admin Login OTP",
+
+            text:
+                `Your QueueLess Admin Login OTP is: ${otp}\n\n` +
+                `This OTP is valid for 10 minutes.\n\n` +
+                `If you did not attempt to login to the QueueLess Admin Dashboard, please ignore this email.`
+        });
+
+        console.log("");
+        console.log("================================");
+        console.log("ADMIN LOGIN OTP SENT");
+        console.log("Admin Email:", adminEmail);
+        console.log("================================");
+
+        // ========================================
+        // DO NOT CREATE JWT YET
+        // ========================================
+
+        return res.status(200).json({
+
             success: true,
-            message: "Admin login successful",
-            token: adminToken
+
+            message:
+                "OTP sent to admin email",
+
+            email: adminEmail
+
         });
 
     } catch (error) {
-        console.error("ADMIN LOGIN ERROR:", error);
+
+        console.error(
+            "ADMIN LOGIN OTP ERROR:",
+            error
+        );
 
         return res.status(500).json({
+
             success: false,
-            message: "Server error"
+
+            message:
+                "Failed to send admin OTP"
+
         });
+
     }
+
 });
+
+// ========================================
+// ADMIN - VERIFY LOGIN OTP
+// ========================================
+
+app.post("/api/admin/verify-otp", (req, res) => {
+
+    try {
+
+        let {
+            email,
+            otp
+        } = req.body;
+
+        // ========================================
+        // VALIDATE INPUT
+        // ========================================
+
+        if (!email || !otp) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Email and OTP are required"
+
+            });
+
+        }
+
+        email =
+            email.trim().toLowerCase();
+
+        otp =
+            String(otp).trim();
+
+        // ========================================
+        // ONLY ALLOW THE REAL ADMIN EMAIL
+        // ========================================
+
+        if (
+            email !==
+            process.env.ADMIN_EMAIL.trim().toLowerCase()
+        ) {
+
+            return res.status(401).json({
+
+                success: false,
+
+                message:
+                    "Invalid admin verification request"
+
+            });
+
+        }
+
+        // ========================================
+        // GET STORED OTP
+        // ========================================
+
+        const savedOtp =
+            adminOtpStore[email];
+
+        if (!savedOtp) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "OTP not found. Please login again."
+
+            });
+
+        }
+
+        // ========================================
+        // CHECK OTP EXPIRY
+        // ========================================
+
+        if (Date.now() > savedOtp.expires) {
+
+            delete adminOtpStore[email];
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "OTP expired. Please request a new OTP."
+
+            });
+
+        }
+
+        // ========================================
+        // CHECK OTP
+        // ========================================
+
+        if (savedOtp.otp !== otp) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Invalid OTP"
+
+            });
+
+        }
+
+        // ========================================
+        // OTP CORRECT
+        // ========================================
+
+        delete adminOtpStore[email];
+
+        // ========================================
+        // CREATE ADMIN JWT
+        // ========================================
+
+        const adminToken = jwt.sign(
+
+            {
+                role: "admin",
+                email: email
+            },
+
+            process.env.JWT_SECRET,
+
+            {
+                expiresIn: "8h"
+            }
+
+        );
+
+        console.log("");
+        console.log("================================");
+        console.log("ADMIN OTP VERIFIED");
+        console.log("ADMIN LOGIN SUCCESSFUL");
+        console.log("Admin Email:", email);
+        console.log("================================");
+
+        // ========================================
+        // SEND TOKEN
+        // ========================================
+
+        return res.status(200).json({
+
+            success: true,
+
+            message:
+                "Admin OTP verified successfully",
+
+            token:
+                adminToken
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "ADMIN OTP VERIFY ERROR:",
+            error
+        );
+
+        return res.status(500).json({
+
+            success: false,
+
+            message:
+                "Admin OTP verification failed"
+
+        });
+
+    }
+
+});
+
+// ========================================
+// ADMIN - RESEND LOGIN OTP
+// ========================================
+
+app.post("/api/admin/resend-otp", async (req, res) => {
+
+    try {
+
+        const adminEmail =
+            process.env.ADMIN_EMAIL.trim().toLowerCase();
+
+        // ========================================
+        // GENERATE NEW OTP
+        // ========================================
+
+        const otp = otpGenerator.generate(6, {
+
+            upperCaseAlphabets: false,
+            lowerCaseAlphabets: false,
+            specialChars: false,
+            digits: true
+
+        });
+
+        // ========================================
+        // STORE NEW OTP
+        // ========================================
+
+        adminOtpStore[adminEmail] = {
+
+            otp: otp,
+
+            expires:
+                Date.now() + 10 * 60 * 1000
+
+        };
+
+        // ========================================
+        // SEND NEW OTP
+        // ========================================
+
+        await transporter.sendMail({
+
+            from:
+                `"QueueLess Security" <${process.env.EMAIL_USER}>`,
+
+            to:
+                adminEmail,
+
+            subject:
+                "QueueLess Admin Login - New OTP",
+
+            text:
+                `Your new QueueLess Admin Login OTP is: ${otp}\n\n` +
+                `This OTP is valid for 10 minutes.\n\n` +
+                `If you did not request this OTP, please ignore this email.`
+
+        });
+
+        console.log(
+            "NEW ADMIN OTP SENT TO:",
+            adminEmail
+        );
+
+        return res.status(200).json({
+
+            success: true,
+
+            message:
+                "New OTP sent to admin email"
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "ADMIN RESEND OTP ERROR:",
+            error
+        );
+
+        return res.status(500).json({
+
+            success: false,
+
+            message:
+                "Failed to resend OTP"
+
+        });
+
+    }
+
+});
+
 
 // ========================================
 // FORGOT PASSWORD - SEND OTP

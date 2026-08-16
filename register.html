@@ -5,25 +5,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Google Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+
     <title>Register | QueueLess</title>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+        *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
 
-        body{
+html{
+    scroll-behavior:smooth;
+}
 
+
+       body{
     min-height:100vh;
 
     display:flex;
     justify-content:center;
     align-items:center;
 
-    margin:0;
+    padding:0;
 
     overflow:hidden;
 
@@ -37,111 +50,130 @@
     position:relative;
 }
 
+
         /*=============================
 FLOATING BACKGROUND
 =============================*/
 
 .bg-circle{
 
-position:absolute;
-border-radius:50%;
-filter:blur(4px);
-animation:float 12s ease-in-out infinite;
+    position:absolute;
+    border-radius:50%;
+    filter:blur(4px);
+    animation:float 12s ease-in-out infinite;
 
 }
 
 .bg1{
 
-width:320px;
-height:320px;
-background:rgba(59,130,246,.18);
-top:-120px;
-left:-100px;
+    width:320px;
+    height:320px;
+
+    background:#3b82f630;
+
+    top:-120px;
+    left:-100px;
 
 }
 
 .bg2{
 
-width:250px;
-height:250px;
-background:rgba(96,165,250,.16);
-right:-80px;
-top:80px;
-animation-duration:15s;
+    width:250px;
+    height:250px;
+
+    background:#60a5fa30;
+
+    right:-80px;
+    top:80px;
+
+    animation-duration:15s;
 
 }
 
 .bg3{
 
-width:220px;
-height:220px;
-background:rgba(37,99,235,.12);
-bottom:-80px;
-left:15%;
-animation-duration:18s;
+    width:220px;
+    height:220px;
+
+    background:#2563eb20;
+
+    bottom:-80px;
+    left:15%;
+
+    animation-duration:18s;
 
 }
 
 .bg4{
 
-width:180px;
-height:180px;
-background:rgba(147,197,253,.15);
-bottom:70px;
-right:8%;
-animation-duration:20s;
+    width:180px;
+    height:180px;
+
+    background:#93c5fd30;
+
+    bottom:70px;
+    right:8%;
+
+    animation-duration:20s;
 
 }
 
 @keyframes float{
 
-0%{
-transform:translateY(0px);
-}
+    0%{
+        transform:translateY(0px);
+    }
 
-25%{
-transform:translate(15px,-25px);
-}
+    50%{
+        transform:translateY(-35px);
+    }
 
-50%{
-transform:translateY(-50px);
-}
-
-75%{
-transform:translate(-15px,-25px);
-}
-
-100%{
-transform:translateY(0);
-}
+    100%{
+        transform:translateY(0px);
+    }
 
 }
     
 
-        .register-card {
-            width: 430px;
+        .register-card{
 
-            position: relative;
-            z-index: 10;
-            animation: fadeIn .6s ease;
-            background: rgba(255, 255, 255, 0.96);
-            padding: 20px 24px;
-            border-radius: 24px;
-            border: 1px solid rgba(255,255,255,0.7);
+    position:relative;
+    z-index:10;
 
-            box-shadow:
-                 0 20px 60px rgba(15,23,42,.10),
-                 0 8px 20px rgba(59,130,246,.08);
-            backdrop-filter: blur(12px);
-            transition: all .35s ease;
+    width:100%;
+    max-width:450px;
+
+    margin:0;
+
+    padding:20px 30px;
+
+    background:rgba(255,255,255,.92);
+
+    backdrop-filter:blur(28px);
+
+    border:1px solid rgba(255,255,255,.65);
+
+    border-radius:28px;
+
+    box-shadow:
+        0 35px 90px rgba(79,70,229,.18),
+        0 15px 35px rgba(0,0,0,.08);
+
+    transition:.35s;
+
 }
 
-        .register-card:hover {
-             transform: translateY(-5px);
-             box-shadow:
-                 0 30px 70px rgba(15,23,42,.15),
-                 0 10px 25px rgba(59,130,246,.12);
+
+
+        .register-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:
+        0 45px 90px rgba(37,99,235,.20);
+
 }
+
 
          @keyframes fadeIn {
              from {
@@ -154,82 +186,131 @@ transform:translateY(0);
             }
 }
 
-        .logo {
-             width:70px;
-             height:70px;
+.logo{
 
-             overflow:hidden;
-             position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-             margin:0 auto 12px;
-             border-radius:20px;
-             background:linear-gradient(135deg,#2563eb,#4f46e5);
-             color:#fff;
+    gap:14px;
 
-             display:flex;
-             justify-content:center;
-             align-items:center;
+    margin-bottom:10px;
 
-             font-size:34px;
-             font-weight:bold;
+    text-decoration:none;
 
-             box-shadow:0 15px 35px rgba(37,99,235,.30);
-            }
+}
+
+.logo-box{
+
+    width:58px;
+    height:58px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6d5efc,
+            #4f46e5
+        );
+
+    color:white;
+
+    font-size:30px;
+    font-weight:800;
+
+    box-shadow:
+        0 18px 45px rgba(91,78,245,.35),
+        0 0 35px rgba(91,78,245,.20);
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.logo-box::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:-40%;
+    left:-80%;
+
+    width:55%;
+    height:180%;
+
+    background:rgba(255,255,255,.40);
+
+    transform:rotate(25deg);
+
+    animation:shine 6s linear infinite;
+
+}
+
+.logo-text h2{
+
+    font-size:32px;
+    font-weight:800;
+
+    color:#111827;
+
+    margin:0;
+
+}
+
+.logo-text span{
+
+    color:#4f46e5;
+
+}
+
+.logo-text p{
+
+    margin-top:4px;
+
+    font-size:13px;
+
+    color:#64748b;
+
+}
+
+@keyframes shine{
+
+    0%{
+        left:-80%;
+    }
+
+    100%{
+        left:160%;
+    }
+
+}
+
+        
 
             /* ===== Q Logo Shine Effect ===== */
 
-.logo::before{
 
-content:"";
 
-position:absolute;
+        .register-card h1{
 
-top:0;
-left:-120%;
+    text-align:center;
 
-width:50%;
-height:100%;
+    font-size:26px;
 
-background:linear-gradient(
-90deg,
-transparent,
-rgba(255,255,255,.85),
-transparent
-);
+    font-weight:700;
 
-transform:skewX(-25deg);
+    color:#0f172a;
 
-animation:logoShine 3s infinite;
+    margin-bottom:8px;
 
 }
-
-@keyframes logoShine{
-
-0%{
-left:-120%;
-}
-
-40%{
-left:150%;
-}
-
-100%{
-left:150%;
-}
-
-}
-
-        .app-title{
-              text-align:center;
-             font-size:32px;
-             font-weight:700;
-             color:#0f172a;
-             margin-bottom:8px;
-        }
-
-        .app-title span{
-             color:#2563eb;
-        }
 
         .subtitle{
              text-align:center;
@@ -239,36 +320,79 @@ left:150%;
         }
 
        .input-group {
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         form{
              margin:0;
     }
 
-        .input-group label {
-            display: block;
-            margin-bottom: 7px;
-            font-weight: 600;
-            color: #333;
-        }
+        .input-group label{
 
-        .input-group input {
-             width: 100%;
-             padding: 15px 18px;
-             border: 1px solid #dbe4f0;
-             border-radius: 14px;
-             outline: none;
-             font-size: 15px;
-             background: #f8fbff;
-             transition: all .3s ease;
-        }
+    display:block;
 
-        .input-group input:focus {
-              background: #ffffff;
-              border-color: #2563eb;
-              box-shadow: 0 0 0 4px rgba(37,99,235,.12);
-        }
+    font-size:14px;
+
+    font-weight:600;
+
+    margin-bottom:8px;
+
+    color:#334155;
+
+}
+
+
+        .input-group input{
+
+    width:100%;
+
+    height:52px;
+
+    border:none;
+    outline:none;
+
+    padding:0 18px;
+
+    border-radius:18px;
+
+    background:white;
+
+    border:2px solid transparent;
+
+    transition:.3s;
+
+    box-shadow:
+        0 8px 20px rgba(15,23,42,.04);
+
+    font-size:15px;
+
+    color:#0f172a;
+
+}
+
+.input-group input::placeholder{
+
+    color:#94a3b8;
+
+}
+
+.input-group input:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.input-group input:focus{
+
+    border-color:#2563eb;
+
+    box-shadow:
+        0 0 0 5px rgba(37,99,235,.12);
+
+    background:white;
+
+}
+
 
         /* Password box with eye icon */
         .password-box {
@@ -279,42 +403,120 @@ left:150%;
             padding-right: 48px;
         }
 
-        .eye-button {
-            position: absolute;
-            right: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            font-size: 18px;
-            padding: 5px;
-        }
+        .eye-button{
 
-        .eye-button:hover {
-            opacity: 0.7;
-        }
+    position:absolute;
 
-        .register-button {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            background: #4f46e5;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+    right:14px;
 
-        .register-button:hover {
-            background: #4338ca;
-        }
+    top:50%;
 
-        .register-button:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
+    transform:translateY(-50%);
+
+    border:none;
+
+    background:none;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+    color:#64748b;
+
+    padding:5px;
+
+    transition:.25s;
+
+}
+
+.eye-button:hover{
+
+    color:#2563eb;
+
+    transform:
+        translateY(-50%)
+        scale(1.15);
+
+}
+
+
+        /* Password Strength */
+
+.strength{
+    width:100%;
+    height:8px;
+    background:#e5e7eb;
+    border-radius:20px;
+    margin-top:10px;
+    overflow:hidden;
+}
+
+.strength-bar{
+    width:0%;
+    height:100%;
+    background:#ef4444;
+    transition:.3s;
+}
+
+.strength-text{
+    margin-top:8px;
+    font-size:14px;
+    color:#64748b;
+}
+
+
+        .register-button{
+
+    width:100%;
+
+    height:52px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #3b82f6,
+            #60a5fa
+        );
+
+    background-size:200%;
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+    box-shadow:
+        0 18px 35px rgba(37,99,235,.25);
+
+}
+
+.register-button:hover{
+
+    background-position:right;
+
+    transform:translateY(-3px);
+
+}
+
+.register-button:disabled{
+
+    opacity:.75;
+
+    cursor:not-allowed;
+
+    transform:none;
+
+}
 
         #message {
             margin-top: 10px;
@@ -326,7 +528,7 @@ left:150%;
 
         .login-link {
             text-align: center;
-            margin-top: 16px;
+            margin-top: 10px;
             color: #666;
         }
 
@@ -341,12 +543,693 @@ left:150%;
         }
 
         @media (max-width: 450px) {
-            .register-card {
-                width: 420px;
-                padding: 30px 25px;
-            }
-        }
+    .register-card {
+        width: calc(100% - 24px) !important;
+        min-width: 0 !important;
+        max-width: 430px !important;
+        padding: 18px 20px;
+    }
+}
+
+        /* ========================================
+   EMAIL VERIFICATION
+======================================== */
+
+.email-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* Phone Number */
+.phone-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.country-code{
+
+    height:52px;
+
+    padding:0 14px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border:2px solid transparent;
+
+    border-radius:18px;
+
+    background:white;
+
+    color:#334155;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    flex-shrink:0;
+
+    box-shadow:
+        0 8px 20px rgba(15,23,42,.04);
+
+}
+
+.phone-row input {
+    flex: 1;
+}
+
+.email-row input {
+    flex: 1;
+}
+
+.verify-email-button{
+
+    height:52px;
+
+    width:90px;
+
+    padding:0 8px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #3b82f6,
+            #60a5fa
+        );
+
+    background-size:200%;
+
+    color:white;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+    white-space:nowrap;
+
+}
+
+.verify-email-button:hover{
+
+    background-position:right;
+
+    transform:translateY(-3px);
+
+}
+
+
+.verify-email-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+
+/* ========================================
+   OTP BOXES
+======================================== */
+
+.otp-container{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:8px;
+
+    margin:6px 0;
+
+}
+
+.register-otp{
+
+    width:45px !important;
+
+    height:45px !important;
+
+    padding:0 !important;
+
+    text-align:center;
+
+    font-size:20px !important;
+
+    font-weight:bold;
+
+    border:2px solid transparent !important;
+
+    border-radius:14px !important;
+
+    background:white !important;
+
+    box-shadow:
+        0 8px 20px rgba(15,23,42,.04);
+
+}
+
+.register-otp:focus{
+
+    border-color:#2563eb !important;
+
+    box-shadow:
+        0 0 0 4px rgba(37,99,235,.12) !important;
+
+}
+
+
+/* ========================================
+   VERIFY OTP BUTTON
+======================================== */
+
+.verify-otp-button{
+
+    width:100%;
+
+    height:44px;
+
+    margin-top:8px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #3b82f6,
+            #60a5fa
+        );
+
+    background-size:200%;
+
+    color:white;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+    box-shadow:
+        0 12px 25px rgba(37,99,235,.18);
+
+}
+
+.verify-otp-button:hover{
+
+    background-position:right;
+
+    transform:translateY(-2px);
+
+}
+
+.verify-otp-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+
+/* ========================================
+   EMAIL VERIFICATION MESSAGE
+======================================== */
+
+.email-verification-message {
+    text-align: center;
+    margin-top: 4px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* FINAL REGISTER PAGE SPACING */
+
+.register-card {
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+
+
+.subtitle {
+    margin-bottom: 16px;
+}
+
+.input-group {
+    margin-bottom: 14px;
+}
+
+.input-group label {
+    margin-bottom: 7px;
+}
+
+.email-verification-message {
+    margin-top: 8px;
+    margin-bottom: 10px;
+}
+
+.otp-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+
+.verify-otp-button {
+    margin-top: 6px;
+    margin-bottom: 4px;
+}
+
+.strength {
+    margin-top: 8px;
+}
+
+.strength-text {
+    margin-top: 7px;
+}
+
+.login-link{
+
+    text-align:center;
+
+    margin-top:12px;
+
+    color:#64748b;
+
+    font-size:14px;
+
+}
+
+.login-link a{
+
+    color:#2563eb;
+
+    font-weight:700;
+
+    text-decoration:none;
+
+}
+
+.login-link a:hover{
+
+    text-decoration:underline;
+
+}
+
+/* ===== OTP OPEN STATE ===== */
+
+.register-card.otp-active{
+
+    padding-top:20px;
+    padding-bottom:20px;
+
+}
+
+
+/* ==================================================
+   REGISTER PAGE - LOGIN PAGE SIZE
+   ================================================== */
+
+.register-card {
+    width: 100%;
+    max-width: 450px;
+    padding: 18px 30px !important;
+}
+
+/* Logo */
+.logo {
+    margin-bottom: 8px;
+    gap: 14px;
+}
+
+.logo-box {
+    width: 58px;
+    height: 58px;
+    font-size: 30px;
+    border-radius: 18px;
+}
+
+.logo-text h2 {
+    font-size: 32px;
+}
+
+.logo-text p {
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+/* Heading */
+.register-card h1 {
+    font-size: 26px;
+    margin-bottom: 6px;
+}
+
+.subtitle {
+    font-size: 14px;
+    margin-bottom: 10px !important;
+}
+
+/* Labels */
+.input-group {
+    margin-bottom: 9px !important;
+}
+
+.input-group label {
+    font-size: 14px;
+    margin-bottom: 6px !important;
+}
+
+/* Inputs */
+.input-group input {
+    height: 48px;
+    font-size: 15px;
+    border-radius: 18px;
+}
+
+.country-code {
+    height: 48px;
+    font-size: 15px;
+    border-radius: 18px;
+}
+
+.verify-email-button {
+    height: 48px;
+    width: 90px;
+    font-size: 14px;
+    border-radius: 16px;
+}
+
+/* Password */
+.password-box input {
+    height: 48px;
+}
+
+.eye-button {
+    font-size: 18px;
+}
+
+/* Password strength */
+.strength {
+    height: 7px;
+    margin-top: 7px;
+}
+
+.strength-text {
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* OTP */
+.otp-container {
+    gap: 8px !important;
+    margin: 6px 0 !important;
+}
+
+.register-otp {
+    width: 45px !important;
+    height: 45px !important;
+    font-size: 19px !important;
+    border-radius: 14px !important;
+}
+
+.verify-otp-button {
+    height: 42px;
+    margin-top: 5px;
+    margin-bottom: 3px;
+    border-radius: 14px;
+    font-size: 14px;
+}
+
+.email-verification-message {
+    font-size: 13px;
+    margin-top: 5px !important;
+    margin-bottom: 6px !important;
+}
+
+/* Create Account button */
+.register-button {
+    height: 48px;
+    font-size: 16px;
+    border-radius: 18px;
+    margin-top: 2px;
+}
+
+/* Login link */
+.login-link {
+    margin-top: 8px !important;
+    font-size: 14px;
+}
+
+/* =========================================
+   OTP ACTIVE - FIT ENTIRE CARD ON SCREEN
+========================================= */
+
+.register-card.otp-active {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+}
+
+/* Reduce top area */
+.register-card.otp-active .logo {
+    margin-bottom: 4px !important;
+}
+
+.register-card.otp-active .logo-box {
+    width: 50px;
+    height: 50px;
+    font-size: 26px;
+}
+
+.register-card.otp-active .logo-text h2 {
+    font-size: 28px;
+}
+
+.register-card.otp-active .logo-text p {
+    font-size: 11px;
+    margin-top: 2px;
+}
+
+.register-card.otp-active h1 {
+    font-size: 23px;
+    margin-bottom: 3px;
+}
+
+.register-card.otp-active .subtitle {
+    font-size: 12px;
+    margin-bottom: 5px !important;
+}
+
+/* Make normal fields smaller only while OTP is open */
+.register-card.otp-active .input-group {
+    margin-bottom: 5px !important;
+}
+
+.register-card.otp-active .input-group label {
+    font-size: 12px;
+    margin-bottom: 3px !important;
+}
+
+.register-card.otp-active .input-group input {
+    height: 42px;
+    font-size: 14px;
+}
+
+/* Email Verify button */
+.register-card.otp-active .verify-email-button {
+    height: 42px;
+}
+
+/* OTP */
+.register-card.otp-active .otp-section {
+    margin-bottom: 3px !important;
+}
+
+.register-card.otp-active .otp-label-row {
+    margin-bottom: 1px !important;
+}
+
+.register-card.otp-active .otp-label-row label {
+    font-size: 12px;
+}
+
+.register-card.otp-active .otp-label-row .email-verification-message {
+    font-size: 10px;
+    line-height: 17px;
+}
+
+.register-card.otp-active .otp-section .otp-container {
+    gap: 5px !important;
+    margin: 2px 0 3px !important;
+}
+
+.register-card.otp-active .otp-section .register-otp {
+    width: 38px !important;
+    height: 38px !important;
+    font-size: 17px !important;
+    border-radius: 11px !important;
+}
+
+.register-card.otp-active .otp-section .verify-otp-button {
+    height: 36px !important;
+    margin-top: 1px !important;
+    margin-bottom: 2px !important;
+    font-size: 12px;
+}
+
+/* Phone */
+.register-card.otp-active .country-code {
+    height: 42px;
+    font-size: 13px;
+}
+
+.register-card.otp-active .phone-row input {
+    height: 42px;
+}
+
+/* Password */
+.register-card.otp-active .password-box input {
+    height: 42px;
+}
+
+.register-card.otp-active .strength {
+    height: 5px;
+    margin-top: 4px !important;
+}
+
+.register-card.otp-active .strength-text {
+    font-size: 11px;
+    margin-top: 2px !important;
+}
+
+/* Confirm password */
+.register-card.otp-active .register-button {
+    height: 42px;
+    font-size: 14px;
+}
+
+/* Login link */
+.register-card.otp-active .login-link {
+    margin-top: 4px !important;
+    font-size: 11px;
+}
+
+
+/* =========================================
+   FINAL OTP COMPACT LAYOUT
+========================================= */
+
+.otp-label-row {
+    position: relative;
+    width: 100%;
+    margin-bottom: 3px !important;
+}
+
+.otp-label-row label {
+    display: block;
+    margin-bottom: 0 !important;
+}
+
+.otp-label-row .email-verification-message {
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    margin: 0 !important;
+
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+/* OTP section */
+.otp-section {
+    margin-bottom: 6px !important;
+}
+
+/* OTP boxes */
+.otp-section .otp-container {
+    gap: 7px !important;
+    margin: 4px 0 5px !important;
+}
+
+.otp-section .register-otp {
+    width: 43px !important;
+    height: 43px !important;
+}
+
+/* Verify OTP button */
+.otp-section .verify-otp-button {
+    height: 40px !important;
+    margin-top: 2px !important;
+    margin-bottom: 3px !important;
+}
+
+/* When OTP is visible */
+.register-card.otp-active {
+    padding-top: 18px !important;
+    padding-bottom: 18px !important;
+}
+
+/* Reduce spacing between all fields while OTP is open */
+.register-card.otp-active .input-group {
+    margin-bottom: 7px !important;
+}
+
+/* Keep password section compact */
+.register-card.otp-active .strength {
+    margin-top: 5px !important;
+}
+
+.register-card.otp-active .strength-text {
+    margin-top: 4px !important;
+}
+
+/* Keep bottom of card visible */
+.register-card.otp-active .login-link {
+    margin-top: 6px !important;
+}
+
+/* FINAL REGISTER CARD FIX */
+.register-card {
+    width: 450px;
+    max-width: calc(100vw - 30px);
+    margin: 0;
+}
+
+/* Keep card fully visible on normal screen */
+@media (min-width: 451px) {
+    body {
+        overflow: hidden;
+    }
+}
+
+/* Mobile */
+@media (max-width: 450px) {
+    body {
+        overflow-y: auto;
+    }
+
+    .register-card {
+        width: calc(100vw - 24px);
+        max-width: 430px;
+    }
+}
+
+
     </style>
+
 </head>
 
 <body>
@@ -357,15 +1240,32 @@ left:150%;
 
     <div class="register-card">
 
-        <div class="logo">Q</div>
+        <a href="index.html" class="logo">
 
-        <h2 class="app-title">
-             Queue<span>Less</span>
+    <div class="logo-box">
+        Q
+    </div>
+
+    <div class="logo-text">
+
+        <h2>
+            Queue<span>Less</span>
         </h2>
-            
-        <p class="subtitle">
-            Create your QueueLess account
+
+        <p>
+            Smart Queue Management
         </p>
+
+    </div>
+
+</a>
+
+<h1>Create Account</h1>
+
+<p class="subtitle">
+    Create your QueueLess account.
+</p>
+
 
         <form id="registerForm">
 
@@ -387,20 +1287,141 @@ left:150%;
 
 
             <!-- Email -->
-            <div class="input-group">
+<div class="input-group">
 
-                <label for="email">
-                    Email Address
-                </label>
+    <label for="email">
+        Email Address
+    </label>
 
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="Enter your email"
-                    required
-                >
+    <div class="email-row">
 
-            </div>
+    <input
+        type="email"
+        id="email"
+        placeholder="Enter your email"
+        required
+    >
+
+    <button
+        type="button"
+        id="verifyEmailBtn"
+        class="verify-email-button"
+    >
+        Verify
+    </button>
+
+</div>
+
+<div
+    id="emailAvailabilityMessage"
+    class="email-verification-message"
+></div>
+
+</div>
+
+
+<!-- Email OTP -->
+<div
+    class="input-group otp-section"
+    id="emailOtpSection"
+    style="display:none;"
+>
+
+    <div class="otp-label-row">
+    <label>
+        Enter Email OTP
+    </label>
+
+    <div
+        id="emailVerificationMessage"
+        class="email-verification-message"
+    ></div>
+</div>
+
+    <div class="otp-container">
+
+        <input
+            type="text"
+            class="register-otp"
+            maxlength="1"
+            inputmode="numeric"
+        >
+
+        <input
+            type="text"
+            class="register-otp"
+            maxlength="1"
+            inputmode="numeric"
+        >
+
+        <input
+            type="text"
+            class="register-otp"
+            maxlength="1"
+            inputmode="numeric"
+        >
+
+        <input
+            type="text"
+            class="register-otp"
+            maxlength="1"
+            inputmode="numeric"
+        >
+
+        <input
+            type="text"
+            class="register-otp"
+            maxlength="1"
+            inputmode="numeric"
+        >
+
+        <input
+            type="text"
+            class="register-otp"
+            maxlength="1"
+            inputmode="numeric"
+        >
+
+    </div>
+
+    <button
+        type="button"
+        id="verifyOtpBtn"
+        class="verify-otp-button"
+    >
+        Verify OTP
+    </button>
+
+    </div>
+
+
+
+<!-- Phone Number -->
+<div class="input-group">
+
+    <label for="phone">
+        Phone Number
+    </label>
+
+    <div class="phone-row">
+
+        <div class="country-code">
+            +91
+        </div>
+
+        <input
+            type="tel"
+            id="phone"
+            placeholder="Enter your phone number"
+            maxlength="10"
+            pattern="[0-9]{10}"
+            inputmode="numeric"
+            required
+        >
+
+    </div>
+
+</div>
 
 
             <!-- Password -->
@@ -426,10 +1447,19 @@ left:150%;
                         onclick="togglePassword('password', this)"
                         aria-label="Show password"
                     >
-                        👁
-                    </button>
+    <i class="fas fa-eye"></i>
+</button>
+
 
                 </div>
+
+                <div class="strength">
+    <div id="strengthBar" class="strength-bar"></div>
+</div>
+
+<div id="strengthText" class="strength-text">
+    Password Strength
+</div>
 
             </div>
 
@@ -457,8 +1487,9 @@ left:150%;
                         onclick="togglePassword('confirmPassword', this)"
                         aria-label="Show confirm password"
                     >
-                        👁
-                    </button>
+    <i class="fas fa-eye"></i>
+</button>
+
 
                 </div>
 
@@ -508,36 +1539,506 @@ left:150%;
         /*
          * SHOW / HIDE PASSWORD
          */
+        
         function togglePassword(inputId, button) {
 
-            const input =
-                document.getElementById(inputId);
+    const input = document.getElementById(inputId);
 
-            if (input.type === "password") {
+    const icon = button.querySelector("i");
 
-                input.type = "text";
+    if (input.type === "password") {
 
-                button.textContent = "🙈";
+        input.type = "text";
 
-                button.setAttribute(
-                    "aria-label",
-                    "Hide password"
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+
+        button.setAttribute(
+            "aria-label",
+            "Hide password"
+        );
+
+    } else {
+
+        input.type = "password";
+
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+
+        button.setAttribute(
+            "aria-label",
+            "Show password"
+        );
+
+    }
+}
+
+        const passwordInput = document.getElementById("password");
+const strengthBar = document.getElementById("strengthBar");
+const strengthText = document.getElementById("strengthText");
+
+passwordInput.addEventListener("input", function () {
+
+    const password = passwordInput.value;
+
+    // Empty password
+    if (password.length === 0) {
+
+        strengthBar.style.width = "0%";
+        strengthBar.style.background = "#e5e7eb";
+        strengthText.innerHTML = "Password Strength";
+
+        return;
+    }
+
+    // Very weak: less than 6 characters
+    if (password.length < 6) {
+
+        strengthBar.style.width = "25%";
+        strengthBar.style.background = "#ef4444";
+        strengthText.innerHTML = "Strength: Weak";
+
+        return;
+    }
+
+    let score = 0;
+
+    if (password.length >= 8) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+
+    // Medium
+    if (score === 0 || score === 1) {
+
+        strengthBar.style.width = "50%";
+        strengthBar.style.background = "#f59e0b";
+        strengthText.innerHTML = "Strength: Medium";
+
+    }
+
+    // Good
+    else if (score === 2 || score === 3) {
+
+        strengthBar.style.width = "75%";
+        strengthBar.style.background = "#3b82f6";
+        strengthText.innerHTML = "Strength: Good";
+
+    }
+
+    // Strong
+    else {
+
+        strengthBar.style.width = "100%";
+        strengthBar.style.background = "#22c55e";
+        strengthText.innerHTML = "Strength: Strong";
+
+    }
+
+});
+
+const phoneInput = document.getElementById("phone");
+
+phoneInput.addEventListener("input", function () {
+    this.value = this.value.replace(/\D/g, "").slice(0, 10);
+});
+
+// ========================================
+// EMAIL OTP VERIFICATION
+// ========================================
+
+const verifyEmailBtn =
+    document.getElementById("verifyEmailBtn");
+
+const verifyOtpBtn =
+    document.getElementById("verifyOtpBtn");
+
+const emailOtpSection =
+    document.getElementById("emailOtpSection");
+
+const emailVerificationMessage =
+    document.getElementById("emailVerificationMessage");
+
+const emailAvailabilityMessage =
+    document.getElementById("emailAvailabilityMessage");
+
+const otpBoxes =
+    document.querySelectorAll(".register-otp");
+
+let emailVerified = false;
+let verifiedEmail = "";
+
+
+// ========================================
+// SEND OTP
+// ========================================
+
+verifyEmailBtn.addEventListener(
+    "click",
+    async function () {
+
+        
+    const email =
+    document
+        .getElementById("email")
+        .value
+        .trim()
+        .toLowerCase();
+
+        if (!email) {
+
+            emailVerificationMessage.style.color =
+                "red";
+
+            emailVerificationMessage.textContent =
+                "Please enter your email.";
+
+            return;
+        }
+
+
+        const emailPattern =
+    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+if (!emailPattern.test(email)) {
+
+    emailVerificationMessage.style.color =
+        "red";
+
+    emailVerificationMessage.textContent =
+        "Please enter a valid email address.";
+
+    return;
+}
+
+        verifyEmailBtn.disabled = true;
+
+        verifyEmailBtn.textContent =
+            "Sending...";
+
+
+        try {
+
+            const response =
+                await fetch(
+                     "http://127.0.0.1:3000/api/send-register-otp",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            email: email
+                        })
+                    }
                 );
+
+
+            const data =
+                await response.json();
+
+
+            const serverMessage =
+    String(data.message || "").toLowerCase();
+
+const emailAlreadyExists =
+    serverMessage.includes("already exists") ||
+    serverMessage.includes("already registered") ||
+    serverMessage.includes("email exists") ||
+    serverMessage.includes("email is already");
+
+if (response.ok && !emailAlreadyExists) {
+
+    emailOtpSection.style.display = "block";
+
+    document
+        .querySelector(".register-card")
+        .classList.add("otp-active");
+
+    emailVerificationMessage.style.color = "#2563eb";
+
+    emailVerificationMessage.textContent =
+        "OTP sent to your email.";
+
+    emailAvailabilityMessage.textContent = "";
+
+    otpBoxes.forEach(function(box) {
+        box.value = "";
+    });
+
+    otpBoxes[0].focus();
+
+} else {
+
+    emailOtpSection.style.display = "none";
+
+    document
+        .querySelector(".register-card")
+        .classList.remove("otp-active");
+
+    emailAvailabilityMessage.style.color = "red";
+
+    emailAvailabilityMessage.textContent =
+        data.message ||
+        "An account already exists with this email.";
+
+    verifyEmailBtn.disabled = false;
+
+    verifyEmailBtn.textContent = "Verify";
+}
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            emailAvailabilityMessage.style.color = "red";
+
+emailAvailabilityMessage.textContent =
+    "Cannot connect to backend.";
+
+
+       verifyEmailBtn.disabled = false;
+
+verifyEmailBtn.textContent =
+    "Verify";
+
+    }
+}
+);
+
+// ========================================
+// RESET VERIFICATION WHEN EMAIL CHANGES
+// ========================================
+
+document
+    .getElementById("email")
+    .addEventListener("input", function () {
+
+        emailAvailabilityMessage.textContent = "";
+
+        // Reset verification state
+        emailVerified = false;
+        verifiedEmail = "";
+
+        // Hide OTP section
+        emailOtpSection.style.display = "none";
+
+        document
+    .querySelector(".register-card")
+    .classList.remove("otp-active");
+
+        // Clear OTP boxes
+        otpBoxes.forEach(function (box) {
+            box.value = "";
+        });
+
+        // Reset Verify Email button
+        verifyEmailBtn.disabled = false;
+        verifyEmailBtn.textContent = "Verify";
+        verifyEmailBtn.style.background = "";
+
+        // Reset Verify OTP button
+        verifyOtpBtn.disabled = false;
+        verifyOtpBtn.textContent = "Verify OTP";
+        verifyOtpBtn.style.background = "";
+
+        // Clear old verification message
+        emailVerificationMessage.textContent = "";
+        emailVerificationMessage.style.color = "";
+    });
+
+
+// ========================================
+// OTP BOX INPUT
+// ========================================
+
+otpBoxes.forEach(
+    function (box, index) {
+
+        box.addEventListener(
+            "input",
+            function () {
+
+                box.value =
+                    box.value.replace(
+                        /[^0-9]/g,
+                        ""
+                    );
+
+
+                if (
+                    box.value &&
+                    index <
+                        otpBoxes.length - 1
+                ) {
+
+                    otpBoxes[index + 1].focus();
+
+                }
+
+            }
+        );
+
+
+        box.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key ===
+                        "Backspace" &&
+                    !box.value &&
+                    index > 0
+                ) {
+
+                    otpBoxes[index - 1].focus();
+
+                }
+
+            }
+        );
+
+    }
+);
+
+
+// ========================================
+// VERIFY OTP
+// ========================================
+
+verifyOtpBtn.addEventListener(
+    "click",
+    async function () {
+
+        const email =
+            document
+                .getElementById("email")
+                .value
+                .trim()
+                .toLowerCase();
+
+
+        const otp =
+            Array.from(otpBoxes)
+                .map(function (box) {
+                    return box.value;
+                })
+                .join("");
+
+
+        if (otp.length !== 6) {
+
+            emailVerificationMessage.style.color =
+                "red";
+
+            emailVerificationMessage.textContent =
+                "Please enter the 6-digit OTP.";
+
+            return;
+        }
+
+
+        verifyOtpBtn.disabled = true;
+
+        verifyOtpBtn.textContent =
+            "Verifying...";
+
+
+        try {
+
+            const response =
+                await fetch(
+                     "http://127.0.0.1:3000/api/verify-register-otp",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            email: email,
+                            otp: otp
+                        })
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (response.ok) {
+
+    emailVerified = true;
+
+    verifiedEmail = email;
+
+    // Hide OTP section after successful verification
+    emailOtpSection.style.display = "none";
+
+    document
+    .querySelector(".register-card")
+    .classList.remove("otp-active");
+
+
+    emailVerificationMessage.style.color =
+        "#16a34a";
+
+    emailVerificationMessage.textContent =
+        "✓ Email verified successfully";
+
+    verifyEmailBtn.textContent =
+        "✓ Verified";
+
+    verifyEmailBtn.style.background =
+        "#16a34a";
+
+    verifyEmailBtn.disabled =
+        true;
 
             } else {
 
-                input.type = "password";
+                emailVerificationMessage.style.color =
+                    "red";
 
-                button.textContent = "👁";
+                emailVerificationMessage.textContent =
+                    data.message ||
+                    "Invalid OTP.";
 
-                button.setAttribute(
-                    "aria-label",
-                    "Show password"
-                );
+                verifyOtpBtn.disabled =
+                    false;
+
+                verifyOtpBtn.textContent =
+                    "Verify OTP";
 
             }
 
+        } catch (error) {
+
+            console.error(error);
+
+            emailVerificationMessage.style.color =
+                "red";
+
+            emailVerificationMessage.textContent =
+                "Cannot connect to backend.";
+
+            verifyOtpBtn.disabled =
+                false;
+
+            verifyOtpBtn.textContent =
+                "Verify OTP";
+
         }
+
+    }
+);
 
 
         /*
@@ -569,6 +2070,13 @@ left:150%;
                         .getElementById("password")
                         .value;
 
+                const phone =
+    document
+        .getElementById("phone")
+        .value
+        .trim();
+
+
 
                 const confirmPassword =
                     document
@@ -582,6 +2090,7 @@ left:150%;
                 if (
                     !name ||
                     !email ||
+                    !phone ||
                     !password ||
                     !confirmPassword
                 ) {
@@ -593,6 +2102,24 @@ left:150%;
 
                     return;
                 }
+
+                // ========================================
+// CHECK EMAIL VERIFICATION
+// ========================================
+
+if (
+    !emailVerified ||
+    verifiedEmail !== email.toLowerCase()
+) {
+
+    message.style.color = "red";
+
+    message.textContent =
+        "Please verify your email first.";
+
+    return;
+}
+
 
 
                 /*
@@ -665,7 +2192,7 @@ left:150%;
                      */
                     const response =
                         await fetch(
-                            "/api/register",
+                             "http://127.0.0.1:3000/api/register",
                             {
 
                                 method: "POST",
@@ -676,14 +2203,11 @@ left:150%;
                                 },
 
                                 body: JSON.stringify({
-
-                                    name: name,
-
-                                    email: email,
-
-                                    password: password
-
-                                }),
+                                     name: name,
+                                     email: email,
+                                     phone: phone,
+                                     password: password
+                                     }),
 
                                 signal:
                                     controller.signal

@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin OTP Verification | QueueLess</title>
+
+    <!-- Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+
+            overflow: hidden;
+
+            background: linear-gradient(
+                135deg,
+                #ffffff 0%,
+                #eef2ff 40%,
+                #dbeafe 100%
+            );
+
+            position: relative;
+        }
+
+
+        /* ==========================
+           BACKGROUND
+        ========================== */
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(4px);
+
+            animation: float 12s ease-in-out infinite;
+        }
+
+        .bg1 {
+            width: 320px;
+            height: 320px;
+
+            background: #3b82f630;
+
+            top: -120px;
+            left: -100px;
+        }
+
+        .bg2 {
+            width: 250px;
+            height: 250px;
+
+            background: #60a5fa30;
+
+            right: -80px;
+            top: 80px;
+
+            animation-duration: 15s;
+        }
+
+        .bg3 {
+            width: 220px;
+            height: 220px;
+
+            background: #2563eb20;
+
+            bottom: -80px;
+            left: 15%;
+
+            animation-duration: 18s;
+        }
+
+        .bg4 {
+            width: 180px;
+            height: 180px;
+
+            background: #93c5fd30;
+
+            bottom: 70px;
+            right: 8%;
+
+            animation-duration: 20s;
+        }
+
+        @keyframes float {
+
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-35px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+
+        }
+
+
+        /* ==========================
+           CARD
+        ========================== */
+
+        .login-card {
+
+            position: relative;
+
+            z-index: 10;
+
+            width: 100%;
+            max-width: 450px;
+
+            padding: 28px 30px;
+
+            background: rgba(255,255,255,.92);
+
+            backdrop-filter: blur(28px);
+
+            border: 1px solid rgba(255,255,255,.65);
+
+            border-radius: 28px;
+
+            box-shadow:
+                0 35px 90px rgba(79,70,229,.18),
+                0 15px 35px rgba(0,0,0,.08);
+
+        }
+
+
+        /* ==========================
+           LOGO
+        ========================== */
+
+        .logo {
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            gap: 14px;
+
+            margin-bottom: 10px;
+
+            text-decoration: none;
+
+        }
+
+        .logo-box {
+
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6d5efc,
+            #4f46e5
+        );
+
+    color: white;
+
+    font-size: 30px;
+    font-weight: 800;
+
+    box-shadow:
+        0 18px 45px rgba(91,78,245,.35),
+        0 0 35px rgba(91,78,245,.20);
+
+    position: relative;
+    overflow: hidden;
+}
+
+        /* SAME SHINE AS ADMIN LOGIN */
+
+        .logo-box::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: -40%;
+            left: -80%;
+
+            width: 55%;
+            height: 180%;
+
+            background: rgba(255,255,255,.40);
+
+            transform: rotate(25deg);
+
+            animation: shine 6s linear infinite;
+
+        }
+
+        .logo-text h2 {
+
+            font-size: 32px;
+
+            font-weight: 800;
+
+            color: #111827;
+
+        }
+
+        .logo-text span {
+            color: #4f46e5;
+        }
+
+        .logo-text p {
+
+            margin-top: 4px;
+
+            font-size: 13px;
+
+            color: #64748b;
+
+        }
+
+        @keyframes shine {
+
+            0% {
+                left: -80%;
+            }
+
+            100% {
+                left: 160%;
+            }
+
+        }
+
+
+        /* ==========================
+           HEADING
+        ========================== */
+
+        .login-card h1 {
+
+            text-align: center;
+
+            font-size: 30px;
+
+            font-weight: 700;
+
+            color: #0f172a;
+
+            margin-bottom: 8px;
+
+        }
+
+        .subtitle {
+
+            text-align: center;
+
+            font-size: 15px;
+
+            line-height: 26px;
+
+            color: #64748b;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        /* ==========================
+           OTP MESSAGE
+        ========================== */
+
+        .otp-info {
+
+            text-align: center;
+
+            background: #f8fafc;
+
+            border: 1px solid #dbeafe;
+
+            border-radius: 14px;
+
+            padding: 14px;
+
+            margin-bottom: 22px;
+
+            color: #64748b;
+
+            font-size: 14px;
+
+        }
+
+        .email {
+
+            color: #2563eb;
+
+            font-weight: 700;
+
+            word-break: break-all;
+
+        }
+
+
+        /* ==========================
+           OTP BOXES
+        ========================== */
+
+        .otp-container {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 10px;
+
+            margin-bottom: 18px;
+
+        }
+
+        .otp-box {
+
+            width: 52px;
+            height: 58px;
+
+            border: 2px solid #e2e8f0;
+
+            border-radius: 14px;
+
+            background: white;
+
+            text-align: center;
+
+            font-size: 22px;
+
+            font-weight: 700;
+
+            color: #0f172a;
+
+            outline: none;
+
+            transition: .25s;
+
+        }
+
+        .otp-box:focus {
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 4px rgba(37,99,235,.12);
+
+            transform: translateY(-2px);
+
+        }
+
+
+        /* ==========================
+           VERIFY BUTTON
+        ========================== */
+
+        .verify-button {
+
+            width: 100%;
+
+            height: 58px;
+
+            border: none;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #3b82f6,
+                    #60a5fa
+                );
+
+            background-size: 200%;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: .35s;
+
+            box-shadow:
+                0 18px 35px rgba(37,99,235,.25);
+
+        }
+
+        .verify-button:hover {
+
+            background-position: right;
+
+            transform: translateY(-3px);
+
+        }
+
+        .verify-button:disabled {
+
+            opacity: .75;
+
+            cursor: not-allowed;
+
+            transform: none;
+
+        }
+
+
+        /* ==========================
+           MESSAGE
+        ========================== */
+
+        #message {
+
+            min-height: 20px;
+
+            margin-top: 10px;
+
+            text-align: center;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+        }
+
+
+        /* ==========================
+           RESEND
+        ========================== */
+
+        .resend {
+
+            text-align: center;
+
+            margin-top: 16px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #2563eb;
+
+            cursor: pointer;
+
+        }
+
+        .resend:hover {
+            color: #1d4ed8;
+        }
+
+
+        /* ==========================
+           BACK
+        ========================== */
+
+        .back-home {
+
+            display: block;
+
+            margin-top: 16px;
+
+            text-align: center;
+
+            font-size: 14px;
+
+            text-decoration: none;
+
+            color: #64748b;
+
+            transition: .25s;
+
+        }
+
+        .back-home:hover {
+            color: #2563eb;
+        }
+
+
+        /* ==========================
+           FOOTER
+        ========================== */
+
+        .login-footer {
+
+            margin-top: 18px;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            gap: 8px;
+
+            font-size: 12px;
+
+            font-weight: 500;
+
+            color: #94a3b8;
+
+        }
+
+        .login-footer i {
+            color: #6366f1;
+        }
+
+
+        /* ==========================
+           MOBILE
+        ========================== */
+
+        @media(max-width:520px) {
+
+            .login-card {
+                padding: 30px 24px;
+            }
+
+            .logo-text h2 {
+                font-size: 28px;
+            }
+
+            .login-card h1 {
+                font-size: 28px;
+            }
+
+            .otp-container {
+                gap: 7px;
+            }
+
+            .otp-box {
+
+                width: 45px;
+                height: 54px;
+
+                font-size: 20px;
+
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- Background -->
+    <div class="bg-circle bg1"></div>
+    <div class="bg-circle bg2"></div>
+    <div class="bg-circle bg3"></div>
+    <div class="bg-circle bg4"></div>
+
+
+    <!-- CARD -->
+    <div class="login-card">
+
+
+        <!-- LOGO -->
+<a href="index.html" class="logo">
+
+    <div class="logo-box">
+        Q
+    </div>
+
+    <div class="logo-text">
+        <h2>Queue<span>Less</span></h2>
+        <p>Smart Queue Management</p>
+    </div>
+
+</a>
+
+
+        <!-- TITLE -->
+
+        <h1>
+            Admin OTP Verification
+        </h1>
+
+        <p class="subtitle">
+            Enter the verification code to continue.
+        </p>
+
+
+        <!-- EMAIL INFO -->
+
+        <div class="otp-info">
+
+            A 6-digit OTP has been sent to your admin email.
+
+            <br>
+
+            <span id="adminEmail" class="email">
+                your admin email
+            </span>
+
+        </div>
+
+
+        <!-- SIX OTP BOXES -->
+
+        <div class="otp-container">
+
+            <input
+                class="otp-box"
+                type="text"
+                maxlength="1"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+            >
+
+            <input
+                class="otp-box"
+                type="text"
+                maxlength="1"
+                inputmode="numeric"
+            >
+
+            <input
+                class="otp-box"
+                type="text"
+                maxlength="1"
+                inputmode="numeric"
+            >
+
+            <input
+                class="otp-box"
+                type="text"
+                maxlength="1"
+                inputmode="numeric"
+            >
+
+            <input
+                class="otp-box"
+                type="text"
+                maxlength="1"
+                inputmode="numeric"
+            >
+
+            <input
+                class="otp-box"
+                type="text"
+                maxlength="1"
+                inputmode="numeric"
+            >
+
+        </div>
+
+
+        <!-- MESSAGE -->
+
+        <div id="message"></div>
+
+
+        <!-- VERIFY -->
+
+        <button
+            type="button"
+            class="verify-button"
+            id="verifyButton">
+
+            <i class="fas fa-shield-halved"></i>
+            Verify OTP
+
+        </button>
+
+
+        <!-- RESEND -->
+
+        <div
+            class="resend"
+            id="resendButton">
+
+            Resend OTP
+
+        </div>
+
+
+        <!-- BACK -->
+
+        <a
+            href="admin-login.html"
+            class="back-home">
+
+            <i class="fas fa-arrow-left"></i>
+            Back to Admin Login
+
+        </a>
+
+
+        <!-- FOOTER -->
+
+        <p class="login-footer">
+
+            <i class="fas fa-shield-halved"></i>
+
+            Secure Queue Management System
+
+        </p>
+
+
+    </div>
+
+
+    <script>
+
+        /* ==========================
+           ADMIN EMAIL
+        ========================== */
+
+        const adminEmail =
+            sessionStorage.getItem("adminEmail");
+
+        if (adminEmail) {
+
+            document.getElementById("adminEmail")
+                .textContent = adminEmail;
+
+        }
+
+
+        /* ==========================
+           OTP BOXES
+        ========================== */
+
+        const otpBoxes =
+            document.querySelectorAll(".otp-box");
+
+
+        otpBoxes.forEach((box, index) => {
+
+            box.addEventListener("input", function () {
+
+                this.value =
+                    this.value.replace(/\D/g, "");
+
+                if (this.value && index < otpBoxes.length - 1) {
+
+                    otpBoxes[index + 1].focus();
+
+                }
+
+            });
+
+
+            box.addEventListener("keydown", function (event) {
+
+                if (
+                    event.key === "Backspace" &&
+                    !this.value &&
+                    index > 0
+                ) {
+
+                    otpBoxes[index - 1].focus();
+
+                }
+
+            });
+
+
+            /* PASTE FULL OTP */
+
+            box.addEventListener("paste", function (event) {
+
+                event.preventDefault();
+
+                const pasted =
+                    event.clipboardData
+                        .getData("text")
+                        .replace(/\D/g, "")
+                        .slice(0, 6);
+
+                pasted.split("").forEach((digit, i) => {
+
+                    if (otpBoxes[i]) {
+
+                        otpBoxes[i].value = digit;
+
+                    }
+
+                });
+
+                if (pasted.length > 0) {
+
+                    otpBoxes[
+                        Math.min(
+                            pasted.length,
+                            6
+                        ) - 1
+                    ].focus();
+
+                }
+
+            });
+
+        });
+
+
+        /* ==========================
+           VERIFY OTP
+        ========================== */
+
+        document
+            .getElementById("verifyButton")
+            .addEventListener("click", async function () {
+
+                const otp =
+                    Array.from(otpBoxes)
+                        .map(box => box.value)
+                        .join("");
+
+
+                const message =
+                    document.getElementById("message");
+
+
+                if (otp.length !== 6) {
+
+                    message.style.color = "red";
+
+                    message.textContent =
+                        "Please enter the complete 6-digit OTP.";
+
+                    return;
+
+                }
+
+
+                const button = this;
+
+                button.disabled = true;
+
+                button.innerHTML =
+                    '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "http://127.0.0.1:3000/api/admin/verify-otp",
+                            {
+
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+
+                                    email: adminEmail,
+
+                                    otp: otp
+
+                                })
+
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (
+                        response.ok &&
+                        data.success
+                    ) {
+
+                        message.style.color =
+                            "green";
+
+                        message.textContent =
+                            "OTP verified successfully!";
+
+
+                        if (data.token) {
+
+                            localStorage.setItem(
+                                "adminToken",
+                                data.token
+                            );
+
+                        }
+
+
+                        setTimeout(() => {
+
+                            window.location.replace(
+                                "admin.html"
+                            );
+
+                        }, 700);
+
+                    }
+
+                    else {
+
+                        message.style.color =
+                            "red";
+
+                        message.textContent =
+                            data.message ||
+                            "Invalid or expired OTP.";
+
+                        button.disabled = false;
+
+                        button.innerHTML =
+                            '<i class="fas fa-shield-halved"></i> Verify OTP';
+
+                    }
+
+                }
+
+                catch (error) {
+
+                    console.error(error);
+
+                    message.style.color =
+                        "red";
+
+                    message.textContent =
+                        "Cannot connect to QueueLess server.";
+
+                    button.disabled = false;
+
+                    button.innerHTML =
+                        '<i class="fas fa-shield-halved"></i> Verify OTP';
+
+                }
+
+            });
+
+
+        /* ==========================
+           RESEND OTP
+        ========================== */
+
+        document
+            .getElementById("resendButton")
+            .addEventListener("click", async function () {
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "http://127.0.0.1:3000/api/admin/send-otp",
+                            {
+
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+
+                                    email: adminEmail
+
+                                })
+
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    const message =
+                        document.getElementById("message");
+
+
+                    if (response.ok) {
+
+                        message.style.color =
+                            "green";
+
+                        message.textContent =
+                            "A new OTP has been sent to your email.";
+
+                    }
+
+                    else {
+
+                        message.style.color =
+                            "red";
+
+                        message.textContent =
+                            data.message ||
+                            "Unable to resend OTP.";
+
+                    }
+
+                }
+
+                catch (error) {
+
+                    console.error(error);
+
+                    document.getElementById("message")
+                        .textContent =
+                        "Cannot connect to server.";
+
+                }
+
+            });
+
+    </script>
+
+</body>
+</html>

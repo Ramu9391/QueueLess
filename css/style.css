@@ -2116,3 +2116,90 @@ color:white;
 transform:rotate(-8deg);
 
 }
+
+/* Mobile only */
+@media screen and (max-width: 768px) {
+
+    .navbar{
+        padding:12px 15px;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        overflow:hidden;
+    }
+
+    .nav-right{
+        display:flex;
+        align-items:center;
+        gap:8px;
+    }
+
+    .nav-right .btn{
+        padding:8px 12px;
+        font-size:14px;
+    }
+
+    .logo img{
+        width:45px;
+    }
+
+    .logo h2{
+        font-size:28px;
+    }
+
+}
+
+/* =========================================
+   MOBILE PERFORMANCE OPTIMIZATION
+   Desktop remains unchanged
+========================================= */
+
+@media (max-width:768px){
+
+    html{
+        scroll-behavior:auto;
+    }
+
+    /* Stop animations on mobile */
+    .logo-icon,
+    .hero-card,
+    .hero h1 span,
+    .live,
+    .progress-bar,
+    .hero,
+    .how,
+    .services,
+    .about{
+
+        animation:none !important;
+
+    }
+
+    .logo-icon::before,
+    .progress::after{
+
+        animation:none !important;
+
+    }
+
+    /* Reduce blur for better performance */
+    .navbar,
+    .hero-card,
+    .step-card{
+
+        backdrop-filter:blur(8px);
+        -webkit-backdrop-filter:blur(8px);
+
+    }
+
+    /* Smaller shadows */
+    .hero-card,
+    .step-card,
+    .service-card,
+    .stat-card{
+
+        box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+    }
+
+}

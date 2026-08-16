@@ -191,44 +191,39 @@ align-items:center;
 
 gap:14px;
 
-margin-bottom:16px;
+margin-bottom:10px;
 
 text-decoration:none;
 
 }
 
-.logo-box{
+.logo-box {
+    width: 58px;
+    height: 58px;
 
-width:66px;
-height:66px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-display:flex;
-justify-content:center;
-align-items:center;
+    border-radius: 18px;
 
-border-radius:18px;
+    background: linear-gradient(
+        135deg,
+        #6d5efc,
+        #4f46e5
+    );
 
-background:
-linear-gradient(
-135deg,
-#6d5efc,
-#4f46e5
-);
+    color: white;
 
-color:white;
+    font-size: 30px;
+    font-weight: 800;
 
-font-size:30px;
+    box-shadow:
+        0 18px 45px rgba(91,78,245,.35),
+        0 0 35px rgba(91,78,245,.20);
 
-box-shadow:
-
-0 18px 45px rgba(91,78,245,.35),
-
-0 0 35px rgba(91,78,245,.20);
-
-position:relative;
-
-overflow:hidden;
-
+    position: relative;
+    overflow: hidden;
 }
 
 .logo-box::before{
@@ -482,19 +477,12 @@ MESSAGE
 ==========================*/
 
 #message{
-
-min-height:22px;
-
-margin-top:12px;
-
-margin-bottom:10px;
-
-font-size:14px;
-
-font-weight:600;
-
-text-align:center;
-
+    min-height:0;
+    margin-top:4px;
+    margin-bottom:0;
+    font-size:14px;
+    font-weight:600;
+    text-align:center;
 }
 
 
@@ -504,21 +492,13 @@ BACK BUTTON
 ==========================*/
 
 .back-home{
-
-display:block;
-
-margin-top:24px;
-
-text-align:center;
-
-font-size:14px;
-
-text-decoration:none;
-
-color:#64748b;
-
-transition:.25s;
-
+    display:block;
+    margin-top:16px;
+    text-align:center;
+    font-size:14px;
+    text-decoration:none;
+    color:#64748b;
+    transition:.25s;
 }
 
 .back-home:hover{
@@ -634,6 +614,105 @@ font-size:28px;
 
 }
 
+
+/* ========================================
+   SAME CAPTCHA AS LOGIN PAGE
+======================================== */
+
+.recaptcha-box {
+    width: 100%;
+    height: 72px;
+
+    margin: 8px 0 10px;
+
+    padding: 8px 16px;
+
+    background: #f8fafc;
+
+    border: 1px solid #dbeafe;
+
+    border-radius: 8px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    cursor: pointer;
+}
+
+.recaptcha-left {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.recaptcha-left input {
+    width: 22px;
+    height: 22px;
+
+    cursor: pointer;
+
+    accent-color: #2563eb;
+}
+
+.recaptcha-left span {
+    font-size: 15px;
+
+    font-weight: 500;
+
+    color: #334155;
+}
+
+.recaptcha-right {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 70px;
+
+    min-width: 70px;
+}
+
+.recaptcha-logo {
+    width: 70px;
+    height: 65px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.recaptcha-logo img {
+    width: 70px;
+
+    height: auto;
+
+    display: block;
+}
+
+.captcha-message {
+    min-height: 18px;
+
+    margin-top: 7px;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
 </style>
 
 </head>
@@ -676,99 +755,120 @@ Login to access QueueLess Admin Dashboard.
 
 <form id="adminLoginForm" autocomplete="off">
 
-<div class="form-group">
+    <!-- ADMIN EMAIL -->
+    <div class="form-group">
+        <label for="email">Admin Email</label>
 
-<label for="email">
+        <div class="input-box">
+            <i class="fas fa-envelope"></i>
 
-Admin Email
+            <input
+                type="email"
+                id="email"
+                name="admin-email"
+                placeholder="Enter admin email"
+                autocomplete="off"
+                required>
+        </div>
+    </div>
 
-</label>
 
-<div class="input-box">
+    <!-- PASSWORD -->
+    <div class="form-group">
+        <label for="password">Password</label>
 
-<i class="fas fa-envelope"></i>
+        <div class="input-box">
+            <i class="fas fa-lock"></i>
 
-<input
-type="email"
-id="email"
-name="admin-email"
-placeholder="Enter admin email"
-autocomplete="off"
-required>
+            <input
+                type="password"
+                id="password"
+                name="admin-password"
+                placeholder="Enter secure password"
+                autocomplete="new-password"
+                required>
+
+            <button
+                type="button"
+                class="eye-button"
+                onclick="togglePassword()">
+
+                <i class="fas fa-eye"></i>
+
+            </button>
+        </div>
+    </div>
+
+
+    <!-- CAPTCHA -->
+
+<div class="recaptcha-box" id="recaptchaBox">
+
+    <div class="recaptcha-left">
+
+        <input
+            type="checkbox"
+            id="captchaCheckbox">
+
+        <span>
+            I'm not a robot
+        </span>
+
+    </div>
+
+    <div class="recaptcha-right">
+
+        <div class="recaptcha-logo">
+
+            <img
+                src="recaptcha-logo.png"
+                alt="reCAPTCHA">
+
+        </div>
+
+    </div>
 
 </div>
 
-</div>
-
-<div class="form-group">
-
-<label for="password">
-
-Password
-
-</label>
-
-<div class="input-box">
-
-<i class="fas fa-lock"></i>
-
-<input
-type="password"
-id="password"
-name="admin-password"
-placeholder="Enter secure password"
-autocomplete="new-password"
-required>
-
-<button
-type="button"
-class="eye-button"
-onclick="togglePassword()">
-
-<i class="fas fa-eye"></i>
-
-</button>
-
-</div>
-
+<div
+    id="captchaMessage"
+    class="captcha-message">
 </div>
 
 
-<button
-type="submit"
-class="login-button"
-id="loginButton">
+    <!-- LOGIN BUTTON -->
+    <button
+        type="submit"
+        class="login-button"
+        id="loginButton">
 
-<span id="btnText">
+        <span id="btnText">
+            <i class="fas fa-user-shield"></i>
+            Login to Dashboard
+        </span>
 
-<i class="fas fa-user-shield"></i>
-
-Login to Dashboard
-
-</span>
-
-</button>
-
-<div id="message"></div>
+    </button>
 
 
-<a
-href="index.html"
-class="back-home">
+    <div id="message"></div>
 
-<i class="fas fa-arrow-left"></i>
 
-Back to Home
+    <a
+        href="index.html"
+        class="back-home">
 
-</a>
+        <i class="fas fa-arrow-left"></i>
+        Back to Home
 
-<p class="login-footer">
+    </a>
 
-<i class="fas fa-shield-halved"></i>
 
-Secure Queue Management System
+    <p class="login-footer">
 
-</p>
+        <i class="fas fa-shield-halved"></i>
+        Secure Queue Management System
+
+    </p>
 
 </form>
 
@@ -777,236 +877,452 @@ Secure Queue Management System
 
 <script>
 
-/*=========================================
-SHOW / HIDE PASSWORD
-=========================================*/
+/* =========================================
+   PASSWORD SHOW / HIDE
+========================================= */
 
-function togglePassword(){
+function togglePassword() {
 
-const passwordInput=document.getElementById("password");
+    const passwordInput =
+        document.getElementById("password");
 
-const icon=document.querySelector(".eye-button i");
+    const icon =
+        document.querySelector(".eye-button i");
 
-if(passwordInput.type==="password"){
+    if (passwordInput.type === "password") {
 
-passwordInput.type="text";
+        passwordInput.type = "text";
 
-icon.classList.remove("fa-eye");
-icon.classList.add("fa-eye-slash");
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
 
-}else{
+    } else {
 
-passwordInput.type="password";
+        passwordInput.type = "password";
 
-icon.classList.remove("fa-eye-slash");
-icon.classList.add("fa-eye");
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
 
+    }
 }
 
-}
 
-/*=========================================
-ELEMENTS
-=========================================*/
+/* =========================================
+   ELEMENTS
+========================================= */
 
-const adminLoginForm=
-document.getElementById("adminLoginForm");
+const adminLoginForm =
+    document.getElementById("adminLoginForm");
 
-const loginButton=
-document.getElementById("loginButton");
+const loginButton =
+    document.getElementById("loginButton");
 
-const message=
-document.getElementById("message");
+const message =
+    document.getElementById("message");
 
-const emailInput=
-document.getElementById("email");
+const emailInput =
+    document.getElementById("email");
 
-const passwordInput=
-document.getElementById("password");
+const passwordInput =
+    document.getElementById("password");
 
-/*=========================================
-CLEAR FORM
-=========================================*/
+const recaptchaBox =
+    document.getElementById("recaptchaBox");
 
-function clearForm(){
+const captchaCheckbox =
+    document.getElementById("captchaCheckbox");
 
-adminLoginForm.reset();
+const captchaMessage =
+    document.getElementById("captchaMessage");
 
-emailInput.value="";
-passwordInput.value="";
 
-passwordInput.type="password";
+/* =========================================
+   CAPTCHA VARIABLES
+========================================= */
 
-const icon=document.querySelector(".eye-button i");
+let captchaId = null;
+let captchaVerified = false;
+let captchaWindow = null;
 
-if(icon){
 
-icon.classList.remove("fa-eye-slash");
-icon.classList.add("fa-eye");
+/* =========================================
+   OPEN CAPTCHA
+========================================= */
 
-}
+recaptchaBox.addEventListener("click", function () {
 
-message.textContent="";
+    // Don't reset an already verified CAPTCHA
+    if (captchaVerified && captchaId) {
+        return;
+    }
 
-loginButton.disabled=false;
+    // Clear old login error/message
+    message.textContent = "";
+    message.style.color = "";
 
-loginButton.innerHTML=
-'<span id="btnText"><i class="fas fa-user-shield"></i> Login to Dashboard</span>';
+    captchaCheckbox.checked = false;
+    captchaVerified = false;
+    captchaId = null;
 
-}
+    captchaMessage.style.color = "";
+    captchaMessage.textContent = "";
 
-/*=========================================
-CHECK ADMIN SESSION
-=========================================*/
-
-window.addEventListener("pageshow",function(){
-
-const adminToken=localStorage.getItem("adminToken");
-
-if(adminToken){
-
-window.location.replace("admin.html");
-
-return;
-
-}
-
-clearForm();
-
+    captchaWindow = window.open(
+        "captcha.html",
+        "_blank"
+    );
 });
 
-/*=========================================
-ADMIN LOGIN
-=========================================*/
+/* =========================================
+   RECEIVE CAPTCHA RESULT
+========================================= */
+
+window.addEventListener("message", function(event) {
+
+    console.log("CAPTCHA MESSAGE RECEIVED:", event.data);
+
+    if (!event.data) {
+        return;
+    }
+
+    if (event.data.type !== "CAPTCHA_VERIFIED") {
+        return;
+    }
+
+    if (!event.data.captchaId) {
+        console.error("CAPTCHA ID NOT RECEIVED");
+        return;
+    }
+
+    // Store the verified CAPTCHA ID
+    captchaId = event.data.captchaId;
+
+    // Mark CAPTCHA as verified
+    captchaVerified = true;
+
+   // Update UI
+captchaCheckbox.checked = true;
+
+captchaMessage.style.color = "green";
+
+captchaMessage.textContent =
+    "✓ Verification successful";
+
+// Clear any old login error/message
+message.textContent = "";
+message.style.color = "";
+
+
+    console.log(
+        "CAPTCHA VERIFIED:",
+        captchaId
+    );
+});
+
+
+/* =========================================
+   CLEAR FORM
+========================================= */
+
+function clearForm() {
+
+    adminLoginForm.reset();
+
+    emailInput.value = "";
+    passwordInput.value = "";
+
+    passwordInput.type = "password";
+
+    const icon =
+        document.querySelector(
+            ".eye-button i"
+        );
+
+    if (icon) {
+
+        icon.classList.remove(
+            "fa-eye-slash"
+        );
+
+        icon.classList.add(
+            "fa-eye"
+        );
+    }
+
+
+    captchaId = null;
+    captchaVerified = false;
+
+    captchaCheckbox.checked = false;
+
+captchaMessage.style.color = "";
+
+captchaMessage.textContent = "";
+
+
+    message.textContent = "";
+
+    loginButton.disabled = false;
+
+    loginButton.innerHTML =
+        '<span id="btnText">' +
+        '<i class="fas fa-user-shield"></i> ' +
+        'Login to Dashboard' +
+        '</span>';
+}
+
+
+/* =========================================
+   CHECK ADMIN SESSION
+========================================= */
+
+window.addEventListener(
+    "pageshow",
+    function() {
+
+        const adminToken =
+            localStorage.getItem(
+                "adminToken"
+            );
+
+        if (adminToken) {
+
+            window.location.replace(
+                "admin.html"
+            );
+
+            return;
+        }
+
+        clearForm();
+    }
+);
+
+
+/* =========================================
+   ADMIN LOGIN
+========================================= */
 
 adminLoginForm.addEventListener(
+    "submit",
+    async function(event) {
 
-"submit",
+        event.preventDefault();
 
-async function(event){
+        // Clear ALL previous messages before every login attempt
+message.textContent = "";
+message.style.color = "";
 
-event.preventDefault();
+captchaMessage.textContent = "";
+captchaMessage.style.color = "";
 
-const email=emailInput.value.trim().toLowerCase();
 
-const password=passwordInput.value;
+        const email =
+            emailInput.value
+                .trim()
+                .toLowerCase();
 
-if(!email||!password){
+        const password =
+            passwordInput.value;
 
-message.style.color="red";
 
-message.textContent="Please enter admin email and password.";
+        /* ==========================
+           VALIDATE EMAIL/PASSWORD
+        ========================== */
 
-return;
+        if (!email || !password) {
 
+            message.style.color =
+                "red";
+
+            message.textContent =
+                "Please enter admin email and password.";
+
+            return;
+        }
+
+
+        /* ==========================
+           VALIDATE CAPTCHA
+        ========================== */
+
+        if (!captchaVerified || !captchaId) {
+
+    // Make sure only ONE CAPTCHA message is displayed
+    message.textContent = "";
+    message.style.color = "";
+
+    captchaMessage.style.color = "red";
+    captchaMessage.textContent =
+        "Please complete the CAPTCHA first.";
+
+    loginButton.disabled = false;
+
+    return;
 }
 
-loginButton.disabled=true;
 
-loginButton.innerHTML=
-'<span class="spinner"></span> Logging in...';
-
-message.style.color="#64748b";
-
-message.textContent="Checking admin credentials...";
-
-try{
-
-const response=await fetch(
-
-"/api/admin/login",
-
-{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-
-email:email,
-
-password:password
-
-})
-
-}
-
+console.log(
+    "LOGIN USING CAPTCHA:",
+    captchaId
 );
 
-const data=await response.json();
 
-if(response.ok && data.success){
+        /* ==========================
+           LOGIN
+        ========================== */
 
-localStorage.removeItem("adminToken");
+        loginButton.disabled = true;
 
-localStorage.setItem(
+        loginButton.innerHTML =
+            '<span class="spinner"></span> Logging in...';
 
-"adminToken",
+        message.style.color =
+            "#64748b";
 
-data.token
+        message.textContent =
+            "Checking admin credentials...";
 
-);
 
-message.style.color="green";
+        try {
 
-message.textContent="Login successful! Opening dashboard...";
+            const response =
+                await fetch(
+                    "http://127.0.0.1:3000/api/admin/login",
+                    {
+                        method: "POST",
 
-setTimeout(function(){
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
 
-window.location.replace("admin.html");
+                        body:
+                            JSON.stringify({
 
-},700);
+                                email: email,
 
+                                password: password,
+
+                                captchaId:
+                                    captchaId
+
+                            })
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            /* ==========================
+               LOGIN SUCCESS
+            ========================== */
+
+            if (
+    response.ok &&
+    data.success
+) {
+    // Remove any old admin session
+    localStorage.removeItem("adminToken");
+
+    // Save admin email for OTP verification page
+    sessionStorage.setItem(
+        "adminEmail",
+        data.email
+    );
+
+    message.style.color = "green";
+    message.textContent =
+        "OTP sent to your email. Opening verification...";
+
+    setTimeout(function() {
+        window.location.replace(
+            "admin-verify-otp.html"
+        );
+    }, 700);
 }
 
-else{
 
-localStorage.removeItem("adminToken");
+            /* ==========================
+               LOGIN FAILED
+            ========================== */
 
-passwordInput.value="";
+            else {
 
-message.style.color="red";
+                localStorage.removeItem(
+                    "adminToken"
+                );
 
-message.textContent=
+                passwordInput.value = "";
 
-data.message ||
+                message.style.color =
+                    "red";
 
-"Invalid admin email or password";
+                message.textContent =
+                    data.message ||
+                    "Invalid admin email or password";
 
+
+                /*
+                 * If CAPTCHA failed/expired,
+                 * require a new CAPTCHA.
+                 */
+
+                if (response.status === 403) {
+
+    captchaId = null;
+    captchaVerified = false;
+    captchaCheckbox.checked = false;
+
+    // Remove normal login error
+    message.textContent = "";
+    message.style.color = "";
+
+    // Show only CAPTCHA error
+    captchaMessage.style.color = "red";
+    captchaMessage.textContent =
+        data.message ||
+        "Please complete CAPTCHA again.";
 }
 
-}
+            }
 
-catch(error){
+        }
 
-console.error(error);
+        catch(error) {
 
-localStorage.removeItem("adminToken");
+            console.error(error);
 
-passwordInput.value="";
+            localStorage.removeItem(
+                "adminToken"
+            );
 
-message.style.color="red";
+            passwordInput.value = "";
 
-message.textContent=
+            message.style.color =
+                "red";
 
-"Cannot connect to QueueLess server.";
+            message.textContent =
+                "Cannot connect to QueueLess server.";
 
-}
+        }
 
-finally{
+        finally {
 
-loginButton.disabled=false;
+            loginButton.disabled =
+                false;
 
-loginButton.innerHTML=
-'<span id="btnText"><i class="fas fa-user-shield"></i> Login to Dashboard</span>';
+            loginButton.innerHTML =
+                '<span id="btnText">' +
+                '<i class="fas fa-user-shield"></i> ' +
+                'Login to Dashboard' +
+                '</span>';
 
-}
+        }
 
-}
-
+    }
 );
 
 </script>

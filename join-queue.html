@@ -31,14 +31,105 @@
             padding: 0 7%;
         }
 
-        .logo {
-            font-size: 24px;
-            font-weight: 800;
-        }
+        /* ================================
+   QueueLess Logo
+   SAME AS DASHBOARD / INDEX
+================================ */
 
-        .logo span {
-            color: #2563eb;
-        }
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    white-space: nowrap;
+}
+
+.logo-icon {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    min-height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background: linear-gradient(
+        135deg,
+        #6d5efc,
+        #4f46e5
+    );
+
+    color: white;
+    font-size: 27px;
+    font-weight: 800;
+
+    position: relative;
+    overflow: hidden;
+
+    box-shadow:
+        0 18px 45px rgba(91,78,245,.35),
+        0 0 35px rgba(91,78,245,.20);
+}
+
+/* SAME SHINE AS INDEX */
+.logo-icon::before {
+    content: "";
+
+    position: absolute;
+
+    top: -40%;
+    left: -80%;
+
+    width: 45%;
+    height: 180%;
+
+    background: rgba(255,255,255,.35);
+
+    transform: rotate(25deg);
+
+    animation: logoShine 5s linear infinite;
+}
+
+@keyframes logoShine {
+
+    0% {
+        left: -80%;
+    }
+
+    100% {
+        left: 160%;
+    }
+
+}
+
+/* Q stays above the shine */
+.logo-icon span {
+    position: relative;
+    z-index: 2;
+
+    color: white;
+
+    font-size: 27px;
+    font-weight: 800;
+}
+
+/* QueueLess text */
+.logo-text {
+    font-size: 28px;
+    line-height: 1;
+    font-weight: 800;
+
+    color: #0f172a;
+
+    white-space: nowrap;
+}
+
+.logo-text span {
+    color: #4f46e5;
+}
+
 
         .back-button {
             text-decoration: none;
@@ -178,20 +269,27 @@
 </head>
 
 <body>
-
-    <!-- NAVBAR -->
+    
 
     <nav class="navbar">
 
-        <div class="logo">
+    <div class="logo">
+
+        <div class="logo-icon">
+            <span>Q</span>
+        </div>
+
+        <div class="logo-text">
             Queue<span>Less</span>
         </div>
 
-        <a href="dashboard.html" class="back-button">
-            ← Dashboard
-        </a>
+    </div>
 
-    </nav>
+    <a href="dashboard.html" class="back-button">
+        ← Dashboard
+    </a>
+
+</nav>
 
 
     <!-- MAIN CONTENT -->
@@ -591,7 +689,7 @@ window.addEventListener("popstate", function () {
 
                     const response =
                         await fetch(
-                            "/api/join-queue",
+                            "http://127.0.0.1:3000/api/join-queue",
                             {
 
                                 method: "POST",

@@ -58,75 +58,64 @@ z-index:0;
 }
 
 .circle{
-
-position:absolute;
-border-radius:50%;
-background:rgba(99,102,241,.07);
-animation:float 16s ease-in-out infinite;
-
+    position:absolute;
+    border-radius:50%;
+    filter:blur(4px);
+    animation:float 12s ease-in-out infinite;
 }
 
 .circle:nth-child(1){
-
-width:220px;
-height:220px;
-top:-70px;
-left:-60px;
-
+    width:320px;
+    height:320px;
+    background:#3b82f630;
+    top:-120px;
+    left:-100px;
 }
 
 .circle:nth-child(2){
-
-width:170px;
-height:170px;
-right:-40px;
-top:120px;
-animation-duration:18s;
-
+    width:250px;
+    height:250px;
+    background:#60a5fa30;
+    right:-80px;
+    top:80px;
+    animation-duration:15s;
 }
 
 .circle:nth-child(3){
-
-width:260px;
-height:260px;
-bottom:-120px;
-left:10%;
-animation-duration:20s;
-
+    width:220px;
+    height:220px;
+    background:#2563eb20;
+    bottom:-80px;
+    left:15%;
+    animation-duration:18s;
 }
 
 .circle:nth-child(4){
-
-width:110px;
-height:110px;
-right:15%;
-bottom:60px;
-animation-duration:15s;
-
+    width:180px;
+    height:180px;
+    background:#93c5fd30;
+    bottom:70px;
+    right:8%;
+    animation-duration:20s;
 }
 
 .circle:nth-child(5){
-
-width:80px;
-height:80px;
-left:50%;
-top:8%;
-animation-duration:12s;
-
+    display:none;
 }
 
 @keyframes float{
+    0%{
+        transform:translateY(0px);
+    }
 
-0%,100%{
-transform:translateY(0) rotate(0);
+    50%{
+        transform:translateY(-35px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
 }
-
-50%{
-transform:translateY(-35px) rotate(180deg);
-}
-
-}
-
 .container{
 
 width:100%;
@@ -176,47 +165,83 @@ transform:translateY(0);
 }
 
 .logo{
-
-display:flex;
-justify-content:center;
-align-items:center;
-gap:14px;
-margin-bottom:18px;
-
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:14px;
+    margin-bottom:10px;
 }
+
+.logo-text{
+    text-align:left;
+}
+
 
 .logo-icon{
+    width:60px;
+    height:60px;
 
-width:60px;
-height:60px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-display:flex;
-justify-content:center;
-align-items:center;
+    border-radius:18px;
 
-border-radius:18px;
+    background:
+    linear-gradient(
+        135deg,
+        #6366f1,
+        #4f46e5
+    );
 
-background:
-linear-gradient(
-135deg,
-#6366f1,
-#4f46e5);
+    color:white;
 
-color:white;
+    font-size:28px;
+    font-weight:700;
 
-font-size:28px;
-font-weight:700;
+    position:relative;
+    overflow:hidden;
 
-box-shadow:
-0 15px 35px rgba(79,70,229,.35);
-
+    box-shadow:
+    0 15px 35px rgba(79,70,229,.35);
 }
 
+.logo-icon::before{
+    content:"";
+
+    position:absolute;
+
+    top:-40%;
+    left:-80%;
+
+    width:60%;
+    height:180%;
+
+    background:rgba(255,255,255,.35);
+
+    transform:rotate(25deg);
+
+    animation:shine 4s linear infinite;
+}
+
+@keyframes shine{
+    0%{
+        left:-80%;
+    }
+
+    100%{
+        left:160%;
+    }
+}
+
+
 .logo-text h2{
+    font-size:32px;
+    color:#111827;
+}
 
-font-size:32px;
-color:#111827;
-
+.logo-text h2 span{
+    color:#4f46e5;
 }
 
 .logo-text p{
@@ -325,38 +350,42 @@ transition:.3s;
 
 .otp-box:focus{
 
-border-color:#4f46e5;
+    border-color:#4f46e5;
 
-box-shadow:
-0 0 0 4px rgba(79,70,229,.12);
+    box-shadow:
+    0 0 0 4px rgba(79,70,229,.12);
 
-}button{
+}
 
-width:100%;
-height:60px;
 
-border:none;
-outline:none;
+button{
 
-border-radius:16px;
+    width:100%;
+    height:60px;
 
-cursor:pointer;
+    border:none;
+    outline:none;
 
-font-size:16px;
-font-weight:600;
+    border-radius:16px;
 
-color:#fff;
+    cursor:pointer;
 
-background:
-linear-gradient(
-135deg,
-#6366f1,
-#4f46e5);
+    font-size:16px;
+    font-weight:600;
 
-box-shadow:
-0 15px 30px rgba(79,70,229,.30);
+    color:#fff;
 
-transition:.35s;
+    background:
+    linear-gradient(
+        135deg,
+        #6366f1,
+        #4f46e5
+    );
+
+    box-shadow:
+    0 15px 30px rgba(79,70,229,.30);
+
+    transition:.35s;
 
 }
 
@@ -537,7 +566,7 @@ Q
 
 <div class="logo-text">
 
-<h2>QueueLess</h2>
+<h2>Queue<span>Less</span></h2>
 
 <p>Smart Queue Management</p>
 
@@ -738,7 +767,7 @@ try{
 
 const response=await fetch(
 
-"/api/verify-otp",
+  "http://127.0.0.1:3000/api/verify-otp",
 
 {
 
@@ -846,7 +875,7 @@ try{
 
 const response=await fetch(
 
-"/api/forgot-password",
+"http://127.0.0.1:3000/api/forgot-password",
 
 {
 

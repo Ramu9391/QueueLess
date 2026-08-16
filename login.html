@@ -140,7 +140,7 @@ z-index:10;
 width:100%;
 max-width:450px;
 
-padding:28px 30px;
+padding:20px 30px;
 
 background:rgba(255,255,255,.92);
 
@@ -181,7 +181,7 @@ align-items:center;
 justify-content:center;
 gap:14px;
 
-margin-bottom:16px;
+margin-bottom:10px;
 
 text-decoration:none;
 
@@ -189,8 +189,8 @@ text-decoration:none;
 
 .logo-box{
 
-width:66px;
-height:66px;
+width:58px;
+height:58px;
 
 display:flex;
 justify-content:center;
@@ -268,7 +268,7 @@ color:#64748b;
 .login-card h1{
 
 text-align:center;
-font-size:30px;
+font-size:26px;
 font-weight:700;
 color:#0f172a;
 
@@ -279,11 +279,11 @@ margin-bottom:8px;
 .subtitle{
 
 text-align:center;
-font-size:15px;
+font-size:14px;
 line-height:26px;
 color:#64748b;
 
-margin-bottom:12px;
+margin-bottom:8px;
 
 }
 
@@ -293,7 +293,7 @@ FORM
 
 .form-group{
 
-margin-bottom:16px;
+margin-bottom:12px;
 
 }
 
@@ -312,7 +312,7 @@ color:#334155;
 
 .input-box{
 
-height:58px;
+height:52px;
 
 display:flex;
 align-items:center;
@@ -408,6 +408,268 @@ transform:scale(1.15);
 
 }
 
+
+/*=============================
+CAPTCHA
+=============================*/
+
+.captcha-box {
+
+    margin: 8px 0 16px;
+
+    padding: 14px;
+
+    background: #f8fafc;
+
+    border: 1px solid #dbeafe;
+
+    border-radius: 18px;
+}
+
+/* reCAPTCHA-style box */
+.recaptcha-box {
+    width: 100%;
+    height: 72px;
+    margin: 8px 0 10px;
+    padding: 8px 16px;
+    background: #f8fafc;
+    border: 1px solid #dbeafe;
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    cursor: pointer;
+}
+
+.recaptcha-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.recaptcha-left input {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    accent-color: #2563eb;
+}
+
+.recaptcha-left span {
+    font-size: 15px;
+    font-weight: 500;
+    color: #334155;
+}
+
+.recaptcha-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    min-width: 70px;
+}
+
+.recaptcha-logo {
+    width: 70px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.recaptcha-logo img {
+    width: 70px;
+    height: auto;
+    display: block;
+}
+
+
+/* I'm not a robot checkbox */
+
+.captcha-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+    min-height: 42px;
+}
+
+.captcha-checkbox input {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #2563eb;
+}
+
+.captcha-checkbox-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #334155;
+    flex: 1;
+}
+
+.captcha-shield {
+    color: #2563eb;
+    font-size: 20px;
+}
+
+
+/* IMPORTANT:
+   Picture CAPTCHA is hidden initially
+*/
+
+.captcha-challenge {
+    display: none;
+    margin-top: 12px;
+}
+
+
+.captcha-title {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 12px;
+
+    color: #334155;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+.captcha-title i {
+
+    color: #2563eb;
+
+}
+
+
+.captcha-images {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 7px;
+
+}
+
+
+.captcha-image {
+
+    height: 80px;
+
+    border-radius: 10px;
+
+    border: 2px solid transparent;
+
+    background: white;
+
+    cursor: pointer;
+
+    overflow: hidden;
+
+    transition: .2s;
+
+}
+
+
+.captcha-image img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+}
+
+
+.captcha-image:hover {
+
+    transform: translateY(-2px);
+
+}
+
+
+.captcha-image.selected {
+
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37,99,235,.15);
+
+}
+
+
+.captcha-verify-button {
+
+    width: 100%;
+
+    height: 40px;
+
+    margin-top: 12px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+}
+
+
+.captcha-verify-button:hover {
+
+    background: #1d4ed8;
+
+}
+
+
+.captcha-verify-button:disabled {
+
+    opacity: .7;
+
+    cursor: not-allowed;
+
+}
+
+
+.captcha-message {
+
+    min-height: 18px;
+
+    margin-top: 7px;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+}
+
+
 /*=============================
 OPTIONS
 ==============================*/
@@ -418,7 +680,7 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 
-margin:12px 0 18px;
+margin:8px 0 12px;
 
 font-size:14px;
 
@@ -467,7 +729,7 @@ BUTTON
 .login-button{
 
 width:100%;
-height:58px;
+height:52px;
 
 border:none;
 
@@ -603,7 +865,7 @@ text-decoration:underline;
 
 display:block;
 
-margin-top:24px;
+margin-top:12px;
 
 text-align:center;
 
@@ -623,7 +885,7 @@ color:#2563eb;
 
 .login-footer{
 
-    margin-top:18px;
+    margin-top:10px;
 
     display:flex;
     justify-content:center;
@@ -781,20 +1043,20 @@ align-items:flex-start;
             <div class="form-group">
 
                 <label for="loginUser">
-                    Email Address
-                </label>
+    Email or Phone Number
+</label>
 
                 <div class="input-box">
 
                     <i class="fas fa-envelope"></i>
 
                     <input
-                        type="email"
-                        id="loginUser"
-                        name="queueless_email"
-                        placeholder="Enter your email"
-                        autocomplete="off"
-                        required>
+    type="text"
+    id="loginUser"
+    name="queueless_login"
+    placeholder="Enter email or phone number"
+    autocomplete="off"
+    required>
 
                 </div>
 
@@ -833,6 +1095,27 @@ align-items:flex-start;
                 </div>
 
             </div>
+
+            <!-- CAPTCHA -->
+<div class="recaptcha-box" id="recaptchaBox">
+
+    <div class="recaptcha-left">
+        <input type="checkbox" id="captchaCheckbox">
+
+        <span>
+            I'm not a robot
+        </span>
+    </div>
+
+    <div class="recaptcha-right">
+    <div class="recaptcha-logo">
+    <img src="recaptcha-logo.png" alt="reCAPTCHA">
+</div>
+</div>
+
+</div>
+
+<div id="captchaMessage" class="captcha-message"></div>
 
             <!-- Remember / Forgot -->
 
@@ -965,6 +1248,67 @@ const rememberMe =
     document.getElementById("rememberMe");
 
 
+// ========================================
+// CAPTCHA
+// ========================================
+
+const captchaMessage =
+    document.getElementById("captchaMessage");
+
+const captchaCheckbox =
+    document.getElementById("captchaCheckbox");
+
+let captchaId = null;
+let captchaVerified = false;
+
+
+// ========================================
+// I'M NOT A ROBOT
+// ========================================
+
+const recaptchaBox = document.getElementById("recaptchaBox");
+
+recaptchaBox.addEventListener("click", function () {
+
+    captchaCheckbox.checked = false;
+    captchaVerified = false;
+    captchaId = null;
+
+    captchaMessage.textContent = "";
+
+    window.open("captcha.html", "_blank");
+
+});
+
+
+// ========================================
+// RECEIVE VERIFICATION FROM captcha.html
+// ========================================
+
+window.addEventListener("message", function(event) {
+
+    if (
+        event.data &&
+        event.data.type === "CAPTCHA_VERIFIED"
+    ) {
+
+        captchaId = event.data.captchaId;
+
+        captchaVerified = true;
+
+        captchaCheckbox.checked = true;
+
+        captchaMessage.style.color = "green";
+
+        captchaMessage.textContent =
+            "✓ Verification successful";
+
+    }
+
+});
+
+
+
 /* ========================================
    SHOW / HIDE PASSWORD
 ======================================== */
@@ -1055,6 +1399,8 @@ window.addEventListener(
 
     }
 );
+
+
 /* ========================================
    LOGIN
 ======================================== */
@@ -1065,29 +1411,44 @@ loginForm.addEventListener(
 
         event.preventDefault();
 
-        const email =
+        const login =
             emailInput
                 .value
-                .trim()
-                .toLowerCase();
+                .trim();
 
         const password =
             passwordInput.value;
 
         /* CHECK EMPTY */
 
-        if (!email || !password) {
+if (!login || !password) {
 
-            loginMessage.style.color = "red";
+    loginMessage.style.color = "red";
 
-            loginMessage.textContent =
-                "Please enter email and password.";
+    loginMessage.textContent =
+        "Please enter email/phone and password.";
 
-            return;
+    return;
+}
 
-        }
 
-        /* LOADING BUTTON */
+// ========================================
+// CHECK CAPTCHA
+// ========================================
+
+if (!captchaVerified) {
+
+    loginMessage.style.color =
+        "red";
+
+    loginMessage.textContent =
+        "Please complete the picture verification first.";
+
+    return;
+}
+
+
+/* LOADING BUTTON */
 
         loginButton.disabled = true;
 
@@ -1108,7 +1469,7 @@ loginForm.addEventListener(
 
             const response =
                 await fetch(
-                    "/api/login",
+                    "http://127.0.0.1:3000/api/login",
                     {
                         method: "POST",
 
@@ -1118,8 +1479,9 @@ loginForm.addEventListener(
                         },
 
                         body: JSON.stringify({
-                            email: email,
-                            password: password
+                            login: login,
+                            password: password,
+                            captchaId: captchaId
                         })
                     }
                 );
@@ -1187,7 +1549,7 @@ loginForm.addEventListener(
 
                 localStorage.setItem(
                     "email",
-                    data.email || email
+                    data.email || login
                 );
 
                 loginMessage.style.color =
