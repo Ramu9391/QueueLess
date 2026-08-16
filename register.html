@@ -1721,7 +1721,7 @@ if (!emailPattern.test(email)) {
 
             const response =
                 await fetch(
-                     "http://127.0.0.1:3000/api/send-register-otp",
+                     "https://queue-less-one.vercel.app/api/send-register-otp",
                     {
                         method: "POST",
 
@@ -1952,7 +1952,7 @@ verifyOtpBtn.addEventListener(
 
             const response =
                 await fetch(
-                     "http://127.0.0.1:3000/api/verify-register-otp",
+                     "https://queue-less-one.vercel.app/api/verify-register-otp",
                     {
                         method: "POST",
 
@@ -2192,7 +2192,7 @@ if (
                      */
                     const response =
                         await fetch(
-                             "http://127.0.0.1:3000/api/register",
+                             "https://queue-less-one.vercel.app/api/register",
                             {
 
                                 method: "POST",
