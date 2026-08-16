@@ -20,7 +20,11 @@
     {
       "src": "images/**",
       "use": "@vercel/static"
-    }
+    },
+    {
+  "src": "captcha-images/**",
+  "use": "@vercel/static"
+}
   ],
   "routes": [
     {
