@@ -471,7 +471,7 @@ async function loadCaptcha() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:3000/api/captcha"
+            "https://queue-less-one.vercel.app/api/captcha"
         );
 
         const data = await response.json();
@@ -501,7 +501,7 @@ async function loadCaptcha() {
                 document.createElement("img");
 
             image.src =
-                "http://127.0.0.1:3000" +
+                "https://queue-less-one.vercel.app" +
                 item.image;
 
             box.appendChild(image);
@@ -589,7 +589,7 @@ async function verifyCaptcha() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:3000/api/verify-captcha",
+            "https://queue-less-one.vercel.app/api/verify-captcha",
             {
                 method: "POST",
 
