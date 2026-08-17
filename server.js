@@ -659,24 +659,22 @@ app.post("/api/verify-register-otp", (req, res) => {
 
         const savedOtp = registerOtpStore[email];
 
-        if (!savedOtp) {
-            return res.status(400).json({
-                success: false,
-                message: "OTP not found. Please request a new OTP."
-            });
-        }
+if (!savedOtp) {
+    return res.status(400).json({
+        success: false,
+        message: "OTP not found. Please request a new OTP."
+    });
+}
 
-        // Check expiry
-        if (Date.now() > savedOtp.expires) {
+// Check expiry
+if (Date.now() > savedOtp.expires) {
+    delete registerOtpStore[email];
 
-            delete registerOtpStore[email];
-
-            return res.status(400).json({
-                success: false,
-                message: "OTP expired. Please request a new OTP."
-            });
-
-        }
+    return res.status(400).json({
+        success: false,
+        message: "OTP expired. Please request a new OTP."
+    });
+}
 
         // Check OTP
         if (savedOtp.otp !== otp) {
@@ -2209,9 +2207,6 @@ app.post("/api/admin/login", async (req, res) => {
 
         }
 
-        // Remove used CAPTCHA
-        delete captchaStore[captchaId];
-
        // ========================================
 // CHECK ADMIN CREDENTIALS
 // ========================================
@@ -2633,9 +2628,10 @@ app.post("/api/forgot-password", async (req, res) => {
 
         // Store OTP for 10 minutes
         otpStore[email] = {
-            otp,
-            expires: Date.now() + 10 * 60 * 1000
-        };
+    otp,
+    expires: Date.now() + 10 * 60 * 1000,
+    verified: false
+};
 
         // Send email
         await transporter.sendMail({
@@ -2694,16 +2690,19 @@ app.post("/api/verify-otp", (req, res) => {
     }
 
     if (storedOtp.otp !== otp) {
-        return res.status(400).json({
-            success: false,
-            message: "Invalid OTP."
-        });
-    }
-
-    return res.status(200).json({
-        success: true,
-        message: "OTP verified successfully"
+    return res.status(400).json({
+        success: false,
+        message: "Invalid OTP."
     });
+}
+
+// Mark OTP as successfully verified
+storedOtp.verified = true;
+
+return res.status(200).json({
+    success: true,
+    message: "OTP verified successfully"
+});
 
 });
 
@@ -2728,6 +2727,24 @@ app.post("/api/reset-password", async (req, res) => {
             });
 
         }
+
+        const storedOtp = otpStore[email];
+
+if (!storedOtp || !storedOtp.verified) {
+    return res.status(403).json({
+        success: false,
+        message: "Please verify OTP first."
+    });
+}
+
+if (Date.now() > storedOtp.expires) {
+    delete otpStore[email];
+
+    return res.status(403).json({
+        success: false,
+        message: "OTP has expired. Please request a new OTP."
+    });
+}
 
         const user=await User.findOne({email});
 
