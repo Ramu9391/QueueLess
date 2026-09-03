@@ -573,16 +573,16 @@
         // ========================================
 
         const userId =
-            localStorage.getItem("userId");
+    sessionStorage.getItem("userId");
 
-        const loginToken =
-            localStorage.getItem("token");
+const loginToken =
+    sessionStorage.getItem("token");
 
 
         function checkLogin() {
 
-    const userId = localStorage.getItem("userId");
-    const token = localStorage.getItem("token");
+    const userId = sessionStorage.getItem("userId");
+    const token = sessionStorage.getItem("token");
 
     if (!userId || !token) {
 
@@ -609,11 +609,11 @@ window.addEventListener("popstate", function () {
     history.pushState(null, null, location.href);
 
     if (
-        !localStorage.getItem("userId") ||
-        !localStorage.getItem("token")
-    ) {
-        window.location.replace("index.html");
-    }
+    !sessionStorage.getItem("userId") ||
+    !sessionStorage.getItem("token")
+) {
+    window.location.replace("index.html");
+}
 });
 
 
