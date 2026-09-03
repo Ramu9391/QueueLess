@@ -673,12 +673,12 @@ const API_URL =
 // ==========================================
 
 const userId =
-    localStorage.getItem("userId");
+    sessionStorage.getItem("userId");
 
 
 const userName =
-    localStorage.getItem("name") ||
-    localStorage.getItem("userName");
+    sessionStorage.getItem("name") ||
+    sessionStorage.getItem("userName");
 
 
 
@@ -693,12 +693,11 @@ const userName =
 function checkLogin() {
 
     const currentUserId =
-        localStorage.getItem("userId");
+        sessionStorage.getItem("userId");
 
     const currentLoginToken =
-        localStorage.getItem("token");
+        sessionStorage.getItem("token");
 
-    // User must have BOTH userId and login token
     if (!currentUserId || !currentLoginToken) {
 
         window.location.replace("index.html");
@@ -730,11 +729,11 @@ window.addEventListener("popstate", function () {
     history.pushState(null, null, location.href);
 
     if (
-        !localStorage.getItem("userId") ||
-        !localStorage.getItem("token")
-    ) {
-        window.location.replace("index.html");
-    }
+    !sessionStorage.getItem("userId") ||
+    !sessionStorage.getItem("token")
+) {
+    window.location.replace("index.html");
+}
 
 });
 
@@ -1562,13 +1561,11 @@ function scrollToToken() {
 
 function logout() {
 
-    localStorage.clear();
     sessionStorage.clear();
 
     history.replaceState(null, "", "index.html");
 
     window.location.replace("index.html");
-
 }
 
 

@@ -198,7 +198,11 @@ const captchaCategories = [
     "bicycles",
     "motorcycles",
     "stop-signs",
-    "traffic-lights"
+    "traffic-lights",
+    "airplanes",
+    "boats",
+    "trains",
+    "dogs"
 ];
 
 const captchaImageFolder = path.join(
