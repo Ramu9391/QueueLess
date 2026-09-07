@@ -474,24 +474,65 @@
 
         .resend {
 
-            text-align: center;
+    display: block;
 
-            margin-top: 16px;
+    width: max-content;
 
-            font-size: 14px;
+    margin: 14px auto 0;
 
-            font-weight: 600;
+    padding: 8px 18px;
 
-            color: #2563eb;
+    text-align: center;
 
-            cursor: pointer;
+    font-size: 14px;
 
-        }
+    font-weight: 700;
 
-        .resend:hover {
-            color: #1d4ed8;
-        }
+    color: #2563eb;
 
+    background: #eff6ff;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        color 0.2s ease;
+
+}
+
+.resend:hover {
+
+    color: #1d4ed8;
+
+    background: #dbeafe;
+
+    box-shadow: 0 4px 12px rgba(37,99,235,.15);
+
+    transform: translateY(-1px);
+
+}
+
+.resend:active {
+
+    transform: scale(.94);
+
+    background: #bfdbfe;
+
+}
+
+.resend.loading {
+
+    pointer-events: none;
+
+    opacity: .65;
+
+    cursor: wait;
+
+}
 
         /* ==========================
            BACK
@@ -1083,11 +1124,15 @@ if (otp.length !== 6) {
            RESEND OTP
         ========================== */
 
-        document
-            .getElementById("resendButton")
-            .addEventListener("click", async function () {
+            document
+    .getElementById("resendButton")
+    .addEventListener("click", async function () {
 
-                try {
+        resendButton.classList.add("loading");
+
+        resendButton.textContent = "Sending OTP...";
+
+        try {
 
                     const response =
                         await fetch(
@@ -1138,30 +1183,53 @@ if (otp.length !== 6) {
     // Restart 5-minute timer
     startOtpTimer();
 
+    // Show success on resend button
+    resendButton.classList.remove("loading");
+
+    resendButton.textContent =
+        "✓ OTP Resent";
+
+    setTimeout(function() {
+
+        resendButton.textContent =
+            "Resend OTP";
+
+    }, 2000);
+
 }
 
                     else {
 
-                        message.style.color =
-                            "red";
+    message.style.color =
+        "red";
 
-                        message.textContent =
-                            data.message ||
-                            "Unable to resend OTP.";
+    message.textContent =
+        data.message ||
+        "Unable to resend OTP.";
 
-                    }
+    resendButton.classList.remove("loading");
+
+    resendButton.textContent =
+        "Resend OTP";
+
+}
 
                 }
 
                 catch (error) {
 
-                    console.error(error);
+    console.error(error);
 
-                    document.getElementById("message")
-                        .textContent =
-                        "Cannot connect to server.";
+    resendButton.classList.remove("loading");
 
-                }
+    resendButton.textContent =
+        "Resend OTP";
+
+    document.getElementById("message")
+        .textContent =
+        "Cannot connect to server.";
+
+}
 
             });
 
