@@ -1076,7 +1076,7 @@ window.addEventListener(
     function() {
 
         const adminToken =
-            localStorage.getItem(
+            sessionStorage.getItem(
                 "adminToken"
             );
 
@@ -1220,7 +1220,7 @@ console.log(
     data.success
 ) {
     // Remove any old admin session
-    localStorage.removeItem("adminToken");
+    sessionStorage.removeItem("adminToken");
 
     // Save admin email for OTP verification page
     sessionStorage.setItem(
@@ -1246,7 +1246,7 @@ console.log(
 
             else {
 
-                localStorage.removeItem(
+                sessionStorage.removeItem(
                     "adminToken"
                 );
 
@@ -1290,7 +1290,7 @@ console.log(
 
             console.error(error);
 
-            localStorage.removeItem(
+            sessionStorage.removeItem(
                 "adminToken"
             );
 

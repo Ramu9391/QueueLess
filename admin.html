@@ -974,7 +974,7 @@ background:#f8fbff;
         // =========================================
 
         const adminToken =
-            localStorage.getItem("adminToken");
+            sessionStorage.getItem("adminToken");
 
         if (!adminToken) {
             window.location.href =
@@ -1054,7 +1054,7 @@ background:#f8fbff;
                 if (response.status === 401 ||
                     response.status === 403) {
 
-                    localStorage.removeItem(
+                    sessionStorage.removeItem(
                         "adminToken"
                     );
 
@@ -1244,7 +1244,7 @@ background:#f8fbff;
                 if (response.status === 401 ||
                     response.status === 403) {
 
-                    localStorage.removeItem(
+                    sessionStorage.removeItem(
                         "adminToken"
                     );
 
@@ -1343,7 +1343,7 @@ background:#f8fbff;
                 if (response.status === 401 ||
                     response.status === 403) {
 
-                    localStorage.removeItem(
+                    sessionStorage.removeItem(
                         "adminToken"
                     );
 
@@ -1437,7 +1437,7 @@ background:#f8fbff;
 
         function logoutAdmin() {
 
-            localStorage.removeItem("adminToken");
+            sessionStorage.removeItem("adminToken");
                 
 
              window.location.replace("index.html");

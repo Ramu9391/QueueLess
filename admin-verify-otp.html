@@ -707,15 +707,25 @@
         </button>
 
 
-        <!-- RESEND -->
+        <!-- OTP EXPIRY -->
+<div
+    id="otpTimer"
+    style="
+        text-align:center;
+        margin-top:12px;
+        font-size:13px;
+        font-weight:600;
+        color:#64748b;
+    ">
+    OTP expires in <span id="timer">05:00</span>
+</div>
 
-        <div
-            class="resend"
-            id="resendButton">
-
-            Resend OTP
-
-        </div>
+<!-- RESEND -->
+<div
+    class="resend"
+    id="resendButton">
+    Resend OTP
+</div>
 
 
         <!-- BACK -->
@@ -767,6 +777,18 @@
 
         const otpBoxes =
             document.querySelectorAll(".otp-box");
+            let otpExpired = false;
+let otpTimerInterval = null;
+let remainingSeconds = 300;
+
+const timerElement =
+    document.getElementById("timer");
+
+const resendButton =
+    document.getElementById("resendButton");
+
+const verifyButton =
+    document.getElementById("verifyButton");
 
 
         otpBoxes.forEach((box, index) => {
@@ -837,6 +859,78 @@
 
         });
 
+        /* ==========================
+   OTP EXPIRY TIMER
+========================== */
+
+function startOtpTimer() {
+
+    clearInterval(otpTimerInterval);
+
+    otpExpired = false;
+    remainingSeconds = 30;
+
+    verifyButton.disabled = false;
+    resendButton.style.pointerEvents = "auto";
+    resendButton.style.opacity = "1";
+
+    function updateTimer() {
+
+        const minutes =
+            Math.floor(remainingSeconds / 60);
+
+        const seconds =
+            remainingSeconds % 60;
+
+        timerElement.textContent =
+            String(minutes).padStart(2, "0") +
+            ":" +
+            String(seconds).padStart(2, "0");
+
+        if (remainingSeconds <= 0) {
+
+            clearInterval(otpTimerInterval);
+
+            otpExpired = true;
+
+            timerElement.textContent =
+                "Expired";
+
+            timerElement.style.color =
+                "#dc2626";
+
+            verifyButton.disabled = true;
+
+            resendButton.style.pointerEvents =
+                "auto";
+
+            resendButton.style.opacity =
+                "1";
+
+            document.getElementById("message")
+                .style.color = "#dc2626";
+
+            document.getElementById("message")
+                .textContent =
+                "OTP expired. Please resend a new OTP.";
+
+            return;
+        }
+
+        remainingSeconds--;
+    }
+
+    timerElement.style.color =
+        "#64748b";
+
+    updateTimer();
+
+    otpTimerInterval =
+        setInterval(updateTimer, 1000);
+}
+
+startOtpTimer();
+
 
         /* ==========================
            VERIFY OTP
@@ -856,16 +950,25 @@
                     document.getElementById("message");
 
 
-                if (otp.length !== 6) {
+                if (otpExpired) {
 
-                    message.style.color = "red";
+    message.style.color = "red";
 
-                    message.textContent =
-                        "Please enter the complete 6-digit OTP.";
+    message.textContent =
+        "OTP expired. Please resend a new OTP.";
 
-                    return;
+    return;
+}
 
-                }
+if (otp.length !== 6) {
+
+    message.style.color = "red";
+
+    message.textContent =
+        "Please enter the complete 6-digit OTP.";
+
+    return;
+}
 
 
                 const button = this;
@@ -920,7 +1023,7 @@
 
                         if (data.token) {
 
-                            localStorage.setItem(
+                            sessionStorage.setItem(
                                 "adminToken",
                                 data.token
                             );
@@ -1018,13 +1121,24 @@
 
                     if (response.ok) {
 
-                        message.style.color =
-                            "green";
+    message.style.color =
+        "green";
 
-                        message.textContent =
-                            "A new OTP has been sent to your email.";
+    message.textContent =
+        "A new OTP has been sent to your email.";
 
-                    }
+    // Clear old OTP
+    otpBoxes.forEach(function(box) {
+        box.value = "";
+    });
+
+    // Focus first box
+    otpBoxes[0].focus();
+
+    // Restart 5-minute timer
+    startOtpTimer();
+
+}
 
                     else {
 
