@@ -2505,7 +2505,7 @@ app.post("/api/admin/verify-otp", (req, res) => {
 // ADMIN - RESEND LOGIN OTP
 // ========================================
 
-app.post("/api/admin/resend-otp", async (req, res) => {
+app.post("/api/admin/send-otp", async (req, res) => {
 
     try {
 
