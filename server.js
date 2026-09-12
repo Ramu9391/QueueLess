@@ -2160,24 +2160,7 @@ console.log(
     currentToken.tokenNumber
 );
 
-// Find next waiting token
-const nextToken = await QueueToken.findOne({
-    service: service,
-    status: "waiting"
-}).sort({
-    createdAt: 1
-});
 
-// Move next token to serving
-if (nextToken) {
-    nextToken.status = "serving";
-    await nextToken.save();
-
-    console.log(
-        "NOW SERVING:",
-        nextToken.tokenNumber
-    );
-}
 
 return res.status(200).json({
     success: true,
@@ -2190,11 +2173,7 @@ return res.status(200).json({
 
     status: currentToken.status,
 
-    completedAt: currentToken.completedAt,
-
-    nextToken: nextToken
-        ? nextToken.tokenNumber
-        : null
+    completedAt: currentToken.completedAt
 });
 
 
@@ -2258,24 +2237,6 @@ app.post("/api/admin/reject-current", async (req, res) => {
             currentToken.tokenNumber
         );
 
-        // Find next waiting token
-        const nextToken = await QueueToken.findOne({
-            service: service,
-            status: "waiting"
-        }).sort({
-            createdAt: 1
-        });
-
-        // Move next token to serving
-        if (nextToken) {
-            nextToken.status = "serving";
-            await nextToken.save();
-
-            console.log(
-                "NOW SERVING:",
-                nextToken.tokenNumber
-            );
-        }
 
         return res.status(200).json({
             success: true,
@@ -2288,11 +2249,7 @@ app.post("/api/admin/reject-current", async (req, res) => {
 
             status: currentToken.status,
 
-            rejectedAt: currentToken.rejectedAt,
-
-            nextToken: nextToken
-                ? nextToken.tokenNumber
-                : null
+            rejectedAt: currentToken.rejectedAt
         });
 
     } catch (error) {
