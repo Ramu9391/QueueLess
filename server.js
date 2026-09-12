@@ -2267,6 +2267,49 @@ app.post("/api/admin/reject-current", async (req, res) => {
     }
 });
 
+// ========================================
+// ADMIN - GET TOKEN HISTORY
+// ========================================
+
+app.get("/api/admin/history", async (req, res) => {
+    try {
+
+        const completedTokens = await QueueToken.find({
+            status: "completed"
+        }).sort({
+            completedAt: -1
+        });
+
+        const rejectedTokens = await QueueToken.find({
+            status: "rejected"
+        }).sort({
+            rejectedAt: -1
+        });
+
+        return res.status(200).json({
+            success: true,
+
+            completedCount: completedTokens.length,
+            rejectedCount: rejectedTokens.length,
+
+            completedTokens: completedTokens,
+            rejectedTokens: rejectedTokens
+        });
+
+    } catch (error) {
+
+        console.error(
+            "ADMIN HISTORY ERROR:",
+            error
+        );
+
+        return res.status(500).json({
+            success: false,
+            message: "Server error while loading admin history"
+        });
+    }
+});
+
 
 // ========================================
 // ADMIN - GET ALL SERVICES SUMMARY

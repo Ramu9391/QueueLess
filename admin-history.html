@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Admin History - QueueLess</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        /* ==============================
+           NAVBAR
+        ============================== */
+
+        .navbar {
+            height: 75px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 5%;
+
+            box-shadow: 0 4px 15px rgba(15,23,42,.06);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-box {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 10px;
+
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #4f46e5
+            );
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .queue {
+            color: #2563eb;
+        }
+
+        .less {
+            color: #111827;
+        }
+
+        .admin-area {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            font-size: 12px;
+            font-weight: 700;
+            color: #374151;
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+
+            border-radius: 50%;
+            background: #22c55e;
+        }
+
+        .back-btn {
+            padding: 11px 20px;
+
+            border: 1px solid #dbe3f3;
+            border-radius: 10px;
+
+            background: white;
+            color: #2563eb;
+
+            font-weight: 700;
+            text-decoration: none;
+
+            transition: .3s;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            background: #eff6ff;
+            border-color: #93c5fd;
+        }
+
+        /* ==============================
+           CONTAINER
+        ============================== */
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+
+            margin: 45px auto;
+        }
+
+        .small-title {
+            color: #2563eb;
+            font-size: 13px;
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 34px;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        /* ==============================
+           SUMMARY CARDS
+        ============================== */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 22px;
+
+            margin-bottom: 35px;
+        }
+
+        .stat-card {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 10px 30px rgba(15,23,42,.08);
+
+            border: 1px solid #e5e7eb;
+        }
+
+        .stat-title {
+            font-size: 14px;
+            font-weight: 700;
+
+            color: #6b7280;
+
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 38px;
+            font-weight: 800;
+        }
+
+        .completed-number {
+            color: #16a34a;
+        }
+
+        .rejected-number {
+            color: #ea580c;
+        }
+
+        /* ==============================
+           HISTORY SECTION
+        ============================== */
+
+        .history-section {
+            background: white;
+
+            border-radius: 18px;
+
+            margin-bottom: 30px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 10px 30px rgba(15,23,42,.08);
+
+            border: 1px solid #e5e7eb;
+        }
+
+        .section-header {
+            padding: 22px 25px;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            font-size: 19px;
+            font-weight: 800;
+        }
+
+        .completed-header {
+            color: #15803d;
+        }
+
+        .rejected-header {
+            color: #c2410c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #eef4ff;
+
+            color: #1e3a8a;
+
+            text-align: left;
+
+            padding: 16px 25px;
+
+            font-size: 14px;
+        }
+
+        td {
+            padding: 15px 25px;
+
+            border-bottom: 1px solid #f0f2f5;
+
+            font-size: 14px;
+        }
+
+        tbody tr {
+            transition: .3s;
+        }
+
+        tbody tr:hover {
+            background: #f8fbff;
+        }
+
+        .token {
+            color: #2563eb;
+            font-weight: 800;
+        }
+
+        .completed-badge {
+            display: inline-block;
+
+            background: #dcfce7;
+            color: #15803d;
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .rejected-badge {
+            display: inline-block;
+
+            background: #ffedd5;
+            color: #ea580c;
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .empty-message {
+            padding: 35px;
+
+            text-align: center;
+
+            color: #6b7280;
+        }
+
+        #message {
+            text-align: center;
+
+            margin-bottom: 20px;
+
+            font-weight: 700;
+        }
+
+        /* ==============================
+           MOBILE
+        ============================== */
+
+        @media(max-width: 700px) {
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 0 4%;
+            }
+
+            .system-status {
+                display: none;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            table {
+                min-width: 650px;
+            }
+
+            .history-section {
+                overflow-x: auto;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==============================
+         NAVBAR
+    ============================== -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+
+            <div class="logo-box"></div>
+
+            <div class="logo-text">
+                <span class="queue">Queue</span><span class="less">Less</span>
+            </div>
+
+        </div>
+
+
+        <div class="admin-area">
+
+            <div class="system-status">
+
+                <span class="status-dot"></span>
+
+                LIVE SYSTEM
+
+            </div>
+
+
+            <a
+                href="admin.html"
+                class="back-btn"
+            >
+                ← Dashboard
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ==============================
+         MAIN
+    ============================== -->
+
+    <main class="container">
+
+
+        <div class="small-title">
+            ADMIN HISTORY
+        </div>
+
+
+        <h1>
+            Token History
+        </h1>
+
+
+        <p class="description">
+            View all completed and rejected tokens.
+        </p>
+
+
+        <div id="message"></div>
+
+
+        <!-- ==============================
+             SUMMARY
+        ============================== -->
+
+        <div class="stats">
+
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    🟢 TOTAL COMPLETED
+                </div>
+
+                <div
+                    id="completedCount"
+                    class="stat-number completed-number"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    🟠 TOTAL REJECTED
+                </div>
+
+                <div
+                    id="rejectedCount"
+                    class="stat-number rejected-number"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ==============================
+             COMPLETED TOKENS
+        ============================== -->
+
+        <div class="history-section">
+
+
+            <div class="section-header completed-header">
+                🟢 Completed Tokens
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Token</th>
+
+                        <th>Service</th>
+
+                        <th>Date</th>
+
+                        <th>Time</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="completedTable">
+
+                </tbody>
+
+            </table>
+
+
+            <div
+                id="completedEmpty"
+                class="empty-message"
+            >
+                No completed tokens yet.
+            </div>
+
+
+        </div>
+
+
+        <!-- ==============================
+             REJECTED TOKENS
+        ============================== -->
+
+        <div class="history-section">
+
+
+            <div class="section-header rejected-header">
+                🟠 Rejected Tokens
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Token</th>
+
+                        <th>Service</th>
+
+                        <th>Date</th>
+
+                        <th>Time</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="rejectedTable">
+
+                </tbody>
+
+            </table>
+
+
+            <div
+                id="rejectedEmpty"
+                class="empty-message"
+            >
+                No rejected tokens yet.
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+
+    <script>
+
+
+        // =========================================
+        // ADMIN LOGIN CHECK
+        // =========================================
+
+        const adminToken =
+            sessionStorage.getItem("adminToken");
+
+
+        if (!adminToken) {
+
+            window.location.href =
+                "admin-login.html";
+
+        }
+
+
+        // =========================================
+        // API
+        // =========================================
+
+        const API_URL =
+            "https://queue-less-one.vercel.app";
+
+
+        // =========================================
+        // FORMAT DATE
+        // =========================================
+
+        function formatDate(dateValue) {
+
+            if (!dateValue) {
+                return "--";
+            }
+
+            const date =
+                new Date(dateValue);
+
+            return date.toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        // =========================================
+        // FORMAT TIME
+        // =========================================
+
+        function formatTime(dateValue) {
+
+            if (!dateValue) {
+                return "--";
+            }
+
+            const date =
+                new Date(dateValue);
+
+            return date.toLocaleTimeString(
+                "en-IN",
+                {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            );
+
+        }
+
+
+        // =========================================
+        // LOAD HISTORY
+        // =========================================
+
+        async function loadHistory() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL +
+                        "/api/admin/history",
+                        {
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + adminToken
+                            }
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                // =================================
+                // LOGIN EXPIRED
+                // =================================
+
+                if (
+                    response.status === 401 ||
+                    response.status === 403
+                ) {
+
+                    sessionStorage.removeItem(
+                        "adminToken"
+                    );
+
+                    window.location.href =
+                        "admin-login.html";
+
+                    return;
+
+                }
+
+
+                if (!response.ok) {
+
+                    document.getElementById(
+                        "message"
+                    ).textContent =
+                        data.message ||
+                        "Unable to load history.";
+
+                    document.getElementById(
+                        "message"
+                    ).style.color =
+                        "#dc2626";
+
+                    return;
+
+                }
+
+
+                // =================================
+                // COUNTS
+                // =================================
+
+                document.getElementById(
+                    "completedCount"
+                ).textContent =
+                    data.completedCount || 0;
+
+
+                document.getElementById(
+                    "rejectedCount"
+                ).textContent =
+                    data.rejectedCount || 0;
+
+
+                // =================================
+                // COMPLETED TABLE
+                // =================================
+
+                const completedTable =
+                    document.getElementById(
+                        "completedTable"
+                    );
+
+
+                const completedEmpty =
+                    document.getElementById(
+                        "completedEmpty"
+                    );
+
+
+                completedTable.innerHTML = "";
+
+
+                if (
+                    !data.completedTokens ||
+                    data.completedTokens.length === 0
+                ) {
+
+                    completedEmpty.style.display =
+                        "block";
+
+                } else {
+
+                    completedEmpty.style.display =
+                        "none";
+
+
+                    data.completedTokens.forEach(
+                        function(token) {
+
+                            const row =
+                                document.createElement(
+                                    "tr"
+                                );
+
+
+                            row.innerHTML = `
+
+                                <td class="token">
+                                    ${token.tokenNumber}
+                                </td>
+
+                                <td>
+                                    ${token.service}
+                                </td>
+
+                                <td>
+                                    ${formatDate(
+                                        token.completedAt
+                                    )}
+                                </td>
+
+                                <td>
+                                    ${formatTime(
+                                        token.completedAt
+                                    )}
+                                </td>
+
+                                <td>
+                                    <span class="completed-badge">
+                                        Completed
+                                    </span>
+                                </td>
+
+                            `;
+
+
+                            completedTable.appendChild(
+                                row
+                            );
+
+                        }
+                    );
+
+                }
+
+
+                // =================================
+                // REJECTED TABLE
+                // =================================
+
+                const rejectedTable =
+                    document.getElementById(
+                        "rejectedTable"
+                    );
+
+
+                const rejectedEmpty =
+                    document.getElementById(
+                        "rejectedEmpty"
+                    );
+
+
+                rejectedTable.innerHTML = "";
+
+
+                if (
+                    !data.rejectedTokens ||
+                    data.rejectedTokens.length === 0
+                ) {
+
+                    rejectedEmpty.style.display =
+                        "block";
+
+                } else {
+
+                    rejectedEmpty.style.display =
+                        "none";
+
+
+                    data.rejectedTokens.forEach(
+                        function(token) {
+
+                            const row =
+                                document.createElement(
+                                    "tr"
+                                );
+
+
+                            row.innerHTML = `
+
+                                <td class="token">
+                                    ${token.tokenNumber}
+                                </td>
+
+                                <td>
+                                    ${token.service}
+                                </td>
+
+                                <td>
+                                    ${formatDate(
+                                        token.rejectedAt
+                                    )}
+                                </td>
+
+                                <td>
+                                    ${formatTime(
+                                        token.rejectedAt
+                                    )}
+                                </td>
+
+                                <td>
+                                    <span class="rejected-badge">
+                                        Rejected
+                                    </span>
+                                </td>
+
+                            `;
+
+
+                            rejectedTable.appendChild(
+                                row
+                            );
+
+                        }
+                    );
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "LOAD ADMIN HISTORY ERROR:",
+                    error
+                );
+
+
+                const message =
+                    document.getElementById(
+                        "message"
+                    );
+
+
+                message.textContent =
+                    "Cannot connect to QueueLess server.";
+
+
+                message.style.color =
+                    "#dc2626";
+
+            }
+
+        }
+
+
+        // =========================================
+        // START
+        // =========================================
+
+        loadHistory();
+
+
+    </script>
+
+
+</body>
+
+</html>
