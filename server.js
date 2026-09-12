@@ -1624,7 +1624,8 @@ app.get(
                         status: {
                             $in: [
                                 "cancelled",
-                                "completed"
+                                "completed",
+                                "rejected"
                             ]
                         }
 
