@@ -574,6 +574,23 @@ box-shadow:
             background: #15803d;
         }
 
+        .reject-btn {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .3s;
+    box-shadow: 0 12px 30px rgba(220,38,38,.25);
+}
+
+.reject-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px rgba(220,38,38,.35);
+}
+
         .waiting-card{
 
 background:rgba(255,255,255,.94);
@@ -900,21 +917,53 @@ background:#f8fbff;
 
             <div class="buttons">
 
-                <button
-                    class="primary-btn"
-                    onclick="callNext()"
-                >
-                    📢 Call Next
-                </button>
+    <button
+        class="primary-btn"
+        onclick="callNext()"
+    >
+        📢 Call Next
+    </button>
 
-                <button
-                    class="complete-btn"
-                    onclick="completeCurrent()"
-                >
-                    ✓ Complete Current
-                </button>
+    <button
+        class="primary-btn"
+        onclick="callSpecificToken()"
+    >
+        🎯 Call Specific Token
+    </button>
 
-            </div>
+    <button
+        class="complete-btn"
+        onclick="completeCurrent()"
+    >
+        ✓ Complete Current
+    </button>
+
+    <button
+        class="reject-btn"
+        onclick="rejectCurrent()"
+    >
+        ❌ Reject Current
+    </button>
+
+</div>
+
+<div style="margin-top:20px; display:flex; justify-content:center; gap:10px;">
+
+    <input
+        type="text"
+        id="specificTokenInput"
+        placeholder="Enter token (e.g. A-006)"
+        style="
+            padding:14px 18px;
+            border:1px solid #dbe3f3;
+            border-radius:12px;
+            font-size:15px;
+            width:240px;
+            outline:none;
+        "
+    >
+
+</div>
 
         </div>
 
@@ -1301,6 +1350,94 @@ background:#f8fbff;
             }
         }
 
+                // =========================================
+        // CALL SPECIFIC TOKEN
+        // =========================================
+
+        async function callSpecificToken() {
+
+            const tokenNumber =
+                document.getElementById("specificTokenInput").value.trim();
+
+            if (!tokenNumber) {
+                showMessage(
+                    "Please enter a token number.",
+                    "#dc2626"
+                );
+                return;
+            }
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL + "/api/admin/call-specific",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization":
+                                    "Bearer " + adminToken
+                            },
+
+                            body: JSON.stringify({
+                                service: selectedService,
+                                tokenNumber: tokenNumber
+                            })
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                if (response.status === 401 ||
+                    response.status === 403) {
+
+                    sessionStorage.removeItem("adminToken");
+
+                    window.location.href =
+                        "admin-login.html";
+
+                    return;
+                }
+
+                if (!response.ok) {
+
+                    showMessage(
+                        data.message ||
+                        "Unable to call specific token.",
+                        "#dc2626"
+                    );
+
+                    return;
+                }
+
+                showMessage(
+                    "🎯 Now serving " + data.tokenNumber,
+                    "#2563eb"
+                );
+
+                document.getElementById(
+                    "specificTokenInput"
+                ).value = "";
+
+                await loadQueue();
+
+            } catch (error) {
+
+                console.error(
+                    "CALL SPECIFIC TOKEN ERROR:",
+                    error
+                );
+
+                showMessage(
+                    "Cannot connect to server.",
+                    "#dc2626"
+                );
+            }
+        }
+
 
         // =========================================
         // COMPLETE CURRENT
@@ -1393,6 +1530,81 @@ background:#f8fbff;
                     error
                 );
 
+
+                showMessage(
+                    "Cannot connect to server.",
+                    "#dc2626"
+                );
+            }
+        }
+
+                // =========================================
+        // REJECT CURRENT
+        // =========================================
+
+        async function rejectCurrent() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL +
+                        "/api/admin/reject-current",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization":
+                                    "Bearer " + adminToken
+                            },
+
+                            body: JSON.stringify({
+                                service: selectedService
+                            })
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                if (response.status === 401 ||
+                    response.status === 403) {
+
+                    sessionStorage.removeItem("adminToken");
+
+                    window.location.href =
+                        "admin-login.html";
+
+                    return;
+                }
+
+                if (!response.ok) {
+
+                    showMessage(
+                        data.message ||
+                        "Unable to reject token.",
+                        "#dc2626"
+                    );
+
+                    return;
+                }
+
+                showMessage(
+                    "❌ " +
+                    data.tokenNumber +
+                    " rejected successfully",
+                    "#dc2626"
+                );
+
+                await loadQueue();
+
+            } catch (error) {
+
+                console.error(
+                    "REJECT TOKEN ERROR:",
+                    error
+                );
 
                 showMessage(
                     "Cannot connect to server.",

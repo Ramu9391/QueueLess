@@ -161,9 +161,14 @@ const queueTokenSchema = new mongoose.Schema({
     },
 
     completedAt: {
-        type: Date,
-        default: null
-    }
+    type: Date,
+    default: null
+},
+
+rejectedAt: {
+    type: Date,
+    default: null
+}
 
 });
 
@@ -2016,6 +2021,99 @@ app.post("/api/admin/call-next", async (req, res) => {
     }
 });
 
+// ========================================
+// ADMIN - CALL SPECIFIC TOKEN
+// ========================================
+
+app.post("/api/admin/call-specific", async (req, res) => {
+    try {
+
+        const {
+            service,
+            tokenNumber
+        } = req.body;
+
+        console.log("");
+        console.log("===============================");
+        console.log("ADMIN CALL SPECIFIC");
+        console.log("Service:", service);
+        console.log("Token:", tokenNumber);
+        console.log("===============================");
+
+        if (!service || !tokenNumber) {
+            return res.status(400).json({
+                success: false,
+                message: "Service and token number are required"
+            });
+        }
+
+        // Check whether someone is already being served
+        const currentlyServing =
+            await QueueToken.findOne({
+                service: service,
+                status: "serving"
+            });
+
+        if (currentlyServing) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Complete or reject the current token before calling another token",
+                tokenNumber:
+                    currentlyServing.tokenNumber
+            });
+        }
+
+        // Find the requested waiting token
+        const token =
+            await QueueToken.findOne({
+                service: service,
+                tokenNumber: tokenNumber,
+                status: "waiting"
+            });
+
+        if (!token) {
+            return res.status(404).json({
+                success: false,
+                message:
+                    "Token not found or token is not waiting"
+            });
+        }
+
+        // waiting -> serving
+        token.status = "serving";
+
+        await token.save();
+
+        console.log(
+            "SPECIFIC TOKEN NOW SERVING:",
+            token.tokenNumber
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Specific token called successfully",
+            tokenNumber: token.tokenNumber,
+            service: token.service,
+            status: token.status,
+            userId: token.userId
+        });
+
+    } catch (error) {
+
+        console.error(
+            "CALL SPECIFIC TOKEN ERROR:",
+            error
+        );
+
+        return res.status(500).json({
+            success: false,
+            message:
+                "Server error while calling specific token"
+        });
+    }
+});
+
 
 // ========================================
 // ADMIN - COMPLETE CURRENT TOKEN
@@ -2052,29 +2150,53 @@ app.post("/api/admin/complete-current", async (req, res) => {
         }
 
         // serving -> completed
-        currentToken.status = "completed";
-        currentToken.completedAt = new Date();
+currentToken.status = "completed";
+currentToken.completedAt = new Date();
 
-        await currentToken.save();
+await currentToken.save();
 
-        console.log(
-            "TOKEN COMPLETED:",
-            currentToken.tokenNumber
-        );
+console.log(
+    "TOKEN COMPLETED:",
+    currentToken.tokenNumber
+);
 
-        return res.status(200).json({
-            success: true,
+// Find next waiting token
+const nextToken = await QueueToken.findOne({
+    service: service,
+    status: "waiting"
+}).sort({
+    createdAt: 1
+});
 
-            message: "Token completed successfully",
+// Move next token to serving
+if (nextToken) {
+    nextToken.status = "serving";
+    await nextToken.save();
 
-            tokenNumber: currentToken.tokenNumber,
+    console.log(
+        "NOW SERVING:",
+        nextToken.tokenNumber
+    );
+}
 
-            service: currentToken.service,
+return res.status(200).json({
+    success: true,
 
-            status: currentToken.status,
+    message: "Token completed successfully",
 
-            completedAt: currentToken.completedAt
-        });
+    tokenNumber: currentToken.tokenNumber,
+
+    service: currentToken.service,
+
+    status: currentToken.status,
+
+    completedAt: currentToken.completedAt,
+
+    nextToken: nextToken
+        ? nextToken.tokenNumber
+        : null
+});
+
 
     } catch (error) {
         console.error(
@@ -2085,6 +2207,104 @@ app.post("/api/admin/complete-current", async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "Server error while completing token"
+        });
+    }
+});
+
+
+// ========================================
+// ADMIN - REJECT CURRENT TOKEN
+// ========================================
+
+app.post("/api/admin/reject-current", async (req, res) => {
+    try {
+
+        const { service } = req.body;
+
+        console.log("");
+        console.log("===============================");
+        console.log("ADMIN REJECT CURRENT");
+        console.log("Service:", service);
+        console.log("===============================");
+
+        if (!service) {
+            return res.status(400).json({
+                success: false,
+                message: "Service is required"
+            });
+        }
+
+        // Find token currently being served
+        const currentToken = await QueueToken.findOne({
+            service: service,
+            status: "serving"
+        });
+
+        if (!currentToken) {
+            return res.status(404).json({
+                success: false,
+                message: "No token is currently being served"
+            });
+        }
+
+        // serving -> rejected
+        currentToken.status = "rejected";
+        currentToken.rejectedAt = new Date();
+
+        await currentToken.save();
+
+        console.log(
+            "TOKEN REJECTED:",
+            currentToken.tokenNumber
+        );
+
+        // Find next waiting token
+        const nextToken = await QueueToken.findOne({
+            service: service,
+            status: "waiting"
+        }).sort({
+            createdAt: 1
+        });
+
+        // Move next token to serving
+        if (nextToken) {
+            nextToken.status = "serving";
+            await nextToken.save();
+
+            console.log(
+                "NOW SERVING:",
+                nextToken.tokenNumber
+            );
+        }
+
+        return res.status(200).json({
+            success: true,
+
+            message: "Token rejected successfully",
+
+            tokenNumber: currentToken.tokenNumber,
+
+            service: currentToken.service,
+
+            status: currentToken.status,
+
+            rejectedAt: currentToken.rejectedAt,
+
+            nextToken: nextToken
+                ? nextToken.tokenNumber
+                : null
+        });
+
+    } catch (error) {
+
+        console.error(
+            "REJECT TOKEN ERROR:",
+            error
+        );
+
+        return res.status(500).json({
+            success: false,
+            message: "Server error while rejecting token"
         });
     }
 });
