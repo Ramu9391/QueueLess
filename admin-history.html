@@ -301,12 +301,36 @@
         }
 
         .empty-message {
-            padding: 35px;
+    padding: 35px;
 
-            text-align: center;
+    text-align: center;
 
-            color: #6b7280;
-        }
+    color: #6b7280;
+}
+
+.show-more-btn {
+    display: block;
+    margin: 0 auto 20px;
+
+    padding: 10px 22px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #2563eb;
+    color: white;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+.show-more-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
 
         #message {
             text-align: center;
@@ -508,11 +532,20 @@
 
 
             <div
-                id="completedEmpty"
-                class="empty-message"
-            >
-                No completed tokens yet.
-            </div>
+    id="completedEmpty"
+    class="empty-message"
+>
+    No completed tokens yet.
+</div>
+
+<button
+    id="completedMore"
+    class="show-more-btn"
+    style="display:none;"
+    onclick="showAllCompleted()"
+>
+    ⋮ Show More
+</button>
 
 
         </div>
@@ -559,11 +592,20 @@
 
 
             <div
-                id="rejectedEmpty"
-                class="empty-message"
-            >
-                No rejected tokens yet.
-            </div>
+    id="rejectedEmpty"
+    class="empty-message"
+>
+    No rejected tokens yet.
+</div>
+
+<button
+    id="rejectedMore"
+    class="show-more-btn"
+    style="display:none;"
+    onclick="showAllRejected()"
+>
+    ⋮ Show More
+</button>
 
 
         </div>
@@ -652,6 +694,116 @@
         // LOAD HISTORY
         // =========================================
 
+        let completedTokens = [];
+let rejectedTokens = [];
+
+function renderCompleted(limit) {
+
+    const table =
+        document.getElementById("completedTable");
+
+    table.innerHTML = "";
+
+    completedTokens.slice(0, limit).forEach(function(token) {
+
+        const row =
+            document.createElement("tr");
+
+        row.innerHTML = `
+
+            <td class="token">
+                ${token.tokenNumber}
+            </td>
+
+            <td>
+                ${token.service}
+            </td>
+
+            <td>
+                ${formatDate(token.completedAt)}
+            </td>
+
+            <td>
+                ${formatTime(token.completedAt)}
+            </td>
+
+            <td>
+                <span class="completed-badge">
+                    Completed
+                </span>
+            </td>
+
+        `;
+
+        table.appendChild(row);
+
+    });
+
+    document.getElementById("completedMore").style.display =
+        completedTokens.length > 5 && limit === 5
+            ? "block"
+            : "none";
+}
+
+
+function renderRejected(limit) {
+
+    const table =
+        document.getElementById("rejectedTable");
+
+    table.innerHTML = "";
+
+    rejectedTokens.slice(0, limit).forEach(function(token) {
+
+        const row =
+            document.createElement("tr");
+
+        row.innerHTML = `
+
+            <td class="token">
+                ${token.tokenNumber}
+            </td>
+
+            <td>
+                ${token.service}
+            </td>
+
+            <td>
+                ${formatDate(token.rejectedAt)}
+            </td>
+
+            <td>
+                ${formatTime(token.rejectedAt)}
+            </td>
+
+            <td>
+                <span class="rejected-badge">
+                    Rejected
+                </span>
+            </td>
+
+        `;
+
+        table.appendChild(row);
+
+    });
+
+    document.getElementById("rejectedMore").style.display =
+        rejectedTokens.length > 5 && limit === 5
+            ? "block"
+            : "none";
+}
+
+
+function showAllCompleted() {
+    renderCompleted(completedTokens.length);
+}
+
+
+function showAllRejected() {
+    renderRejected(rejectedTokens.length);
+}
+
         async function loadHistory() {
 
             try {
@@ -732,166 +884,54 @@
                 // COMPLETED TABLE
                 // =================================
 
-                const completedTable =
-                    document.getElementById(
-                        "completedTable"
-                    );
+                completedTokens =
+    data.completedTokens || [];
 
+const completedEmpty =
+    document.getElementById(
+        "completedEmpty"
+    );
 
-                const completedEmpty =
-                    document.getElementById(
-                        "completedEmpty"
-                    );
+if (completedTokens.length === 0) {
 
+    completedEmpty.style.display =
+        "block";
 
-                completedTable.innerHTML = "";
+} else {
 
+    completedEmpty.style.display =
+        "none";
 
-                if (
-                    !data.completedTokens ||
-                    data.completedTokens.length === 0
-                ) {
+    renderCompleted(5);
 
-                    completedEmpty.style.display =
-                        "block";
-
-                } else {
-
-                    completedEmpty.style.display =
-                        "none";
-
-
-                    data.completedTokens.forEach(
-                        function(token) {
-
-                            const row =
-                                document.createElement(
-                                    "tr"
-                                );
-
-
-                            row.innerHTML = `
-
-                                <td class="token">
-                                    ${token.tokenNumber}
-                                </td>
-
-                                <td>
-                                    ${token.service}
-                                </td>
-
-                                <td>
-                                    ${formatDate(
-                                        token.completedAt
-                                    )}
-                                </td>
-
-                                <td>
-                                    ${formatTime(
-                                        token.completedAt
-                                    )}
-                                </td>
-
-                                <td>
-                                    <span class="completed-badge">
-                                        Completed
-                                    </span>
-                                </td>
-
-                            `;
-
-
-                            completedTable.appendChild(
-                                row
-                            );
-
-                        }
-                    );
-
-                }
+}
 
 
                 // =================================
                 // REJECTED TABLE
                 // =================================
 
-                const rejectedTable =
-                    document.getElementById(
-                        "rejectedTable"
-                    );
+               rejectedTokens =
+    data.rejectedTokens || [];
 
+const rejectedEmpty =
+    document.getElementById(
+        "rejectedEmpty"
+    );
 
-                const rejectedEmpty =
-                    document.getElementById(
-                        "rejectedEmpty"
-                    );
+if (rejectedTokens.length === 0) {
 
+    rejectedEmpty.style.display =
+        "block";
 
-                rejectedTable.innerHTML = "";
+} else {
 
+    rejectedEmpty.style.display =
+        "none";
 
-                if (
-                    !data.rejectedTokens ||
-                    data.rejectedTokens.length === 0
-                ) {
+    renderRejected(5);
 
-                    rejectedEmpty.style.display =
-                        "block";
-
-                } else {
-
-                    rejectedEmpty.style.display =
-                        "none";
-
-
-                    data.rejectedTokens.forEach(
-                        function(token) {
-
-                            const row =
-                                document.createElement(
-                                    "tr"
-                                );
-
-
-                            row.innerHTML = `
-
-                                <td class="token">
-                                    ${token.tokenNumber}
-                                </td>
-
-                                <td>
-                                    ${token.service}
-                                </td>
-
-                                <td>
-                                    ${formatDate(
-                                        token.rejectedAt
-                                    )}
-                                </td>
-
-                                <td>
-                                    ${formatTime(
-                                        token.rejectedAt
-                                    )}
-                                </td>
-
-                                <td>
-                                    <span class="rejected-badge">
-                                        Rejected
-                                    </span>
-                                </td>
-
-                            `;
-
-
-                            rejectedTable.appendChild(
-                                row
-                            );
-
-                        }
-                    );
-
-                }
+}
 
 
             } catch (error) {
