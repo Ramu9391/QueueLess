@@ -310,7 +310,7 @@
 
 .show-more-btn {
     display: block;
-    margin: 0 auto 20px;
+    margin: 18px auto 20px;
 
     padding: 10px 22px;
 
@@ -739,10 +739,23 @@ function renderCompleted(limit) {
 
     });
 
-    document.getElementById("completedMore").style.display =
-        completedTokens.length > 5 && limit === 5
-            ? "block"
-            : "none";
+    const completedMore =
+    document.getElementById("completedMore");
+
+if (completedTokens.length > 5) {
+    completedMore.style.display = "block";
+
+    if (limit === 5) {
+        completedMore.innerHTML = "⋮ Show More";
+        completedMore.onclick = showAllCompleted;
+    } else {
+        completedMore.innerHTML = "⋯ Show Less";
+        completedMore.onclick = showLessCompleted;
+    }
+} else {
+    completedMore.style.display = "none";
+}
+
 }
 
 
@@ -788,10 +801,23 @@ function renderRejected(limit) {
 
     });
 
-    document.getElementById("rejectedMore").style.display =
-        rejectedTokens.length > 5 && limit === 5
-            ? "block"
-            : "none";
+    const rejectedMore =
+    document.getElementById("rejectedMore");
+
+if (rejectedTokens.length > 5) {
+    rejectedMore.style.display = "block";
+
+    if (limit === 5) {
+        rejectedMore.innerHTML = "⋮ Show More";
+        rejectedMore.onclick = showAllRejected;
+    } else {
+        rejectedMore.innerHTML = "⋯ Show Less";
+        rejectedMore.onclick = showLessRejected;
+    }
+} else {
+    rejectedMore.style.display = "none";
+}
+
 }
 
 
@@ -799,9 +825,17 @@ function showAllCompleted() {
     renderCompleted(completedTokens.length);
 }
 
+function showLessCompleted() {
+    renderCompleted(5);
+}
+
 
 function showAllRejected() {
     renderRejected(rejectedTokens.length);
+}
+
+function showLessRejected() {
+    renderRejected(5);
 }
 
         async function loadHistory() {
