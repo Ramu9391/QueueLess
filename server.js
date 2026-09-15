@@ -1895,6 +1895,40 @@ app.get("/api/admin/queue/:service", async (req, res) => {
             createdAt: 1
         });
 
+        // Get user names for waiting tokens
+        const userIds = [
+            ...waitingTokens.map(token => token.userId),
+            ...(servingToken ? [servingToken.userId] : [])
+        ];
+
+        const validUserIds = userIds.filter(id =>
+            mongoose.Types.ObjectId.isValid(id)
+        );
+
+        const users = await User.find({
+            _id: { $in: validUserIds }
+        }).select("name");
+
+        const userMap = {};
+
+        users.forEach(user => {
+            userMap[user._id.toString()] = user.name;
+        });
+
+        // Add name to waiting tokens
+        const waitingTokensWithNames = waitingTokens.map(token => ({
+            ...token.toObject(),
+            userName: userMap[token.userId] || "Unknown User"
+        }));
+
+        // Add name to currently serving token
+        const servingTokenWithName = servingToken
+            ? {
+                ...servingToken.toObject(),
+                userName: userMap[servingToken.userId] || "Unknown User"
+            }
+            : null;
+
         // Start of today
         const startOfToday = new Date();
         startOfToday.setHours(0, 0, 0, 0);
@@ -1910,20 +1944,19 @@ app.get("/api/admin/queue/:service", async (req, res) => {
 
         return res.status(200).json({
             success: true,
-
             service: service,
 
             nowServing: servingToken
                 ? servingToken.tokenNumber
                 : null,
 
-            servingToken: servingToken,
+            servingToken: servingTokenWithName,
 
             peopleWaiting: waitingTokens.length,
 
             completedToday: completedToday,
 
-            waitingTokens: waitingTokens
+            waitingTokens: waitingTokensWithNames
         });
 
     } catch (error) {
@@ -2286,14 +2319,50 @@ app.get("/api/admin/history", async (req, res) => {
             rejectedAt: -1
         });
 
+        // Get all user IDs from old and new history tokens
+        const userIds = [
+            ...completedTokens.map(token => token.userId),
+            ...rejectedTokens.map(token => token.userId)
+        ];
+
+        const validUserIds = userIds.filter(id =>
+            mongoose.Types.ObjectId.isValid(id)
+        );
+
+        const users = await User.find({
+            _id: { $in: validUserIds }
+        }).select("name");
+
+        const userMap = {};
+
+        users.forEach(user => {
+            userMap[user._id.toString()] = user.name;
+        });
+
+        // Add user name to completed tokens
+        const completedTokensWithNames =
+            completedTokens.map(token => ({
+                ...token.toObject(),
+                userName:
+                    userMap[token.userId] || "Unknown User"
+            }));
+
+        // Add user name to rejected tokens
+        const rejectedTokensWithNames =
+            rejectedTokens.map(token => ({
+                ...token.toObject(),
+                userName:
+                    userMap[token.userId] || "Unknown User"
+            }));
+
         return res.status(200).json({
             success: true,
 
             completedCount: completedTokens.length,
             rejectedCount: rejectedTokens.length,
 
-            completedTokens: completedTokens,
-            rejectedTokens: rejectedTokens
+            completedTokens: completedTokensWithNames,
+            rejectedTokens: rejectedTokensWithNames
         });
 
     } catch (error) {

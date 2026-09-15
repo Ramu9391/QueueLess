@@ -591,17 +591,19 @@
 
                     <tr>
 
-                        <th>Token</th>
+    <th>Token</th>
 
-                        <th>Service</th>
+    <th>Name</th>
 
-                        <th>Date</th>
+    <th>Service</th>
 
-                        <th>Time</th>
+    <th>Date</th>
 
-                        <th>Status</th>
+    <th>Time</th>
 
-                    </tr>
+    <th>Status</th>
+
+</tr>
 
                 </thead>
 
@@ -651,17 +653,19 @@
 
                     <tr>
 
-                        <th>Token</th>
+    <th>Token</th>
 
-                        <th>Service</th>
+    <th>Name</th>
 
-                        <th>Date</th>
+    <th>Service</th>
 
-                        <th>Time</th>
+    <th>Date</th>
 
-                        <th>Status</th>
+    <th>Time</th>
 
-                    </tr>
+    <th>Status</th>
+
+</tr>
 
                 </thead>
 
@@ -793,13 +797,17 @@ function renderCompleted(limit) {
 
         row.innerHTML = `
 
-            <td class="token">
-                ${token.tokenNumber}
-            </td>
+           <td class="token">
+    ${token.tokenNumber}
+</td>
 
-            <td>
-                ${token.service}
-            </td>
+<td>
+    ${token.userName || "Unknown User"}
+</td>
+
+<td>
+    ${token.service}
+</td>
 
             <td>
                 ${formatDate(token.completedAt)}
@@ -856,12 +864,16 @@ function renderRejected(limit) {
         row.innerHTML = `
 
             <td class="token">
-                ${token.tokenNumber}
-            </td>
+    ${token.tokenNumber}
+</td>
 
-            <td>
-                ${token.service}
-            </td>
+<td>
+    ${token.userName || "Unknown User"}
+</td>
+
+<td>
+    ${token.service}
+</td>
 
             <td>
                 ${formatDate(token.rejectedAt)}

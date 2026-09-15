@@ -515,10 +515,17 @@ box-shadow:
     transition: .3s;
 }
 
-        .current-service {
-            color: #6b7280;
-            margin-bottom: 25px;
-        }
+        .current-name {
+    font-size: 22px;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 8px;
+}
+
+.current-service {
+    color: #6b7280;
+    margin-bottom: 25px;
+}
 
         .buttons {
             display: flex;
@@ -929,18 +936,25 @@ background:#f8fbff;
             </div>
 
             <div
-                class="current-token"
-                id="currentToken"
-            >
-                --
-            </div>
+    class="current-token"
+    id="currentToken"
+>
+    --
+</div>
 
-            <div
-                class="current-service"
-                id="currentService"
-            >
-                College Administration
-            </div>
+<div
+    class="current-name"
+    id="currentName"
+>
+    --
+</div>
+
+<div
+    class="current-service"
+    id="currentService"
+>
+    College Administration
+</div>
 
 
             <div class="buttons">
@@ -1027,6 +1041,7 @@ background:#f8fbff;
                     <tr>
                         <th>Position</th>
                         <th>Token</th>
+                         <th>Name</th>
                         <th>Status</th>
                     </tr>
 
@@ -1169,6 +1184,9 @@ background:#f8fbff;
                 const nowServing =
                     data.nowServing || "--";
 
+                const currentName =
+                    data.servingToken?.userName || "--";
+
 
                 document.getElementById(
                     "currentToken"
@@ -1180,6 +1198,11 @@ background:#f8fbff;
                     "nowServingSmall"
                 ).textContent =
                     nowServing;
+
+                document.getElementById(
+    "currentName"
+).textContent =
+    currentName;
 
 
                 document.getElementById(
@@ -1238,24 +1261,28 @@ background:#f8fbff;
                                 );
 
 
-                            row.innerHTML = `
+     row.innerHTML = `
 
-                                <td>
-                                    #${index + 1}
-                                </td>
+    <td>
+        #${index + 1}
+    </td>
 
-                                <td class="token">
-                                    ${token.tokenNumber}
-                                </td>
+    <td class="token">
+        ${token.tokenNumber}
+    </td>
 
-                                <td>
+    <td>
+        ${token.userName || "Unknown User"}
+    </td>
 
-                                    <span class="waiting-badge">
-                                        Waiting
-                                    </span>
+    <td>
 
-                                </td>
-                            `;
+        <span class="waiting-badge">
+            Waiting
+        </span>
+
+    </td>
+`;
 
 
                             table.appendChild(row);
